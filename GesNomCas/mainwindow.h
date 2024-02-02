@@ -24,6 +24,10 @@ public:
     //
     void inicio();
     void iniciarSplash(QSplashScreen *splash, QProgressBar *progress);
+    bool existeData();
+    void crearData();
+    bool existeDbGesNomCas();
+    void crearDb();
     void cerrarSplash(QSplashScreen *splash);
 
 

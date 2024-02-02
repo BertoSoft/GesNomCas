@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    inicio();
 }
 
 MainWindow::~MainWindow()
@@ -21,34 +23,43 @@ MainWindow::~MainWindow()
 
 void MainWindow::inicio(){
     QSplashScreen   *splash = new QSplashScreen();
-    QProgressBar *progress = new QProgressBar(splash);
+    QProgressBar    *progress = new QProgressBar(splash);
+    QEventLoop      loop;
 
+    //
+    //Iniciamos el splash
+    //
     iniciarSplash(splash, progress);
 
     //
-    // Establecemos una espera para la carga del progress bar
+    //Comprobamos si existe data
     //
-    progress->setValue(17);
-    progress->setFormat("Probando texto");
-    QEventLoop loop;
-    QTimer::singleShot(300, &loop, SLOT(quit()));
+    progress->setValue(34);
+    progress->setFormat("Comprobando /data/...");
+    QTimer::singleShot(1200, &loop, SLOT(quit()));
     loop.exec();
+    if(!existeData()){
+        crearData();
+    }
 
-    progress->setValue(38);
-    QTimer::singleShot(300, &loop, SLOT(quit()));
+    //
+    //Comprobamos si existe DbGesNomCas
+    //
+    progress->setValue(66);
+    progress->setFormat("Comprobando /data/DbGesNomCas...");
+    QTimer::singleShot(800, &loop, SLOT(quit()));
     loop.exec();
+    if(!existeDbGesNomCas()){
+        crearDb();
+    }
 
-    progress->setValue(62);
-    QTimer::singleShot(150, &loop, SLOT(quit()));
-    loop.exec();
-
-    progress->setValue(79);
-    QTimer::singleShot(200, &loop, SLOT(quit()));
-    loop.exec();
-
+    //
+    //Cerramos el splash
+    //
     progress->setValue(100);
-
-
+    progress->setFormat("Cargando datos...");
+    QTimer::singleShot(600, &loop, SLOT(quit()));
+    loop.exec();
     cerrarSplash(splash);
 
 
@@ -57,6 +68,7 @@ void MainWindow::inicio(){
 void MainWindow::iniciarSplash(QSplashScreen *splash, QProgressBar *progress){
     QImage          img;
     QPixmap         pix_map;
+    QEventLoop      loop;
 
     const int       ancho = 400;
     const int       alto = 300;
@@ -82,8 +94,32 @@ void MainWindow::iniciarSplash(QSplashScreen *splash, QProgressBar *progress){
     splash->setPixmap(pix_map);
     splash->show();
 
+    //
+    // Iniciamos el progress
+    //
+    progress->setValue(17);
+    progress->setFormat("Iniciando...");
+    QTimer::singleShot(750, &loop, SLOT(quit()));
+    loop.exec();
 }
 
+bool MainWindow::existeData(){
+
+    return true;
+}
+
+void MainWindow::crearData(){
+
+}
+
+bool MainWindow::existeDbGesNomCas(){
+
+    return true;
+}
+
+void MainWindow::crearDb(){
+
+}
 
 void MainWindow::cerrarSplash(QSplashScreen *splash){
 

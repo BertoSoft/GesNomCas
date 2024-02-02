@@ -26,7 +26,7 @@ QT += sql
 #
 # Añadido por mi para usar Cryptopp
 #
-LIBS += -lcrypto
+LIBS += -lcryptopp
 
 
 # Default rules for deployment.
