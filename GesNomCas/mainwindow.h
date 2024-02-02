@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSplashScreen>
+#include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +18,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    //
+    // Funciones
+    //
+    void inicio();
+    void iniciarSplash(QSplashScreen *splash, QProgressBar *progress);
+    void cerrarSplash(QSplashScreen *splash);
+
 
 private:
     Ui::MainWindow *ui;
