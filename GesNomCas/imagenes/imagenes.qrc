@@ -1,9 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>logo_erimsa.webp</file>
-        <file>logo.webp</file>
-        <file>logo1.png</file>
-        <file>logo2.png</file>
-        <file>logo3.png</file>
+        <file>logo.png</file>
+        <file>icono.png</file>
     </qresource>
 </RCC>

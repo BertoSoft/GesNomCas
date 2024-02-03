@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 12.0.1, 2024-02-03T22:05:51. -->
+<!-- Written by QtCreator 12.0.1, 2024-02-03T00:47:44. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{d07f4dbf-81c0-4a0b-9db0-acfd2b487fe6}</value>
+  <value type="QByteArray">{94ff1338-d7cd-4074-98fd-e4ae7290e52c}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -240,10 +240,10 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">GesNomCas2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/alberto/programacion/2024/src/qt/GesNomCas/GesNomCas/GesNomCas.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/alberto/programacion/2024/src/qt/GesNomCas/GesNomCas/GesNomCas.pro</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/alberto/programacion/2024/src/qt/GesNomCas/GesNomCas.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/alberto/programacion/2024/src/qt/GesNomCas/GesNomCas.pro</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>

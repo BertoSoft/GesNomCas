@@ -16,20 +16,19 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);        
     ~MainWindow();
 
     //
-    // Funciones
+    // Funciones Públicas
     //
-    void inicio();
-    void iniciarSplash(QSplashScreen *splash, QProgressBar *progress);
+    void initUi();
+    void initSplash(QSplashScreen *splash, QProgressBar *progress);
+    void initLogin();
     bool existeData();
     void crearData();
     bool existeDbGesNomCas();
     void crearDb();
-    void cerrarSplash(QSplashScreen *splash);
-
 
 private:
     Ui::MainWindow *ui;
