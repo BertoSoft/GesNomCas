@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Login</class>
+ <widget class="QDialog" name="Login">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>373</width>
+    <height>166</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="imagenes/imagenes.qrc">
+    <normaloff>:/icono.png</normaloff>:/icono.png</iconset>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>120</y>
+     <width>214</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
+    <item>
+     <widget class="QPushButton" name="btnSalir">
+      <property name="text">
+       <string>Salir</string>
+      </property>
+      <property name="icon">
+       <iconset resource="imagenes/imagenes.qrc">
+        <normaloff>:/salir.jpeg</normaloff>:/salir.jpeg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnEntrar">
+      <property name="text">
+       <string>Entrar</string>
+      </property>
+      <property name="icon">
+       <iconset resource="imagenes/imagenes.qrc">
+        <normaloff>:/enter.jpeg</normaloff>:/enter.jpeg</iconset>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>331</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Usuario</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="etUsuario"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Password</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="etPasswd"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="imagenes/imagenes.qrc"/>
+ </resources>
+ <connections/>
+</ui>
