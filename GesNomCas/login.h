@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QDialog>
+#include <QAbstractButton>
 
 namespace Ui {
 class Login;
@@ -15,7 +16,16 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
+    void initUi();
     void centrar();
+    void salir();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *ev);
+
+private slots:
+
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::Login *ui;

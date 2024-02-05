@@ -1,16 +1,15 @@
-#include "login.h"
-#include "ui_login.h"
+#include "registro.h"
+#include "ui_registro.h"
 
-#include <QApplication>
 #include <QDialogButtonBox>
+#include <QPushButton>
 #include <QAbstractButton>
 #include <QScreen>
 #include <QKeyEvent>
 
-
-Login::Login(QWidget *parent)
+Registro::Registro(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::Login)
+    , ui(new Ui::Registro)
 {
     ui->setupUi(this);
 
@@ -25,12 +24,12 @@ Login::Login(QWidget *parent)
     initUi();
 }
 
-Login::~Login()
+Registro::~Registro()
 {
     delete ui;
 }
 
-bool Login::eventFilter(QObject *obj, QEvent *ev){
+bool Registro::eventFilter(QObject *obj, QEvent *ev){
 
     //
     // Detectamos si se pulsa la tecla esc
@@ -45,29 +44,41 @@ bool Login::eventFilter(QObject *obj, QEvent *ev){
     return QObject::eventFilter(obj, ev);
 }
 
-void Login::initUi(){
+void Registro::initUi(){
     centrar();
     ui->etUsuario->setFocus();
+
+
 }
 
-void Login::centrar(){
+void Registro::centrar(){
     QRect rect_pantalla = QApplication::primaryScreen()->geometry();
     this->move((rect_pantalla.width() - this->width()) / 2, (rect_pantalla.height() - this->height()) / 2);
 }
 
-void Login::salir(){
-    exit(0);
-}
-
-void Login::on_buttonBox_clicked(QAbstractButton *button){
+void Registro::on_buttonBox_clicked(QAbstractButton *button){
     QAbstractButton *ok = ui->buttonBox->buttons()[0];
     QAbstractButton *cancel = ui->buttonBox->buttons()[1];
 
-    if(button == ok){
 
+    if(button == ok){
+        enter();
     }
     if(button == cancel){
         salir();
     }
+}
+
+void Registro::salir(){
+    exit(0);
+}
+
+void Registro::enter(){
+    int i = 0;
+}
+
+void Registro::on_etUsuario_returnPressed(){
+    ui->etPasswd->setFocus();
+    ui->etPasswd->selectAll();
 }
 

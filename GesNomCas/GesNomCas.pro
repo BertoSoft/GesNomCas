@@ -12,16 +12,19 @@ SOURCES += \
     funcaux.cpp \
     login.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    registro.cpp
 
 HEADERS += \
     funcaux.h \
     login.h \
-    mainwindow.h
+    mainwindow.h \
+    registro.h
 
 FORMS += \
     login.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    registro.ui
 
 #
 # Añadido por mi para usar sqlite3

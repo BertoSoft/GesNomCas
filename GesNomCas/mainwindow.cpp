@@ -3,6 +3,7 @@
 
 #include "funcaux.h"
 #include "login.h"
+#include "registro.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -79,7 +80,7 @@ void MainWindow::initUi(){
     i = 17;
     while (i<34) {
         progress->setValue(i);
-        QTimer::singleShot(20, &loop, SLOT(quit()));
+        QTimer::singleShot(1, &loop, SLOT(quit()));
         loop.exec();
         i++;
     }
@@ -94,7 +95,7 @@ void MainWindow::initUi(){
     i = 34;
     while (i<66) {
         progress->setValue(i);
-        QTimer::singleShot(15, &loop, SLOT(quit()));
+        QTimer::singleShot(1, &loop, SLOT(quit()));
         loop.exec();
         i++;
     }
@@ -109,7 +110,7 @@ void MainWindow::initUi(){
     i = 66;
     while (i<100) {
         progress->setValue(i);
-        QTimer::singleShot(10, &loop, SLOT(quit()));
+        QTimer::singleShot(1, &loop, SLOT(quit()));
         loop.exec();
         i++;
     }
@@ -154,7 +155,7 @@ void MainWindow::initLogin(){
     //
     // Comprobamos si existe algun usuario
     //
-    if(!pFuncAux->existeUsuario()){
+    if(pFuncAux->existeUsuario()){
         toLogin();
     }
     else{
@@ -176,7 +177,14 @@ void MainWindow::toLogin(){
 }
 
 void MainWindow::toRegistro(){
+    Registro *pRegistro = new Registro(this);
 
+    pRegistro->setWindowModality(Qt::ApplicationModal);
+    pRegistro->setWindowFlag(Qt::FramelessWindowHint);
+    pRegistro->setWindowTitle(nombre_programa);
+    pRegistro->exec();
+
+    delete pRegistro;
 }
 
 void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
@@ -216,7 +224,7 @@ void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
     int i = 0;
     while (i<17) {
         progress->setValue(i);
-        QTimer::singleShot(15, &loop, SLOT(quit()));
+        QTimer::singleShot(1, &loop, SLOT(quit()));
         loop.exec();
         i++;
     }
