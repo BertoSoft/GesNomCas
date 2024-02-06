@@ -171,6 +171,7 @@ void MainWindow::toLogin(){
     pLogin->setWindowModality(Qt::ApplicationModal);
     pLogin->setWindowFlag(Qt::FramelessWindowHint);
     pLogin->setWindowTitle(nombre_programa);
+    pLogin->nombre_programa = nombre_programa;
     pLogin->exec();
 
     delete pLogin;
@@ -182,6 +183,7 @@ void MainWindow::toRegistro(){
     pRegistro->setWindowModality(Qt::ApplicationModal);
     pRegistro->setWindowFlag(Qt::FramelessWindowHint);
     pRegistro->setWindowTitle(nombre_programa);
+    pRegistro->nombre_programa = nombre_programa;
     pRegistro->exec();
 
     delete pRegistro;

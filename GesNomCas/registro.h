@@ -16,18 +16,27 @@ public:
     explicit Registro(QWidget *parent = nullptr);
     ~Registro();
 
+    QString nombre_programa;
+
     void initUi();
     void centrar();
+    void entrar();
     void salir();
-    void enter();
 
 protected:
     bool eventFilter(QObject *, QEvent *);
 
 private slots:
-    void on_buttonBox_clicked(QAbstractButton *button);
 
     void on_etUsuario_returnPressed();
+
+    void on_btnSalir_clicked();
+
+    void on_btnLogin_clicked();
+
+    void on_etPasswd_returnPressed();
+
+    void on_etPasswd1_returnPressed();
 
 private:
     Ui::Registro *ui;

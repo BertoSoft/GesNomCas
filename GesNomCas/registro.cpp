@@ -1,11 +1,15 @@
 #include "registro.h"
 #include "ui_registro.h"
 
+#include "mainwindow.h"
+#include "funcaux.h"
+
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QAbstractButton>
 #include <QScreen>
 #include <QKeyEvent>
+#include <QMessageBox>
 
 Registro::Registro(QWidget *parent)
     : QDialog(parent)
@@ -38,17 +42,16 @@ bool Registro::eventFilter(QObject *obj, QEvent *ev){
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(ev);
         if(keyEvent->key() == Qt::Key_Escape){
             salir();
+            return true;
         }
     }
-
     return QObject::eventFilter(obj, ev);
 }
 
 void Registro::initUi(){
     centrar();
     ui->etUsuario->setFocus();
-
-
+    QMessageBox::information(this, nombre_programa, "Debes establecer un Uusario y una Contraseña...");
 }
 
 void Registro::centrar(){
@@ -56,29 +59,88 @@ void Registro::centrar(){
     this->move((rect_pantalla.width() - this->width()) / 2, (rect_pantalla.height() - this->height()) / 2);
 }
 
-void Registro::on_buttonBox_clicked(QAbstractButton *button){
-    QAbstractButton *ok = ui->buttonBox->buttons()[0];
-    QAbstractButton *cancel = ui->buttonBox->buttons()[1];
-
-
-    if(button == ok){
-        enter();
-    }
-    if(button == cancel){
-        salir();
-    }
-}
-
 void Registro::salir(){
-    exit(0);
-}
-
-void Registro::enter(){
-    int i = 0;
+    QMessageBox::StandardButton respuesta;
+    respuesta = QMessageBox::warning(this, nombre_programa, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
+    if(respuesta == QMessageBox::Yes){
+        exit(0);
+    }
+    else{
+        ui->etUsuario->setFocus();
+        ui->etUsuario->selectAll();
+    }
 }
 
 void Registro::on_etUsuario_returnPressed(){
     ui->etPasswd->setFocus();
     ui->etPasswd->selectAll();
 }
+
+void Registro::on_etPasswd_returnPressed(){
+    ui->etPasswd1->setFocus();
+    ui->etPasswd1->selectAll();
+}
+
+void Registro::on_etPasswd1_returnPressed(){
+    ui->btnLogin->clicked();
+}
+
+void Registro::on_btnSalir_clicked(){
+    salir();
+}
+
+void Registro::on_btnLogin_clicked(){
+
+    //
+    // si el campo de usuario esta vacio avisamos
+    //
+    if(ui->etUsuario->text() == ""){
+        QMessageBox::information(this, nombre_programa, "El campo de usuario no puede estar vacío");
+        ui->etUsuario->setFocus();
+    }
+    //
+    // si el campo de passwd esta vacio avisamos
+    //
+    else if(ui->etPasswd->text() == ""){
+        QMessageBox::information(this, nombre_programa, "El campo de password no puede estar vacío");
+        ui->etPasswd->setFocus();
+    }
+    //
+    // si el campo de passwd1 esta vacio avisamos
+    //
+    else if(ui->etPasswd->text() == ""){
+        QMessageBox::information(this, nombre_programa, "Este campo no puede estar vacío");
+        ui->etPasswd1->setFocus();
+    }
+    //
+    // si las contraseñas no coinciden avisamos
+    //
+    else if(ui->etPasswd->text() != ui->etPasswd1->text()){
+        QMessageBox::information(this, nombre_programa, "Las contraseñas no coinciden");
+        ui->etPasswd->setFocus();
+        ui->etPasswd->selectAll();
+    }
+    //
+    // Todo corecto entramos
+    //
+    else{
+        entrar();
+    }
+}
+
+void Registro::entrar(){
+
+    FuncAux *pFuncAux = new FuncAux();
+
+
+    pFuncAux->setUsuario(ui->etUsuario->text(), ui->etPasswd->text());
+    pFuncAux->setInicioSesion();
+    this->close();
+
+    delete pFuncAux;
+
+}
+
+
+
 

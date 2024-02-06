@@ -6,35 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>172</height>
+    <width>285</width>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>130</y>
-     <width>166</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -68,7 +47,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="etPasswd"/>
+       <widget class="QLineEdit" name="etPasswd">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -82,46 +65,59 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="etPasswd1"/>
+       <widget class="QLineEdit" name="etPasswd1">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>130</y>
+     <width>168</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="btnSalir">
+      <property name="text">
+       <string>Salir</string>
+      </property>
+      <property name="icon">
+       <iconset resource="imagenes/imagenes.qrc">
+        <normaloff>:/salir.jpeg</normaloff>:/salir.jpeg</iconset>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnLogin">
+      <property name="text">
+       <string>Login</string>
+      </property>
+      <property name="icon">
+       <iconset resource="imagenes/imagenes.qrc">
+        <normaloff>:/enter.jpeg</normaloff>:/enter.jpeg</iconset>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Registro</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Registro</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources>
+  <include location="imagenes/imagenes.qrc"/>
+ </resources>
+ <connections/>
 </ui>
