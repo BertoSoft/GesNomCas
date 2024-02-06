@@ -175,5 +175,46 @@ void FuncAux::setCierreSesion(){
 }
 
 void FuncAux::setUsuario(QString usuario, QString passwd){
+    QSqlDatabase    db_sql;
+    QSqlQuery       sql;
+    bool            todo_ok = false;
+    QString         usuario_cod;
+    QString         passswd_cod;
+
+    //
+    //ciframos los valores
+    //
+    usuario_cod = cifrar(usuario);
+    passswd_cod = cifrar(passwd);
+
+    //
+    // Creo la conexion con la BD
+    //
+    db_sql = QSqlDatabase::addDatabase("QSQLITE", "conecta_sql");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    db_sql.setDatabaseName(ruta_db_GesNomCas);
+
+    //
+    // Si se abre y no da error, creamos el sqlQuery
+    //
+    todo_ok = db_sql.open();
+    if(todo_ok){
+        sql = QSqlQuery(db_sql);
+    }
+
+    //
+    // Guardamos los valores
+    //
+    str_sql = "INSERT INTO Usuario(Usuario,Passwd) VALUES('" + usuario_cod + "','" + passswd_cod + "');";
+    sql.exec(str_sql);
+
+    //
+    // Cerramos la Bd
+    //
+    db_sql.close();
+    db_sql.removeDatabase("conecta_sql");
 
 }

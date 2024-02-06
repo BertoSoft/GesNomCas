@@ -59,15 +59,11 @@ void Login::salir(){
     exit(0);
 }
 
-void Login::on_buttonBox_clicked(QAbstractButton *button){
-    QAbstractButton *ok = ui->buttonBox->buttons()[0];
-    QAbstractButton *cancel = ui->buttonBox->buttons()[1];
+void Login::on_btnSalir_clicked(){
+    salir();
+}
 
-    if(button == ok){
+void Login::on_btnLogin_clicked(){
 
-    }
-    if(button == cancel){
-        salir();
-    }
 }
 
