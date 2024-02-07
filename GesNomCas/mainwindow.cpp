@@ -278,7 +278,9 @@ bool MainWindow::crearDb(QString ruta_db){
     //
     // Creo la conexion con la BD
     //
+    {
     db_sql = QSqlDatabase::addDatabase("QSQLITE", "conecta_sql");
+
 
     //
     // Establezco la ruta de la BD
@@ -303,7 +305,7 @@ bool MainWindow::crearDb(QString ruta_db){
         sql.exec(str_sql);
 
     }
-
+    }
     //
     // Cerramos la BD y la Conexion
     //

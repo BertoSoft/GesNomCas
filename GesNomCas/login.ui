@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
+    <width>261</width>
     <height>147</height>
    </rect>
   </property>
@@ -23,10 +23,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>20</y>
-     <width>261</width>
-     <height>68</height>
+     <width>218</width>
+     <height>62</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -35,7 +35,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Usuario   </string>
+         <string>Usuario    </string>
         </property>
        </widget>
       </item>
@@ -60,45 +60,21 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget_2">
+  <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>70</x>
      <y>100</y>
-     <width>168</width>
-     <height>31</height>
+     <width>166</width>
+     <height>25</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="btnSalir">
-      <property name="text">
-       <string>Salir</string>
-      </property>
-      <property name="icon">
-       <iconset resource="imagenes/imagenes.qrc">
-        <normaloff>:/salir.jpeg</normaloff>:/salir.jpeg</iconset>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="btnLogin">
-      <property name="text">
-       <string>Login</string>
-      </property>
-      <property name="icon">
-       <iconset resource="imagenes/imagenes.qrc">
-        <normaloff>:/enter.jpeg</normaloff>:/enter.jpeg</iconset>
-      </property>
-      <property name="autoDefault">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
   </widget>
  </widget>
  <resources>

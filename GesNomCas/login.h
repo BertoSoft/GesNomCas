@@ -27,10 +27,7 @@ protected:
 
 private slots:
 
-
-    void on_btnSalir_clicked();
-
-    void on_btnLogin_clicked();
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::Login *ui;

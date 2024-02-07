@@ -130,7 +130,8 @@ bool FuncAux::existeUsuario(){
     //
     // Creo la conexion con la BD
     //
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "conecta_sql");
+
+    db_sql = QSqlDatabase::addDatabase("QSQLITE", "c_existe_usuario");
 
     //
     // Establezco la ruta de la BD
@@ -157,11 +158,12 @@ bool FuncAux::existeUsuario(){
     else{
         retorno = false;
     }
+
     //
     // Cerramos la Bd
     //
     db_sql.close();
-    db_sql.removeDatabase("conecta_sql");
+    db_sql.removeDatabase("c_existe_usuario");
 
     return retorno;
 }
@@ -177,44 +179,51 @@ void FuncAux::setCierreSesion(){
 void FuncAux::setUsuario(QString usuario, QString passwd){
     QSqlDatabase    db_sql;
     QSqlQuery       sql;
+    QString         usuarioCod;
+    QString         passwdCod;
     bool            todo_ok = false;
-    QString         usuario_cod;
-    QString         passswd_cod;
 
     //
-    //ciframos los valores
+    // Codificamos los valores
     //
-    usuario_cod = cifrar(usuario);
-    passswd_cod = cifrar(passwd);
+    usuarioCod = cifrar(usuario);
+    passwdCod = cifrar(passwd);
 
-    //
-    // Creo la conexion con la BD
-    //
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "conecta_sql");
+    {
+        //
+        // Creo la conexion con la BD
+        //
+        db_sql = QSqlDatabase::addDatabase("QSQLITE", "c_set_usuario");
 
-    //
-    // Establezco la ruta de la BD
-    //
-    db_sql.setDatabaseName(ruta_db_GesNomCas);
+        //
+        // Establezco la ruta de la BD
+        //
+        db_sql.setDatabaseName(ruta_db_GesNomCas);
 
-    //
-    // Si se abre y no da error, creamos el sqlQuery
-    //
-    todo_ok = db_sql.open();
-    if(todo_ok){
-        sql = QSqlQuery(db_sql);
+        //
+        // Si se abre y no da error, creamos el sqlQuery
+        //
+        todo_ok = db_sql.open();
+        if(todo_ok){
+            sql = QSqlQuery(db_sql);
+
+            //
+            // Si existe Usuario lo borramos
+            //
+            str_sql = "DELETE *FROM Usuario";
+            sql.exec(str_sql);
+
+            //
+            // Insertamos los valores
+            //
+            str_sql = "INSERT INTO Usuario(Usuario, Passwd) VALUES ('usuario1', 'passwd1')";
+            sql.exec(str_sql);
+        }
     }
-
-    //
-    // Guardamos los valores
-    //
-    str_sql = "INSERT INTO Usuario(Usuario,Passwd) VALUES('" + usuario_cod + "','" + passswd_cod + "');";
-    sql.exec(str_sql);
 
     //
     // Cerramos la Bd
     //
     db_sql.close();
-    db_sql.removeDatabase("conecta_sql");
-
+    db_sql.removeDatabase("c_set_usuario");
 }
