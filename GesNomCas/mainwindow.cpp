@@ -278,8 +278,7 @@ bool MainWindow::crearDb(QString ruta_db){
     //
     // Creo la conexion con la BD
     //
-    {
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "conecta_sql");
+    db_sql = QSqlDatabase::addDatabase("QSQLITE", "main_window");
 
 
     //
@@ -293,8 +292,7 @@ bool MainWindow::crearDb(QString ruta_db){
     todo_ok = db_sql.open();
     if(todo_ok){
         sql = QSqlQuery(db_sql);
-        str_sql = "CREATE TABLE if not exists RegistroSesiones(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Usuario TEXT, "
-                  "                                                                                 FechaInicio TEXT,"
+        str_sql = "CREATE TABLE if not exists RegistroSesiones(_ID INTEGER PRIMARY KEY AUTOINCREMENT,FechaInicio TEXT, "
                   "                                                                                 HoraInicio TEXT,"
                   "                                                                                 FechaCierre TEXT,"
                   "                                                                                 HoraCierre TEXT);";
@@ -305,12 +303,12 @@ bool MainWindow::crearDb(QString ruta_db){
         sql.exec(str_sql);
 
     }
-    }
     //
     // Cerramos la BD y la Conexion
     //
     db_sql.close();
-    db_sql.removeDatabase("conecta_sql");
+    db_sql = QSqlDatabase();
+    db_sql.removeDatabase("main_window");
 
     return todo_ok;
 }

@@ -11,6 +11,7 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlRecord>
 
 #define KEY "U82HuXLNzbX3f6r"
 #define IV  "epDKqfVtYXhdXgb"
@@ -24,7 +25,12 @@ FuncAux::FuncAux() {
     // Aqui irá el constructor
     //
     ruta_db_GesNomCas = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    db_sql = abrirBaseDatos();
 
+}
+
+FuncAux::~FuncAux(){
+    cerrarBaseDatos();
 }
 
 QString FuncAux::cifrar(QString strTextoPlano){
@@ -121,17 +127,13 @@ QString FuncAux::desCifrar(QString strTextoCodHex){
     return strTextoDes;
 }
 
-bool FuncAux::existeUsuario(){
+QSqlDatabase FuncAux::abrirBaseDatos(){
     QSqlDatabase    db_sql;
-    QSqlQuery       sql;
-    bool            todo_ok = false;
-    bool            retorno = false;
 
     //
     // Creo la conexion con la BD
     //
-
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "c_existe_usuario");
+    db_sql = QSqlDatabase::addDatabase("QSQLITE", "FuncAux");
 
     //
     // Establezco la ruta de la BD
@@ -141,10 +143,29 @@ bool FuncAux::existeUsuario(){
     //
     // Si se abre y no da error, creamos el sqlQuery
     //
-    todo_ok = db_sql.open();
-    if(todo_ok){
-        sql = QSqlQuery(db_sql);
-    }
+    db_sql.open();
+
+    //
+    // Establecemos el sqlQuery
+    //
+    sql = QSqlQuery(db_sql);
+
+    return db_sql;
+}
+
+void FuncAux::cerrarBaseDatos(){
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    db_sql.close();
+    db_sql = QSqlDatabase();
+    db_sql.removeDatabase("FuncAux");
+
+}
+
+bool FuncAux::existeUsuario(){
+    bool            retorno = false;
 
     //
     // Cargamos la tabla Usuario
@@ -159,47 +180,51 @@ bool FuncAux::existeUsuario(){
         retorno = false;
     }
 
+    return retorno;
+}
+
+bool FuncAux::haySesionIniciada(){
+    QString         fechaCierre = "";
+    bool            retorno     = false;
+
     //
-    // Cerramos la Bd
+    // Cargamos la tabla Registro de sesiones
     //
-    db_sql.close();
-    db_sql.removeDatabase("c_existe_usuario");
+    str_sql = "SELECT *FROM RegistroSesiones";
+    sql.exec(str_sql);
+    sql.last();
+
+    //
+    // Si el ultimo registro no es valido devolvemos false
+    //
+    if(!sql.isValid()){
+        retorno = false;
+    }
+    //
+    // Si es valido, comprobamos si hay cierre de sesion
+    //
+    else{
+        fechaCierre = sql.record().value("FechaCierre").toString();
+    }
+
+    if(fechaCierre != ""){
+        retorno = true;
+    }
 
     return retorno;
 }
 
-void FuncAux::setInicioSesion(){
-    QSqlDatabase    db_sql;
-    QSqlQuery       sql;
-    bool            todo_ok = false;
-    bool            retorno = false;
+void FuncAux::setInicioSesion(QString fecha, QString hora){
+    QString         fechaCod    = cifrar(fecha);
+    QString         horaCod     = cifrar(hora);
 
     //
-    // Creo la conexion con la BD
+    // Comprobamos si ya hay una sesion iniciada
     //
-
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "c_set_incio_sesion");
-
-    //
-    // Establezco la ruta de la BD
-    //
-    db_sql.setDatabaseName(ruta_db_GesNomCas);
-
-    //
-    // Si se abre y no da error, creamos el sqlQuery
-    //
-    todo_ok = db_sql.open();
-    if(todo_ok){
-        sql = QSqlQuery(db_sql);
+    if(!(bool)haySesionIniciada()){
+        str_sql = "INSERT INTO RegistroSesiones(FechaInicio, HoraInicio) VALUES ('" + fechaCod + "', '" + horaCod + "')";
+        sql.exec(str_sql);
     }
-
-
-
-    //
-    // Cerramos la Bd
-    //
-    db_sql.close();
-    db_sql.removeDatabase("c_set_incio_sesion");
 
 }
 
@@ -208,11 +233,8 @@ void FuncAux::setCierreSesion(){
 }
 
 void FuncAux::setUsuario(QString usuario, QString passwd){
-    QSqlDatabase    db_sql;
-    QSqlQuery       sql;
     QString         usuarioCod;
     QString         passwdCod;
-    bool            todo_ok = false;
 
     //
     // Codificamos los valores
@@ -220,41 +242,15 @@ void FuncAux::setUsuario(QString usuario, QString passwd){
     usuarioCod = cifrar(usuario);
     passwdCod = cifrar(passwd);
 
-    {
-        //
-        // Creo la conexion con la BD
-        //
-        db_sql = QSqlDatabase::addDatabase("QSQLITE", "c_set_usuario");
-
-        //
-        // Establezco la ruta de la BD
-        //
-        db_sql.setDatabaseName(ruta_db_GesNomCas);
-
-        //
-        // Si se abre y no da error, creamos el sqlQuery
-        //
-        todo_ok = db_sql.open();
-        if(todo_ok){
-            sql = QSqlQuery(db_sql);
-
-            //
-            // Si existe Usuario lo borramos
-            //
-            str_sql = "DELETE *FROM Usuario";
-            sql.exec(str_sql);
-
-            //
-            // Insertamos los valores
-            //
-            str_sql = "INSERT INTO Usuario(Usuario, Passwd) VALUES ('" + usuarioCod + "', '" + passwdCod + "')";
-            sql.exec(str_sql);
-        }
-    }
+    //
+    // Si existe Usuario lo borramos
+    //
+    str_sql = "DELETE *FROM Usuario";
+    sql.exec(str_sql);
 
     //
-    // Cerramos la Bd
+    // Insertamos los valores
     //
-    db_sql.close();
-    db_sql.removeDatabase("c_set_usuario");
+    str_sql = "INSERT INTO Usuario(Usuario, Passwd) VALUES ('" + usuarioCod + "', '" + passwdCod + "')";
+    sql.exec(str_sql);
 }

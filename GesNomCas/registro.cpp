@@ -10,6 +10,8 @@
 #include <QScreen>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QDate>
+#include <QTime>
 
 Registro::Registro(QWidget *parent)
     : QDialog(parent)
@@ -129,16 +131,16 @@ void Registro::on_btnLogin_clicked(){
 }
 
 void Registro::entrar(){
+    QString fecha   = QDate::currentDate().toString("dd/MM/yyyy");
+    QString hora    = QTime::currentTime().toString("hh:mm:ss");
 
     FuncAux *pFuncAux = new FuncAux();
 
-
-    pFuncAux->setUsuario(ui->etUsuario->text(), ui->etPasswd->text());
-    pFuncAux->setInicioSesion();
+    //pFuncAux->setUsuario(ui->etUsuario->text(), ui->etPasswd->text());
+    //pFuncAux->setInicioSesion(fecha, hora);
     this->close();
 
     delete pFuncAux;
-
 }
 
 
