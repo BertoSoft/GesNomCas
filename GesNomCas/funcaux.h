@@ -25,15 +25,14 @@ public:
     //
     QString cifrar(QString strTextoPlano);
     QString desCifrar(QString strTextoCod);
+    bool crearDb();
     bool existeUsuario();
     bool haySesionIniciada();
     void setInicioSesion(QString, QString);
     void setCierreSesion();
     void setUsuario(QString usuario, QString passwd);
 
-private:
-    QSqlDatabase abrirBaseDatos();
-    void cerrarBaseDatos();
+
 };
 
 #endif // FUNCAUX_H

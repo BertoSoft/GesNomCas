@@ -39,8 +39,6 @@ public:
     void toLogin();
     void toRegistro();
     bool existeData();
-    bool existeDb();
-    bool crearDb(QString ruta_db);
     void refrescaReloj();
     void salir();
 

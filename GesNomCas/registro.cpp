@@ -136,8 +136,8 @@ void Registro::entrar(){
 
     FuncAux *pFuncAux = new FuncAux();
 
-    //pFuncAux->setUsuario(ui->etUsuario->text(), ui->etPasswd->text());
-    //pFuncAux->setInicioSesion(fecha, hora);
+    pFuncAux->setUsuario(ui->etUsuario->text(), ui->etPasswd->text());
+    pFuncAux->setInicioSesion(fecha, hora);
     this->close();
 
     delete pFuncAux;

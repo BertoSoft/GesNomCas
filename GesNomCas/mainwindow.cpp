@@ -62,11 +62,12 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *ev){
 }
 
 void MainWindow::initUi(){
-    QSplashScreen   *splash = new QSplashScreen();
-    QProgressBar    *progress = new QProgressBar(splash);
+    QSplashScreen   *splash     = new QSplashScreen();
+    QProgressBar    *progress   = new QProgressBar(splash);
     QEventLoop      loop;
     int             i;
-    QString         error_msg = "";
+    QString         error_msg   = "";
+    bool            existeDb    = FuncAux().crearDb();
 
     //
     //Iniciamos el splash
@@ -99,7 +100,7 @@ void MainWindow::initUi(){
         loop.exec();
         i++;
     }
-    if(!existeDb()){
+    if(!existeDb){
         error_msg = " Error al crear la base de datos";
     }
 
@@ -246,69 +247,6 @@ bool MainWindow::existeData(){
     if(!dir_data.exists()){
         todo_ok = dir_data.mkdir(ruta_data);
     }
-
-    return todo_ok;
-}
-
-bool MainWindow::existeDb(){
-    QString     ruta_data;
-    QString     ruta_db;
-    QFile       file_db;
-    bool        todo_ok = true;
-
-    //
-    // Si no existe la base de datos la Creamos
-    //
-    ruta_data = qApp->applicationDirPath() + "/Data";
-    ruta_db = ruta_data + "/GesNomCas.db";
-    file_db.setFileName(ruta_db);
-    if(!file_db.exists()){
-        todo_ok = crearDb(ruta_db);
-    }
-
-    return todo_ok;
-}
-
-bool MainWindow::crearDb(QString ruta_db){
-    QSqlDatabase    db_sql;
-    QSqlQuery       sql;
-    QString         str_sql;
-    bool            todo_ok = true;
-
-    //
-    // Creo la conexion con la BD
-    //
-    db_sql = QSqlDatabase::addDatabase("QSQLITE", "main_window");
-
-
-    //
-    // Establezco la ruta de la BD
-    //
-    db_sql.setDatabaseName(ruta_db);
-
-    //
-    // Si se abre y no da error, creamos la Base de Datos
-    //
-    todo_ok = db_sql.open();
-    if(todo_ok){
-        sql = QSqlQuery(db_sql);
-        str_sql = "CREATE TABLE if not exists RegistroSesiones(_ID INTEGER PRIMARY KEY AUTOINCREMENT,FechaInicio TEXT, "
-                  "                                                                                 HoraInicio TEXT,"
-                  "                                                                                 FechaCierre TEXT,"
-                  "                                                                                 HoraCierre TEXT);";
-        sql.exec(str_sql);
-
-        str_sql = "CREATE TABLE if not exists Usuario(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Usuario TEXT, "
-                  "                                                                          Passwd TEXT);";
-        sql.exec(str_sql);
-
-    }
-    //
-    // Cerramos la BD y la Conexion
-    //
-    db_sql.close();
-    db_sql = QSqlDatabase();
-    db_sql.removeDatabase("main_window");
 
     return todo_ok;
 }
