@@ -39,6 +39,7 @@ public:
     void toLogin();
     void toRegistro();
     bool existeData();
+    bool existeDb();
     void refrescaReloj();
     void salir();
 

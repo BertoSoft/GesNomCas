@@ -11,6 +11,7 @@
 #include <QProgressBar>
 #include <QTimer>
 #include <QDir>
+#include <QFile>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDate>
@@ -251,6 +252,19 @@ bool MainWindow::existeData(){
     return todo_ok;
 }
 
+bool existeDb(){
+    QFile   fileDb;
+    QString ruta_db;
+    bool    existe = false;
+
+    ruta_db = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    fileDb.setFileName(ruta_db);
+    if(!fileDb.exists()){
+        existe = FuncAux().crearDb();
+    }
+    return existe;
+}
+
 void MainWindow::refrescaReloj(){
     QLocale locale;
     QDate   fecha   = QDate::currentDate();
@@ -264,6 +278,9 @@ void MainWindow::refrescaReloj(){
 }
 
 void MainWindow::salir(){
+    QString fecha   = QDate::currentDate().toString("dd/MM/yyyy");
+    QString hora    = QTime::currentTime().toString("hh:mm:ss");
 
+    FuncAux().setCierreSesion(fecha, hora);
     exit(0);
 }

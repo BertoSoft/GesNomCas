@@ -63,6 +63,7 @@ void Registro::centrar(){
 
 void Registro::salir(){
     QMessageBox::StandardButton respuesta;
+
     respuesta = QMessageBox::warning(this, nombre_programa, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
     if(respuesta == QMessageBox::Yes){
         exit(0);

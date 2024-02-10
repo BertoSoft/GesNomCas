@@ -1,11 +1,15 @@
 #include "login.h"
 #include "ui_login.h"
 
+#include "funcaux.h"
+
 #include <QApplication>
-#include <QDialogButtonBox>
-#include <QAbstractButton>
+#include <QMessageBox>
 #include <QScreen>
 #include <QKeyEvent>
+#include <QDate>
+#include <QTime>
+#include <QMessageBox>
 
 
 Login::Login(QWidget *parent)
@@ -46,8 +50,12 @@ bool Login::eventFilter(QObject *obj, QEvent *ev){
 }
 
 void Login::initUi(){
+
     centrar();
-    ui->etUsuario->setFocus();
+    ui->lblUsuario->setStyleSheet("color: blue; font-size: 11pt; font-weight: bold");
+    ui->lblUsuario->setAlignment(Qt::AlignCenter);
+    ui->lblUsuario->setText("Hola, Alberto");
+    ui->etPasswd->setFocus();
 }
 
 void Login::centrar(){
@@ -56,18 +64,31 @@ void Login::centrar(){
 }
 
 void Login::salir(){
-    exit(0);
+    QMessageBox::StandardButton respuesta;
+
+    respuesta = QMessageBox::warning(this, nombre_programa, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
+    if(respuesta == QMessageBox::Yes){
+        exit(0);
+    }
+    else{
+        ui->etPasswd->setFocus();
+        ui->etPasswd->selectAll();
+    }
 }
 
-void Login::on_buttonBox_clicked(QAbstractButton *button){
-    QAbstractButton *ok = ui->buttonBox->buttons()[0];
-    QAbstractButton *cancel = ui->buttonBox->buttons()[1];
+void Login::entrar(){
+    QString fecha   = QDate::currentDate().toString("dd/MM/yyyy");
+    QString hora    = QTime::currentTime().toString("hh:mm:ss");
 
-    if(button == ok){
+    FuncAux().setInicioSesion(fecha, hora);
+    this->close();
+}
 
-    }
-    if(button == cancel){
-        salir();
-    }
+void Login::on_btnSalir_clicked(){
+    salir();
+}
+
+void Login::on_btnLogin_clicked(){
+    entrar();
 }
 

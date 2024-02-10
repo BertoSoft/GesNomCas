@@ -20,6 +20,7 @@ public:
 
     void initUi();
     void centrar();
+    void entrar();
     void salir();
 
 protected:
@@ -27,7 +28,9 @@ protected:
 
 private slots:
 
-    void on_buttonBox_clicked(QAbstractButton *button);
+    void on_btnSalir_clicked();
+
+    void on_btnLogin_clicked();
 
 private:
     Ui::Login *ui;

@@ -27,9 +27,8 @@ public:
     QString desCifrar(QString strTextoCod);
     bool crearDb();
     bool existeUsuario();
-    bool haySesionIniciada();
     void setInicioSesion(QString, QString);
-    void setCierreSesion();
+    void setCierreSesion(QString, QString);
     void setUsuario(QString usuario, QString passwd);
 
 
