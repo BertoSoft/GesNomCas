@@ -17,6 +17,7 @@
 #include <QDate>
 #include <QTime>
 #include <QLocale>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -33,16 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     //
     // Desarrollamos la app
     //
+    initReloj();
     initUi();
     initLogin();
-
-    //
-    // Hacemos que cada segundo refresque la hora
-    //
-    QTimer *qtReloj = new QTimer();
-    connect( qtReloj, &QTimer::timeout, [this](){refrescaReloj();} );
-    qtReloj->start(1000);
-
 }
 
 MainWindow::~MainWindow()
@@ -67,7 +61,7 @@ void MainWindow::initUi(){
     QProgressBar    *progress   = new QProgressBar(splash);
     QEventLoop      loop;
     int             i;
-    QString         error_msg   = "";
+    QString         errorMsg   = "";
     bool            existeDb    = FuncAux().crearDb();
 
     //
@@ -87,7 +81,7 @@ void MainWindow::initUi(){
         i++;
     }
     if(!existeData()){
-        error_msg = " Error al crear " + qApp->applicationDirPath() + "/Data";
+        errorMsg = " Error al crear " + qApp->applicationDirPath() + "/Data";
     }
 
     //
@@ -102,7 +96,7 @@ void MainWindow::initUi(){
         i++;
     }
     if(!existeDb){
-        error_msg = " Error al crear la base de datos";
+        errorMsg = " Error al crear la base de datos";
     }
 
     //
@@ -123,6 +117,16 @@ void MainWindow::initUi(){
     //
     initBarraEstado();
 
+}
+
+void MainWindow::initReloj(){
+
+    //
+    // Hacemos que cada segundo refresque la hora
+    //
+    QTimer *qtReloj = new QTimer();
+    connect( qtReloj, &QTimer::timeout, [this](){refrescaReloj();} );
+    qtReloj->start(1000);
 }
 
 void MainWindow::initBarraEstado(){
@@ -147,24 +151,21 @@ void MainWindow::initBarraEstado(){
     ui->statusbar->addWidget(lblFecha, 3);
     ui->statusbar->addWidget(lblHora, 1);
 
-    lblTexto->setText(nombre_programa);
+    lblTexto->setText(nombrePrograma);
     refrescaReloj();
 
 }
 
 void MainWindow::initLogin(){
-    FuncAux *pFuncAux = new FuncAux();
     //
     // Comprobamos si existe algun usuario
     //
-    if(pFuncAux->existeUsuario()){
+    if(FuncAux().existeUsuario()){
         toLogin();
     }
     else{
         toRegistro();
     }
-
-    delete pFuncAux;
 }
 
 void MainWindow::toLogin(){
@@ -172,8 +173,8 @@ void MainWindow::toLogin(){
 
     pLogin->setWindowModality(Qt::ApplicationModal);
     pLogin->setWindowFlag(Qt::FramelessWindowHint);
-    pLogin->setWindowTitle(nombre_programa);
-    pLogin->nombre_programa = nombre_programa;
+    pLogin->setWindowTitle(nombrePrograma);
+    pLogin->nombrePrograma = nombrePrograma;
     pLogin->exec();
 
     delete pLogin;
@@ -184,8 +185,8 @@ void MainWindow::toRegistro(){
 
     pRegistro->setWindowModality(Qt::ApplicationModal);
     pRegistro->setWindowFlag(Qt::FramelessWindowHint);
-    pRegistro->setWindowTitle(nombre_programa);
-    pRegistro->nombre_programa = nombre_programa;
+    pRegistro->setWindowTitle(nombrePrograma);
+    pRegistro->nombrePrograma = nombrePrograma;
     pRegistro->exec();
 
     delete pRegistro;
@@ -193,8 +194,8 @@ void MainWindow::toRegistro(){
 
 void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
     QImage          img;
-    QImage          img_scaled;
-    QPixmap         pix_map;
+    QImage          imgScaled;
+    QPixmap         pixMap;
     QEventLoop      loop;
 
     const int       ancho = 400;
@@ -204,8 +205,8 @@ void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
     // Cargamos la imagen
     //
     img.load(":/logo.png");
-    img_scaled = img.scaled(ancho, alto, Qt::KeepAspectRatio);
-    pix_map = QPixmap::fromImage(img);
+    imgScaled = img.scaled(ancho, alto, Qt::KeepAspectRatio);
+    pixMap = QPixmap::fromImage(img);
 
     //
     // Creamos el progressBar
@@ -218,7 +219,7 @@ void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
     //
     // Mostramos el splash
     //
-    splash->setPixmap(pix_map);
+    splash->setPixmap(pixMap);
     splash->show();
 
     //
@@ -236,29 +237,29 @@ void MainWindow::initSplash(QSplashScreen *splash, QProgressBar *progress){
 }
 
 bool MainWindow::existeData(){
-    QString     ruta_data;
-    QDir        dir_data;
-    bool        todo_ok = true;
+    QString     rutaData;
+    QDir        dirData;
+    bool        todoOk = true;
 
     //
     // Obtenemos la ruta del directorio Data y si no existe lo creamos
     //
-    ruta_data = qApp->applicationDirPath() + "/Data";
-    dir_data.setPath(ruta_data);
-    if(!dir_data.exists()){
-        todo_ok = dir_data.mkdir(ruta_data);
+    rutaData = qApp->applicationDirPath() + "/Data";
+    dirData.setPath(rutaData);
+    if(!dirData.exists()){
+        todoOk = dirData.mkdir(rutaData);
     }
 
-    return todo_ok;
+    return todoOk;
 }
 
 bool existeDb(){
     QFile   fileDb;
-    QString ruta_db;
+    QString rutaDb;
     bool    existe = false;
 
-    ruta_db = qApp->applicationDirPath() + "/Data/GesNomCas.db";
-    fileDb.setFileName(ruta_db);
+    rutaDb = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    fileDb.setFileName(rutaDb);
     if(!fileDb.exists()){
         existe = FuncAux().crearDb();
     }
@@ -284,3 +285,37 @@ void MainWindow::salir(){
     FuncAux().setCierreSesion(fecha, hora);
     exit(0);
 }
+
+void MainWindow::on_actionSalir_triggered(){
+
+    salir();
+}
+
+void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
+    QString rutaArchivoOrigen;
+    QString rutaArchivoDestino;
+    QString rutaArchivoOld;
+    QString rutaDescargas;
+    QFile   fileDestino;
+
+    rutaDescargas       = QDir::homePath() + "/Descargas";
+    rutaArchivoOrigen   = QFileDialog::getOpenFileName(this, nombrePrograma, rutaDescargas);
+    rutaArchivoDestino  = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    rutaArchivoOld      = qApp->applicationDirPath() + "/Data/GesNomCas.old";
+
+    fileDestino.setFileName(rutaArchivoDestino);
+
+    //
+    // Si ya existe el archivo destino, lo renombramos
+    //
+    if(fileDestino.exists()){
+        fileDestino.rename(rutaArchivoOld);
+    }
+
+    //
+    // Copiamos el fichero
+    //
+    QFile::copy(rutaArchivoOrigen, rutaArchivoDestino);
+
+}
+

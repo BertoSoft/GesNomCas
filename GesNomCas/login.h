@@ -16,7 +16,7 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
-    QString nombre_programa;
+    QString nombrePrograma;
 
     void initUi();
     void centrar();
@@ -24,6 +24,7 @@ public:
     void salir();
 
 protected:
+
     bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
@@ -31,6 +32,8 @@ private slots:
     void on_btnSalir_clicked();
 
     void on_btnLogin_clicked();
+
+    void on_etPasswd_returnPressed();
 
 private:
     Ui::Login *ui;

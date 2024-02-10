@@ -24,7 +24,7 @@ public:
     //
     // Controles Globales
     //
-    QString nombre_programa = "GesNomCas V 1.0";
+    QString nombrePrograma = "GesNomCas V 1.0";
     QLabel  *lblTexto       = new QLabel();
     QLabel  *lblHora        = new QLabel();
     QLabel  *lblFecha       = new QLabel();
@@ -36,6 +36,7 @@ public:
     void initSplash(QSplashScreen *splash, QProgressBar *progress);
     void initBarraEstado();
     void initLogin();
+    void initReloj();
     void toLogin();
     void toRegistro();
     bool existeData();
@@ -44,9 +45,16 @@ public:
     void salir();
 
 protected:
+
     bool eventFilter(QObject *obj, QEvent *ev);
 
+private slots:
+    void on_actionSalir_triggered();
+
+    void on_actionImportar_Archivo_de_Datos_triggered();
+
 private:
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

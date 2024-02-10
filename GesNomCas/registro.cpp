@@ -53,7 +53,7 @@ bool Registro::eventFilter(QObject *obj, QEvent *ev){
 void Registro::initUi(){
     centrar();
     ui->etUsuario->setFocus();
-    QMessageBox::information(this, nombre_programa, "Debes establecer un Uusario y una Contraseña...");
+    QMessageBox::information(this, nombrePrograma, "Debes establecer un Uusario y una Contraseña...");
 }
 
 void Registro::centrar(){
@@ -64,7 +64,7 @@ void Registro::centrar(){
 void Registro::salir(){
     QMessageBox::StandardButton respuesta;
 
-    respuesta = QMessageBox::warning(this, nombre_programa, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
+    respuesta = QMessageBox::warning(this, nombrePrograma, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
     if(respuesta == QMessageBox::Yes){
         exit(0);
     }
@@ -98,28 +98,28 @@ void Registro::on_btnLogin_clicked(){
     // si el campo de usuario esta vacio avisamos
     //
     if(ui->etUsuario->text() == ""){
-        QMessageBox::information(this, nombre_programa, "El campo de usuario no puede estar vacío");
+        QMessageBox::information(this, nombrePrograma, "El campo de usuario no puede estar vacío");
         ui->etUsuario->setFocus();
     }
     //
     // si el campo de passwd esta vacio avisamos
     //
     else if(ui->etPasswd->text() == ""){
-        QMessageBox::information(this, nombre_programa, "El campo de password no puede estar vacío");
+        QMessageBox::information(this, nombrePrograma, "El campo de password no puede estar vacío");
         ui->etPasswd->setFocus();
     }
     //
     // si el campo de passwd1 esta vacio avisamos
     //
     else if(ui->etPasswd->text() == ""){
-        QMessageBox::information(this, nombre_programa, "Este campo no puede estar vacío");
+        QMessageBox::information(this, nombrePrograma, "Este campo no puede estar vacío");
         ui->etPasswd1->setFocus();
     }
     //
     // si las contraseñas no coinciden avisamos
     //
     else if(ui->etPasswd->text() != ui->etPasswd1->text()){
-        QMessageBox::information(this, nombre_programa, "Las contraseñas no coinciden");
+        QMessageBox::information(this, nombrePrograma, "Las contraseñas no coinciden");
         ui->etPasswd->setFocus();
         ui->etPasswd->selectAll();
     }

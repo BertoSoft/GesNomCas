@@ -2,7 +2,12 @@
     <qresource prefix="/">
         <file>logo.png</file>
         <file>icono.png</file>
-        <file>salir.jpeg</file>
         <file>enter.jpeg</file>
+        <file>cerrar.jpeg</file>
+        <file>salir.jpeg</file>
+        <file>importarincidencias.png</file>
+        <file>importardatos.png</file>
+        <file>exportarincidencias.png</file>
+        <file>exportardatos.png</file>
     </qresource>
 </RCC>

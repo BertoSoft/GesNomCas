@@ -2,12 +2,11 @@
 #include <QApplication>
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     QApplication    a(argc, argv);
     MainWindow      w;
 
-    w.setWindowTitle(w.nombre_programa);
+    w.setWindowTitle(w.nombrePrograma);
     w.setWindowIcon(QIcon(":/icono.png"));
     w.showMaximized();
     w.show();

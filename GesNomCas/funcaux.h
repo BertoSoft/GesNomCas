@@ -15,9 +15,9 @@ public:
     //
     // Variables Globales
     //
-    QString         ruta_db_GesNomCas;
-    QString         str_sql;
-    QSqlDatabase    db_sql;
+    QString         rutaDbGesNomCas;
+    QString         strSql;
+    QSqlDatabase    dbSql;
     QSqlQuery       sql;
 
     //
@@ -25,11 +25,13 @@ public:
     //
     QString cifrar(QString strTextoPlano);
     QString desCifrar(QString strTextoCod);
-    bool crearDb();
-    bool existeUsuario();
-    void setInicioSesion(QString, QString);
-    void setCierreSesion(QString, QString);
-    void setUsuario(QString usuario, QString passwd);
+    bool    crearDb();
+    bool    existeUsuario();
+    void    setInicioSesion(QString, QString);
+    void    setCierreSesion(QString, QString);
+    void    setUsuario(QString usuario, QString passwd);
+    QString getUser();
+    QString getPasswd();
 
 
 };

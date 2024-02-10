@@ -86,7 +86,7 @@
       </property>
       <property name="icon">
        <iconset resource="imagenes/imagenes.qrc">
-        <normaloff>:/salir.jpeg</normaloff>:/salir.jpeg</iconset>
+        <normaloff>:/cerrar.jpeg</normaloff>:/cerrar.jpeg</iconset>
       </property>
       <property name="autoDefault">
        <bool>false</bool>
