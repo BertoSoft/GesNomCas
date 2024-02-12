@@ -12,6 +12,11 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QDate>
+
+
+#include <QCoreApplication>
+#include <QByteArray>
 
 #define KEY "U82HuXLNzbX3f6r"
 #define IV  "epDKqfVtYXhdXgb"
@@ -441,4 +446,338 @@ QString FuncAux::getPasswd(){
     dbSql.removeDatabase("con_get_passwd");
 
     return passwd;
+}
+
+bool FuncAux::esFormatoDatos(QString rutaArchivo){
+    bool    esFormatoDatos  = false;
+    bool    todoOk          = false;
+    QString usuarioCod      = "";
+    QString usuario         = "";
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_es_formato_datos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Usuario";
+    sql.exec(strSql);
+    sql.first();
+    usuarioCod  = sql.record().value("Usuario").toString();
+
+    if(usuarioCod != ""){
+        try {
+            esFormatoDatos = true;
+            usuario = desCifrar(usuarioCod);
+        }
+        catch(...) {
+            esFormatoDatos = false;
+        }
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_es_formato_datos");
+
+    return esFormatoDatos;
+}
+
+QString FuncAux::primerRegistroDatos(QString rutaArchivo){
+    QString fechaPrimerRegistroCod  = "";
+    QString fechaPrimerRegistro     = "";
+    bool    todoOk                  = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_primer_registro_datos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM RegistroSesiones";
+    sql.exec(strSql);
+
+    sql.first();
+    if(sql.isValid()) fechaPrimerRegistroCod = sql.record().value("FechaInicio").toString();
+    if(fechaPrimerRegistroCod != "")fechaPrimerRegistro = desCifrar(fechaPrimerRegistroCod);
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_primer_registro_datos");
+
+    return fechaPrimerRegistro;
+}
+
+QString FuncAux::ultimoRegistroDatos(QString rutaArchivo){
+    QString fechaUltimoRegistroCod  = "";
+    QString fechaUltimoRegistro     = "";
+    bool    todoOk                  = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_ultimo_registro_datos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM RegistroSesiones";
+    sql.exec(strSql);
+
+    sql.last();
+    if(sql.isValid()) fechaUltimoRegistroCod = sql.record().value("FechaCierre").toString();
+    if(fechaUltimoRegistroCod != "") fechaUltimoRegistro = desCifrar(fechaUltimoRegistroCod);
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_ultimo_registro_datos");
+
+    return fechaUltimoRegistro;
+}
+
+bool FuncAux::esFormatoIncidencias(QString rutaArchivo){
+    bool    esFormatoIncidencias    = false;
+    bool    todoOk                  = false;
+    QString fecha                   = "";
+    QDate   date;
+    struct  Incidencias datosIncidencias;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_es_formato_incidencias");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Incidencias";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        datosIncidencias.fecha = sql.record().value("Fecha").toString();
+        datosIncidencias.hed = sql.record().value("Hed").toString();
+        datosIncidencias.hen = sql.record().value("Hen").toString();
+        datosIncidencias.hef = sql.record().value("Hef").toString();
+        datosIncidencias.voladuras = sql.record().value("Voladuras").toString();
+
+        date = fechaCortaToDate(datosIncidencias.fecha);
+        if(date.isValid()){
+            if(datosIncidencias.hed != "" || datosIncidencias.hen != "" || datosIncidencias.hef != "" || datosIncidencias.voladuras != ""){
+                esFormatoIncidencias = true;
+                sql.last();
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_es_formato_incidencias");
+
+    return esFormatoIncidencias;
+
+}
+
+QString FuncAux::primerRegistroIncidencias(QString rutaArchivo){
+    QString fechaPrimerRegistro     = "";
+    bool    todoOk                  = false;
+    QDate   date                    = QDate::currentDate();
+    QDate   dateMenor               = QDate::currentDate();
+    struct  Incidencias incidencias;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_primer_registro_incidencias");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Incidencias";
+    sql.exec(strSql);
+    sql.first();
+
+    while (sql.isValid()) {
+        incidencias.fecha = sql.record().value("Fecha").toString();
+        incidencias.hed = sql.record().value("Hed").toString();
+        incidencias.hen = sql.record().value("Hen").toString();
+        incidencias.hef = sql.record().value("Hef").toString();
+        incidencias.voladuras = sql.record().value("Voladuras").toString();
+
+        date = fechaCortaToDate(incidencias.fecha);
+        if(date.isValid()){
+            if(incidencias.hed != "" || incidencias.hen != "" || incidencias.hef != "" || incidencias.voladuras != ""){
+                if(date < dateMenor){
+                    dateMenor = date;
+                    fechaPrimerRegistro = incidencias.fecha;
+                }
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_primer_registro_incidencias");
+
+    return fechaPrimerRegistro;
+
+}
+
+QString FuncAux::ultimoRegistroIncidencias(QString rutaArchivo){
+    QString fechaUltimoRegistro     = "";
+    bool    todoOk                  = false;
+    QDate   date                    = QDate::currentDate();
+    QDate   dateMayor;
+    struct  Incidencias incidencias;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_ultimo_registro_incidencias");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaArchivo);
+
+    //
+    // Si se abre y no da error, creamos la sqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Incidencias";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        incidencias.fecha = sql.record().value("Fecha").toString();
+        incidencias.hed = sql.record().value("Hed").toString();
+        incidencias.hen = sql.record().value("Hen").toString();
+        incidencias.hef = sql.record().value("Hef").toString();
+        incidencias.voladuras = sql.record().value("Voladuras").toString();
+
+        date = fechaCortaToDate(incidencias.fecha);
+        if(date.isValid()){
+            if(incidencias.hed != "" || incidencias.hen != "" || incidencias.hef != "" || incidencias.voladuras != ""){
+                if(date > dateMayor){
+                    dateMayor = date ;
+                    fechaUltimoRegistro = incidencias.fecha;
+                }
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_ultimo_registro_incidencias");
+
+    return fechaUltimoRegistro;
+}
+
+QDate FuncAux::fechaCortaToDate(QString strFecha){
+    QDate datFecha;
+    int iY,iM,iD;
+    QString strY,strM,strD,str;
+
+    //
+    // Si el caracter 3 y el 6  son / formato correcto
+    //
+    if(strFecha.length() == 10 && strFecha[2] == '/' && strFecha[5] == '/'){
+        str=strFecha;
+        str.truncate(2);
+        strD=str;
+        str=strFecha;
+        str.truncate(5);
+        str.remove(0,3);
+        strM=str;
+        str=strFecha;
+        str.remove(0,(str.length()-4));
+        strY=str;
+        iY=strY.toInt();
+        iM=strM.toInt();
+        iD=strD.toInt();
+        datFecha.setDate(iY,iM,iD);
+    }
+    //
+    // Formato incorrecto
+    //
+    else{
+        datFecha.setDate(-1,-1,-1);
+    }
+    return datFecha;
 }

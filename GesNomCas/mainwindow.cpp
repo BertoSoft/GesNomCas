@@ -4,6 +4,8 @@
 #include "funcaux.h"
 #include "login.h"
 #include "registro.h"
+#include "importardatos.h"
+#include "importarincidencias.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -253,19 +255,6 @@ bool MainWindow::existeData(){
     return todoOk;
 }
 
-bool existeDb(){
-    QFile   fileDb;
-    QString rutaDb;
-    bool    existe = false;
-
-    rutaDb = qApp->applicationDirPath() + "/Data/GesNomCas.db";
-    fileDb.setFileName(rutaDb);
-    if(!fileDb.exists()){
-        existe = FuncAux().crearDb();
-    }
-    return existe;
-}
-
 void MainWindow::refrescaReloj(){
     QLocale locale;
     QDate   fecha   = QDate::currentDate();
@@ -292,30 +281,27 @@ void MainWindow::on_actionSalir_triggered(){
 }
 
 void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
-    QString rutaArchivoOrigen;
-    QString rutaArchivoDestino;
-    QString rutaArchivoOld;
-    QString rutaDescargas;
-    QFile   fileDestino;
+    importarDatos *pImportarDatos = new importarDatos(this);
 
-    rutaDescargas       = QDir::homePath() + "/Descargas";
-    rutaArchivoOrigen   = QFileDialog::getOpenFileName(this, nombrePrograma, rutaDescargas);
-    rutaArchivoDestino  = qApp->applicationDirPath() + "/Data/GesNomCas.db";
-    rutaArchivoOld      = qApp->applicationDirPath() + "/Data/GesNomCas.old";
+    pImportarDatos->setWindowModality(Qt::ApplicationModal);
+    pImportarDatos->setWindowFlag(Qt::FramelessWindowHint);
+    pImportarDatos->setWindowTitle(nombrePrograma);
+    pImportarDatos->nombrePrograma = nombrePrograma;
+    pImportarDatos->exec();
 
-    fileDestino.setFileName(rutaArchivoDestino);
+    delete pImportarDatos;
 
-    //
-    // Si ya existe el archivo destino, lo renombramos
-    //
-    if(fileDestino.exists()){
-        fileDestino.rename(rutaArchivoOld);
-    }
+}
 
-    //
-    // Copiamos el fichero
-    //
-    QFile::copy(rutaArchivoOrigen, rutaArchivoDestino);
+void MainWindow::on_actionImportar_Archivo_de_Incidencias_triggered(){
+    importarincidencias *pImportarIncidencias = new importarincidencias(this);
 
+    pImportarIncidencias->setWindowModality(Qt::ApplicationModal);
+    pImportarIncidencias->setWindowFlag(Qt::FramelessWindowHint);
+    pImportarIncidencias->setWindowTitle(nombrePrograma);
+    pImportarIncidencias->nombrePrograma = nombrePrograma;
+    pImportarIncidencias->exec();
+
+    delete pImportarIncidencias;
 }
 

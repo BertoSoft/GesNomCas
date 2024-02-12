@@ -21,6 +21,18 @@ public:
     QSqlQuery       sql;
 
     //
+    // Structuras
+    //
+    struct Incidencias
+    {
+        QString fecha;
+        QString hed;
+        QString hen;
+        QString hef;
+        QString voladuras;
+    };
+
+    //
     // Funciones Publicas
     //
     QString cifrar(QString strTextoPlano);
@@ -30,8 +42,15 @@ public:
     void    setInicioSesion(QString, QString);
     void    setCierreSesion(QString, QString);
     void    setUsuario(QString usuario, QString passwd);
+    bool    esFormatoDatos(QString);
+    bool    esFormatoIncidencias(QString);
+    QString primerRegistroDatos(QString);
+    QString ultimoRegistroDatos(QString);
+    QString primerRegistroIncidencias(QString);
+    QString ultimoRegistroIncidencias(QString);
     QString getUser();
     QString getPasswd();
+    QDate   fechaCortaToDate(QString);
 
 
 };

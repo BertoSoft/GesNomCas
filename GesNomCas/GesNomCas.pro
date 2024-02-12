@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     funcaux.cpp \
+    importardatos.cpp \
+    importarincidencias.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -17,11 +19,15 @@ SOURCES += \
 
 HEADERS += \
     funcaux.h \
+    importardatos.h \
+    importarincidencias.h \
     login.h \
     mainwindow.h \
     registro.h
 
 FORMS += \
+    importardatos.ui \
+    importarincidencias.ui \
     login.ui \
     mainwindow.ui \
     registro.ui

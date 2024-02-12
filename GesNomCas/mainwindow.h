@@ -40,7 +40,6 @@ public:
     void toLogin();
     void toRegistro();
     bool existeData();
-    bool existeDb();
     void refrescaReloj();
     void salir();
 
@@ -49,9 +48,12 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
+
     void on_actionSalir_triggered();
 
     void on_actionImportar_Archivo_de_Datos_triggered();
+
+    void on_actionImportar_Archivo_de_Incidencias_triggered();
 
 private:
 
