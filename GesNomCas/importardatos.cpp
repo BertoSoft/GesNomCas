@@ -20,30 +20,40 @@ importarDatos::~importarDatos(){
 }
 
 void importarDatos::initUi(){
-    QString rutaArchivoOrigen = "";
-    QString rutaDescargas;
+    QString strArchivoOrigen = "";
+    QString strDescargas;
 
-    rutaDescargas       = QDir::homePath() + "/Descargas";
-    rutaArchivoOrigen   = QFileDialog::getOpenFileName(this, nombrePrograma, rutaDescargas);
+    strDescargas       = QDir::homePath() + "/Descargas";
+    strArchivoOrigen   = QFileDialog::getOpenFileName(this, NOMBRE_PROGRAMA, strDescargas);
+
+    //
+    // Establecemos los estilos
+    //
+    ui->lblNombreArchivo->setStyleSheet("color: blue");
+    ui->lblDesde->setStyleSheet("color: blue");
+    ui->lblHasta->setStyleSheet("color: blue");
+    ui->lblTipoArchivo->setStyleSheet("color: blue");
 
     //
     // Mostramos la ruta del archivo
     //
-    ui->lblNombreArchivo->setText(rutaArchivoOrigen);
-    ui->lblNombreArchivo->setToolTip(rutaArchivoOrigen);
+    ui->lblNombreArchivo->setText(strArchivoOrigen);
+    ui->lblNombreArchivo->setToolTip(strArchivoOrigen);
 
     //
     // Miramos si es un formato valido
     //
-    if(FuncAux().esFormatoDatos(rutaArchivoOrigen)){
+    if(FuncAux().esFormatoDatos(strArchivoOrigen)){
         ui->lblTipoArchivo->setText("Archivo de datos de GesNomCas");
-        ui->lblDesde->setText(FuncAux().primerRegistroDatos(rutaArchivoOrigen));
-        ui->lblHasta->setText(FuncAux().ultimoRegistroDatos(rutaArchivoOrigen));
+        ui->lblDesde->setText(FuncAux().primerRegistroDatos(strArchivoOrigen));
+        ui->lblHasta->setText(FuncAux().ultimoRegistroDatos(strArchivoOrigen));
         ui->btnImportar->setEnabled(true);
     }
     else{
-        ui->lblTipoArchivo->setText("Archivo de datos no reconocido...");
-        ui->btnImportar->setEnabled(false);
+        if(ui->lblNombreArchivo->text() != ""){
+            ui->lblTipoArchivo->setText("Archivo de datos no reconocido...");
+            ui->btnImportar->setEnabled(false);
+        }
     }
 }
 
@@ -53,20 +63,20 @@ void importarDatos::on_btnCancelar_clicked(){
 }
 
 void importarDatos::on_btnImportar_clicked(){
-    QString rutaOrigen  = ui->lblNombreArchivo->text();
-    QString rutaDestino = qApp->applicationDirPath() + "/Data/GesNomCas.db";
-    QString rutaOld     = qApp->applicationDirPath() + "/Data/GesNomCas.old";
+    QString strOrigen  = ui->lblNombreArchivo->text();
+    QString strDestino = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    QString strOld     = qApp->applicationDirPath() + "/Data/GesNomCas.old";
     QFile   fileDestino;
     QFile   fileOld;
 
-    fileDestino.setFileName(rutaDestino);
-    fileOld.setFileName(rutaDestino);
+    fileDestino.setFileName(strDestino);
+    fileOld.setFileName(strDestino);
 
     if(fileDestino.exists()){
-        fileOld.rename(rutaOld);
+        fileOld.rename(strOld);
     }
 
-    QFile::copy(rutaOrigen, rutaDestino);
+    QFile::copy(strOrigen, strDestino);
 
     this->close();
 }

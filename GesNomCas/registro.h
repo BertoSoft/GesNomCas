@@ -16,7 +16,7 @@ public:
     explicit Registro(QWidget *parent = nullptr);
     ~Registro();
 
-    QString nombrePrograma;
+    QString NOMBRE_PROGRAMA;
 
     void initUi();
     void centrar();

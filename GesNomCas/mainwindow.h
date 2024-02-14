@@ -6,6 +6,8 @@
 #include <QProgressBar>
 #include <QLabel>
 
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -24,7 +26,6 @@ public:
     //
     // Controles Globales
     //
-    QString nombrePrograma = "GesNomCas V 1.0";
     QLabel  *lblTexto       = new QLabel();
     QLabel  *lblHora        = new QLabel();
     QLabel  *lblFecha       = new QLabel();
@@ -35,6 +36,7 @@ public:
     void initUi();
     void initSplash(QSplashScreen *splash, QProgressBar *progress);
     void initBarraEstado();
+    void compruebaActions();
     void initLogin();
     void initReloj();
     void toLogin();
@@ -54,6 +56,10 @@ private slots:
     void on_actionImportar_Archivo_de_Datos_triggered();
 
     void on_actionImportar_Archivo_de_Incidencias_triggered();
+
+    void on_actionExportar_Archivo_de_Datos_triggered();
+
+    void on_actionExportar_Archivo_de_Incidencias_triggered();
 
 private:
 

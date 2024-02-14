@@ -16,7 +16,7 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
-    QString nombrePrograma;
+    QString NOMBRE_PROGRAMA;
 
     void initUi();
     void centrar();

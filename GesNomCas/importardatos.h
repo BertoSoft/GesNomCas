@@ -15,7 +15,7 @@ public:
     explicit importarDatos(QWidget *parent = nullptr);
     ~importarDatos();
 
-    QString nombrePrograma;
+    QString NOMBRE_PROGRAMA;
 
     void initUi();
 

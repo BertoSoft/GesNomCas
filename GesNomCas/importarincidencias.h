@@ -15,8 +15,6 @@ public:
     explicit importarincidencias(QWidget *parent = nullptr);
     ~importarincidencias();
 
-    QString nombrePrograma;
-
     void initUi();
 
 private slots:

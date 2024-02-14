@@ -2,6 +2,7 @@
 #include "ui_login.h"
 
 #include "funcaux.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 #include <QMessageBox>
@@ -23,9 +24,6 @@ Login::Login(QWidget *parent)
     //
     this->installEventFilter(this);
 
-    //
-    // Iniciamos la pantalla
-    //
     initUi();
 }
 
@@ -57,6 +55,7 @@ void Login::initUi(){
     ui->lblUsuario->setAlignment(Qt::AlignCenter);
     ui->lblUsuario->setText("! Hola " + FuncAux().getUser() + " !");
     ui->etPasswd->setFocus();
+
 }
 
 void Login::centrar(){
@@ -68,7 +67,7 @@ void Login::centrar(){
 void Login::salir(){
     QMessageBox::StandardButton respuesta;
 
-    respuesta = QMessageBox::warning(this, nombrePrograma, "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
+    respuesta = QMessageBox::warning(this, FuncAux().getAppName(), "¿ Realmente quieres salir del programa ?", QMessageBox::Yes|QMessageBox::No);
     if(respuesta == QMessageBox::Yes){
         exit(0);
     }
@@ -98,7 +97,7 @@ void Login::on_btnLogin_clicked(){
     // Si el campo passwd esta vacio avisamos
     //
     if(ui->etPasswd->text() == ""){
-        QMessageBox::information(this, nombrePrograma, "El campo de password no puede estar vacío");
+        QMessageBox::information(this, NOMBRE_PROGRAMA, "El campo de password no puede estar vacío");
         ui->etPasswd->setFocus();
     }
     //
@@ -109,7 +108,7 @@ void Login::on_btnLogin_clicked(){
             entrar();
         }
         else{
-            QMessageBox::information(this, nombrePrograma, "Contraseña incorrecta...");
+            QMessageBox::information(this, NOMBRE_PROGRAMA, "Contraseña incorrecta...");
             ui->etPasswd->setFocus();
             ui->etPasswd->selectAll();
         }

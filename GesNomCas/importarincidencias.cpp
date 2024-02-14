@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QFileDialog>
 
+extern QString NOMBRE_PROGRAMA;
+
 importarincidencias::importarincidencias(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::importarincidencias){
@@ -20,48 +22,58 @@ importarincidencias::~importarincidencias(){
 }
 
 void importarincidencias::initUi(){
-    QString rutaArchivoOrigen = "";
-    QString rutaDescargas;
+    QString strOrigen = "";
+    QString strDescargas;
 
-    rutaDescargas       = QDir::homePath() + "/Descargas";
-    rutaArchivoOrigen   = QFileDialog::getOpenFileName(this, nombrePrograma, rutaDescargas);
+    strDescargas       = QDir::homePath() + "/Descargas";
+    strOrigen   = QFileDialog::getOpenFileName(this);
+
+    //
+    // Establecemos los estilos
+    //
+    ui->lblNombreArchivo->setStyleSheet("color: blue");
+    ui->lblDesde->setStyleSheet("color: blue");
+    ui->lblHasta->setStyleSheet("color: blue");
+    ui->lblTipoArchivo->setStyleSheet("color: blue");
 
     //
     // Mostramos la ruta del archivo
     //
-    ui->lblNombreArchivo->setText(rutaArchivoOrigen);
-    ui->lblNombreArchivo->setToolTip(rutaArchivoOrigen);
+    ui->lblNombreArchivo->setText(strOrigen);
+    ui->lblNombreArchivo->setToolTip(strOrigen);
 
     //
     // Miramos si es un formato valido
     //
-    if(FuncAux().esFormatoIncidencias(rutaArchivoOrigen)){
+    if(FuncAux().esFormatoIncidencias(strOrigen)){
         ui->lblTipoArchivo->setText("Archivo de datos de Incidencias (Android)");
-        ui->lblDesde->setText(FuncAux().primerRegistroIncidencias(rutaArchivoOrigen));
-        ui->lblHasta->setText(FuncAux().ultimoRegistroIncidencias(rutaArchivoOrigen));
+        ui->lblDesde->setText(FuncAux().primerRegistroIncidencias(strOrigen));
+        ui->lblHasta->setText(FuncAux().ultimoRegistroIncidencias(strOrigen));
         ui->btnImportar->setEnabled(true);
     }
     else{
-        ui->lblTipoArchivo->setText("Archivo de datos no reconocido...");
-        ui->btnImportar->setEnabled(false);
+        if(ui->lblNombreArchivo->text() != ""){
+            ui->lblTipoArchivo->setText("Archivo de datos no reconocido...");
+            ui->btnImportar->setEnabled(false);
+        }
     }
 }
 
 void importarincidencias::on_btnImportar_clicked(){
-    QString rutaOrigen  = ui->lblNombreArchivo->text();
-    QString rutaDestino = qApp->applicationDirPath() + "/Data/Incidencias.db";
-    QString rutaOld     = qApp->applicationDirPath() + "/Data/Incidencias.old";
+    QString strOrigen  = ui->lblNombreArchivo->text();
+    QString strDestino = qApp->applicationDirPath() + "/Data/Incidencias.db";
+    QString strOld     = qApp->applicationDirPath() + "/Data/Incidencias.old";
     QFile   fileDestino;
     QFile   fileOld;
 
-    fileDestino.setFileName(rutaDestino);
-    fileOld.setFileName(rutaDestino);
+    fileDestino.setFileName(strDestino);
+    fileOld.setFileName(strDestino);
 
     if(fileDestino.exists()){
-        fileOld.rename(rutaOld);
+        fileOld.rename(strOld);
     }
 
-    QFile::copy(rutaOrigen, rutaDestino);
+    QFile::copy(strOrigen, strDestino);
 
     this->close();
 }

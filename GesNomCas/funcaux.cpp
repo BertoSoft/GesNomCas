@@ -35,6 +35,10 @@ FuncAux::FuncAux() {
 
 FuncAux::~FuncAux(){}
 
+QString FuncAux::getAppName(){
+    return "GesNomCas V 1.0";
+}
+
 QString FuncAux::cifrar(QString strTextoPlano){
     QString                     strTextoCod;
     byte                        key[AES::DEFAULT_KEYLENGTH] = KEY;
@@ -171,8 +175,9 @@ bool FuncAux::crearDb(){
 }
 
 bool FuncAux::existeUsuario(){
-    bool    retorno = false;
-    bool    todoOk = false;
+    bool    retorno     = false;
+    bool    todoOk      = false;
+    QString usuarioCod  = "";
 
     //
     // Creo la conexion con la BD
@@ -199,7 +204,10 @@ bool FuncAux::existeUsuario(){
     sql.exec(strSql);
     sql.first();
     if(sql.isValid()){
-        retorno = true;
+        usuarioCod = sql.record().value("Usuario").toString();
+        if(usuarioCod != ""){
+            retorno = true;
+        }
     }
     else{
         retorno = false;
@@ -470,13 +478,16 @@ bool FuncAux::esFormatoDatos(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM Usuario";
+        sql.exec(strSql);
+        sql.first();
+
+        usuarioCod  = sql.record().value("Usuario").toString();
     }
 
-    strSql = "SELECT *FROM Usuario";
-    sql.exec(strSql);
-    sql.first();
-    usuarioCod  = sql.record().value("Usuario").toString();
-
+    //
+    // Desciframos un registro, si no da error es que es correcto el formato del archivo
+    //
     if(usuarioCod != ""){
         try {
             esFormatoDatos = true;
@@ -518,12 +529,11 @@ QString FuncAux::primerRegistroDatos(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM RegistroSesiones";
+        sql.exec(strSql);
+        sql.first();
     }
 
-    strSql = "SELECT *FROM RegistroSesiones";
-    sql.exec(strSql);
-
-    sql.first();
     if(sql.isValid()) fechaPrimerRegistroCod = sql.record().value("FechaInicio").toString();
     if(fechaPrimerRegistroCod != "")fechaPrimerRegistro = desCifrar(fechaPrimerRegistroCod);
 
@@ -558,13 +568,13 @@ QString FuncAux::ultimoRegistroDatos(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM RegistroSesiones";
+        sql.exec(strSql);
+
+        sql.last();
     }
 
-    strSql = "SELECT *FROM RegistroSesiones";
-    sql.exec(strSql);
-
-    sql.last();
-    if(sql.isValid()) fechaUltimoRegistroCod = sql.record().value("FechaCierre").toString();
+    if(sql.isValid()) fechaUltimoRegistroCod = sql.record().value("FechaInicio").toString();
     if(fechaUltimoRegistroCod != "") fechaUltimoRegistro = desCifrar(fechaUltimoRegistroCod);
 
     //
@@ -580,7 +590,6 @@ QString FuncAux::ultimoRegistroDatos(QString rutaArchivo){
 bool FuncAux::esFormatoIncidencias(QString rutaArchivo){
     bool    esFormatoIncidencias    = false;
     bool    todoOk                  = false;
-    QString fecha                   = "";
     QDate   date;
     struct  Incidencias datosIncidencias;
 
@@ -600,11 +609,12 @@ bool FuncAux::esFormatoIncidencias(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM Incidencias";
+        sql.exec(strSql);
+        sql.first();
     }
 
-    strSql = "SELECT *FROM Incidencias";
-    sql.exec(strSql);
-    sql.first();
+
     while (sql.isValid()) {
         datosIncidencias.fecha = sql.record().value("Fecha").toString();
         datosIncidencias.hed = sql.record().value("Hed").toString();
@@ -656,27 +666,17 @@ QString FuncAux::primerRegistroIncidencias(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM Incidencias";
+        sql.exec(strSql);
+        sql.first();
     }
-
-    strSql = "SELECT *FROM Incidencias";
-    sql.exec(strSql);
-    sql.first();
 
     while (sql.isValid()) {
         incidencias.fecha = sql.record().value("Fecha").toString();
-        incidencias.hed = sql.record().value("Hed").toString();
-        incidencias.hen = sql.record().value("Hen").toString();
-        incidencias.hef = sql.record().value("Hef").toString();
-        incidencias.voladuras = sql.record().value("Voladuras").toString();
-
         date = fechaCortaToDate(incidencias.fecha);
-        if(date.isValid()){
-            if(incidencias.hed != "" || incidencias.hen != "" || incidencias.hef != "" || incidencias.voladuras != ""){
-                if(date < dateMenor){
-                    dateMenor = date;
-                    fechaPrimerRegistro = incidencias.fecha;
-                }
-            }
+        if(date.isValid() && date < dateMenor){
+            dateMenor = date;
+            fechaPrimerRegistro = incidencias.fecha;
         }
         sql.next();
     }
@@ -689,7 +689,6 @@ QString FuncAux::primerRegistroIncidencias(QString rutaArchivo){
     dbSql.removeDatabase("con_primer_registro_incidencias");
 
     return fechaPrimerRegistro;
-
 }
 
 QString FuncAux::ultimoRegistroIncidencias(QString rutaArchivo){
@@ -715,26 +714,17 @@ QString FuncAux::ultimoRegistroIncidencias(QString rutaArchivo){
     todoOk = dbSql.open();
     if(todoOk){
         sql = QSqlQuery(dbSql);
+        strSql = "SELECT *FROM Incidencias";
+        sql.exec(strSql);
+        sql.first();
     }
 
-    strSql = "SELECT *FROM Incidencias";
-    sql.exec(strSql);
-    sql.first();
     while (sql.isValid()) {
         incidencias.fecha = sql.record().value("Fecha").toString();
-        incidencias.hed = sql.record().value("Hed").toString();
-        incidencias.hen = sql.record().value("Hen").toString();
-        incidencias.hef = sql.record().value("Hef").toString();
-        incidencias.voladuras = sql.record().value("Voladuras").toString();
-
         date = fechaCortaToDate(incidencias.fecha);
-        if(date.isValid()){
-            if(incidencias.hed != "" || incidencias.hen != "" || incidencias.hef != "" || incidencias.voladuras != ""){
-                if(date > dateMayor){
-                    dateMayor = date ;
-                    fechaUltimoRegistro = incidencias.fecha;
-                }
-            }
+        if(date.isValid() && date > dateMayor){
+            dateMayor = date ;
+            fechaUltimoRegistro = incidencias.fecha;
         }
         sql.next();
     }

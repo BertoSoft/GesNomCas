@@ -20,6 +20,9 @@
 #include <QTime>
 #include <QLocale>
 #include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -119,6 +122,11 @@ void MainWindow::initUi(){
     //
     initBarraEstado();
 
+    //
+    // Comprobando los actions enableds
+    //
+    compruebaActions();
+
 }
 
 void MainWindow::initReloj(){
@@ -153,8 +161,20 @@ void MainWindow::initBarraEstado(){
     ui->statusbar->addWidget(lblFecha, 3);
     ui->statusbar->addWidget(lblHora, 1);
 
-    lblTexto->setText(nombrePrograma);
+    lblTexto->setText(FuncAux().getAppName());
     refrescaReloj();
+
+}
+
+void MainWindow::compruebaActions(){
+    QFile fileIncidencias = QFile(qApp->applicationDirPath() + "/Data/Incidencias.db");
+
+    if(fileIncidencias.exists()){
+        ui->actionExportar_Archivo_de_Incidencias->setEnabled(true);
+    }
+    else{
+        ui->actionExportar_Archivo_de_Incidencias->setEnabled(false);
+    }
 
 }
 
@@ -175,8 +195,6 @@ void MainWindow::toLogin(){
 
     pLogin->setWindowModality(Qt::ApplicationModal);
     pLogin->setWindowFlag(Qt::FramelessWindowHint);
-    pLogin->setWindowTitle(nombrePrograma);
-    pLogin->nombrePrograma = nombrePrograma;
     pLogin->exec();
 
     delete pLogin;
@@ -187,8 +205,6 @@ void MainWindow::toRegistro(){
 
     pRegistro->setWindowModality(Qt::ApplicationModal);
     pRegistro->setWindowFlag(Qt::FramelessWindowHint);
-    pRegistro->setWindowTitle(nombrePrograma);
-    pRegistro->nombrePrograma = nombrePrograma;
     pRegistro->exec();
 
     delete pRegistro;
@@ -285,8 +301,6 @@ void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
 
     pImportarDatos->setWindowModality(Qt::ApplicationModal);
     pImportarDatos->setWindowFlag(Qt::FramelessWindowHint);
-    pImportarDatos->setWindowTitle(nombrePrograma);
-    pImportarDatos->nombrePrograma = nombrePrograma;
     pImportarDatos->exec();
 
     delete pImportarDatos;
@@ -298,10 +312,83 @@ void MainWindow::on_actionImportar_Archivo_de_Incidencias_triggered(){
 
     pImportarIncidencias->setWindowModality(Qt::ApplicationModal);
     pImportarIncidencias->setWindowFlag(Qt::FramelessWindowHint);
-    pImportarIncidencias->setWindowTitle(nombrePrograma);
-    pImportarIncidencias->nombrePrograma = nombrePrograma;
     pImportarIncidencias->exec();
 
     delete pImportarIncidencias;
+
+    //
+    // Debemos comprobar si ya existe un archivo incidencias
+    //
+    compruebaActions();
+}
+
+void MainWindow::on_actionExportar_Archivo_de_Datos_triggered(){
+    QString                     strOrigen  = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    QString                     strDestino;
+    QFile                       fileOrigen;
+    QFile                       fileDestino;
+
+
+    strDestino = QFileDialog::getSaveFileName(this, FuncAux().getAppName(), qApp->applicationDirPath());
+
+    //
+    // Si el nombre de la ruta destino no es vacia
+    //
+    if(strDestino != ""){
+        fileOrigen.setFileName(strOrigen);
+        fileDestino.setFileName(strDestino);
+        //
+        // Si el archivo destino ya existe , preguntamos
+        //
+        if(fileDestino.exists()){
+            QFile::remove(strDestino);
+            if(!QFile::copy(strOrigen, strDestino)){
+                QMessageBox::information(this, FuncAux().getAppName(), "Ha ocurrido un error en la copia de datos...");
+            }
+        }
+        //
+        // Hacemos la copia y notificamos
+        //
+        else{
+            if(QFile::copy(strOrigen, strDestino)){
+                QMessageBox::information(this, FuncAux().getAppName(), "Copia de datos guardada con exito");
+            }
+        }
+    }
+}
+
+void MainWindow::on_actionExportar_Archivo_de_Incidencias_triggered(){
+    QString                     strOrigen  = qApp->applicationDirPath() + "/Data/Incidencias.db";
+    QString                     strDestino;
+    QFile                       fileOrigen;
+    QFile                       fileDestino;
+
+
+    strDestino = QFileDialog::getSaveFileName(this, FuncAux().getAppName(), qApp->applicationDirPath());
+
+    //
+    // Si el nombre de la ruta destino no es vacia
+    //
+    if(strDestino != ""){
+        fileOrigen.setFileName(strOrigen);
+        fileDestino.setFileName(strDestino);
+        //
+        // Si el archivo destino ya existe , preguntamos
+        //
+        if(fileDestino.exists()){
+            QFile::remove(strDestino);
+            if(!QFile::copy(strOrigen, strDestino)){
+                QMessageBox::information(this, FuncAux().getAppName(), "Ha ocurrido un error en la copia de datos...");
+            }
+        }
+        //
+        // Hacemos la copia y notificamos
+        //
+        else{
+            if(QFile::copy(strOrigen, strDestino)){
+                QMessageBox::information(this, FuncAux().getAppName(), "Copia de datos guardada con exito");
+            }
+        }
+    }
 }
 
