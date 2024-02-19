@@ -9,5 +9,8 @@
         <file>importardatos.png</file>
         <file>exportarincidencias.png</file>
         <file>exportardatos.png</file>
+        <file>user.png</file>
+        <file>atras.png</file>
+        <file>save.jpeg</file>
     </qresource>
 </RCC>

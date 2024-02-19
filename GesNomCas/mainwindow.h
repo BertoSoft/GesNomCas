@@ -61,6 +61,8 @@ private slots:
 
     void on_actionExportar_Archivo_de_Incidencias_triggered();
 
+    void on_actionDatos_Personales_triggered();
+
 private:
 
     Ui::MainWindow *ui;

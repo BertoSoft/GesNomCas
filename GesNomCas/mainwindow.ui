@@ -38,11 +38,24 @@
    </widget>
    <widget class="QMenu" name="menuEdicci_n">
     <property name="title">
-     <string>Edicción</string>
+     <string>Empresa</string>
+    </property>
+    <addaction name="actionDatos_Personales"/>
+   </widget>
+   <widget class="QMenu" name="menuCoche">
+    <property name="title">
+     <string>Coche</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuCasa">
+    <property name="title">
+     <string>Casa</string>
     </property>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuEdicci_n"/>
+   <addaction name="menuCoche"/>
+   <addaction name="menuCasa"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -64,6 +77,9 @@
    <addaction name="actionExportar_Archivo_de_Datos"/>
    <addaction name="actionExportar_Archivo_de_Incidencias"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="actionDatos_Personales"/>
   </widget>
   <action name="actionSalir">
    <property name="icon">
@@ -108,6 +124,15 @@
    </property>
    <property name="text">
     <string>Exportar Archivo de Incidencias</string>
+   </property>
+  </action>
+  <action name="actionDatos_Personales">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/user.png</normaloff>:/user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Datos Personales</string>
    </property>
   </action>
  </widget>

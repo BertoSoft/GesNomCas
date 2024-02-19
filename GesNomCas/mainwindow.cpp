@@ -6,6 +6,7 @@
 #include "registro.h"
 #include "importardatos.h"
 #include "importarincidencias.h"
+#include "datospersonales.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -297,6 +298,9 @@ void MainWindow::on_actionSalir_triggered(){
 }
 
 void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
+
+    lblTexto->setText("Importando una copia de los datos del programa...");
+
     importarDatos *pImportarDatos = new importarDatos(this);
 
     pImportarDatos->setWindowModality(Qt::ApplicationModal);
@@ -308,6 +312,9 @@ void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
 }
 
 void MainWindow::on_actionImportar_Archivo_de_Incidencias_triggered(){
+
+    lblTexto->setText("Importando una copia de los datos de incidencias...");
+
     importarincidencias *pImportarIncidencias = new importarincidencias(this);
 
     pImportarIncidencias->setWindowModality(Qt::ApplicationModal);
@@ -328,6 +335,7 @@ void MainWindow::on_actionExportar_Archivo_de_Datos_triggered(){
     QFile                       fileOrigen;
     QFile                       fileDestino;
 
+    lblTexto->setText("Exportando una copia de los datos del programa...");
 
     strDestino = QFileDialog::getSaveFileName(this, FuncAux().getAppName(), qApp->applicationDirPath());
 
@@ -363,6 +371,7 @@ void MainWindow::on_actionExportar_Archivo_de_Incidencias_triggered(){
     QFile                       fileOrigen;
     QFile                       fileDestino;
 
+    lblTexto->setText("Exportando una copia de los datos de incidencias...");
 
     strDestino = QFileDialog::getSaveFileName(this, FuncAux().getAppName(), qApp->applicationDirPath());
 
@@ -390,5 +399,18 @@ void MainWindow::on_actionExportar_Archivo_de_Incidencias_triggered(){
             }
         }
     }
+}
+
+void MainWindow::on_actionDatos_Personales_triggered(){
+
+    lblTexto->setText("Editando los datos personales...");
+
+    DatosPersonales *pDatosPersonales = new DatosPersonales(this);
+
+    pDatosPersonales->setWindowModality(Qt::ApplicationModal);
+    pDatosPersonales->setWindowFlag(Qt::FramelessWindowHint);
+    pDatosPersonales->exec();
+
+    delete pDatosPersonales;
 }
 

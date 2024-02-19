@@ -162,6 +162,15 @@ bool FuncAux::crearDb(){
                   "                                                                          Passwd TEXT);";
         sql.exec(strSql);
 
+        strSql = "CREATE TABLE if not exists DatosPersonales(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Nombre TEXT, "
+                 "                                                                                 Apellidos TEXT,"
+                 "                                                                                 Direccion TEXT,"
+                 "                                                                                 CodigoPostal TEXT,"
+                 "                                                                                 Poblacion TEXT,"
+                 "                                                                                 Provincia TEXT,"
+                 "                                                                                 Pais TEXT);";
+        sql.exec(strSql);
+
     }
 
     //
