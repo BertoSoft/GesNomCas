@@ -12,5 +12,8 @@
         <file>user.png</file>
         <file>atras.png</file>
         <file>save.jpeg</file>
+        <file>compania.png</file>
+        <file>empleado.jpeg</file>
+        <file>euro.png</file>
     </qresource>
 </RCC>

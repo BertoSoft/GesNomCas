@@ -16,6 +16,9 @@ public:
     ~DatosPersonales();
 
     void initUi();
+    void rellenaCampos();
+    void salir();
+    void guardar();
 
 private slots:
     void on_btnCancelar_clicked();

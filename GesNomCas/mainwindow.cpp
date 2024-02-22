@@ -7,6 +7,9 @@
 #include "importardatos.h"
 #include "importarincidencias.h"
 #include "datospersonales.h"
+#include "datosempresa.h"
+#include "datosempleado.h"
+#include "registroretribuciones.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -412,5 +415,44 @@ void MainWindow::on_actionDatos_Personales_triggered(){
     pDatosPersonales->exec();
 
     delete pDatosPersonales;
+}
+
+void MainWindow::on_actionDatos_Centro_Trabajo_triggered(){
+
+    lblTexto->setText("Editando los datos de la Empresa...");
+
+    DatosEmpresa *pDatosEmpresa = new DatosEmpresa(this);
+
+    pDatosEmpresa->setWindowModality(Qt::ApplicationModal);
+    pDatosEmpresa->setWindowFlag(Qt::FramelessWindowHint);
+    pDatosEmpresa->exec();
+
+    delete pDatosEmpresa;
+}
+
+void MainWindow::on_actionDatos_Empleado_triggered(){
+
+    lblTexto->setText("Editando los datos del Empleado...");
+
+    DatosEmpleado *pDatosEmpleado = new DatosEmpleado(this);
+
+    pDatosEmpleado->setWindowModality(Qt::ApplicationModal);
+    pDatosEmpleado->setWindowFlag(Qt::FramelessWindowHint);
+    pDatosEmpleado->exec();
+
+    delete pDatosEmpleado;
+}
+
+void MainWindow::on_actionRegistro_Retribuciones_triggered(){
+
+    lblTexto->setText("Editando el registro de retribuciones...");
+
+    RegistroRetribuciones *pRegistroRetribuciones = new RegistroRetribuciones(this);
+
+    pRegistroRetribuciones->setWindowModality(Qt::ApplicationModal);
+    pRegistroRetribuciones->setWindowFlag(Qt::FramelessWindowHint);
+    pRegistroRetribuciones->exec();
+
+    delete pRegistroRetribuciones;
 }
 

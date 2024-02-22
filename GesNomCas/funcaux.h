@@ -36,6 +36,7 @@ public:
     // Funciones Publicas
     //
     QString getAppName();
+    QString getRutaDb();
     QString cifrar(QString strTextoPlano);
     QString desCifrar(QString strTextoCod);
     bool    crearDb();

@@ -9,6 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    datosempleado.cpp \
+    datosempresa.cpp \
     datospersonales.cpp \
     funcaux.cpp \
     importardatos.cpp \
@@ -16,24 +18,31 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
-    registro.cpp
+    registro.cpp \
+    registroretribuciones.cpp
 
 HEADERS += \
+    datosempleado.h \
+    datosempresa.h \
     datospersonales.h \
     funcaux.h \
     importardatos.h \
     importarincidencias.h \
     login.h \
     mainwindow.h \
-    registro.h
+    registro.h \
+    registroretribuciones.h
 
 FORMS += \
+    datosempleado.ui \
+    datosempresa.ui \
     datospersonales.ui \
     importardatos.ui \
     importarincidencias.ui \
     login.ui \
     mainwindow.ui \
-    registro.ui
+    registro.ui \
+    registroretribuciones.ui
 
 #
 # Añadido por mi para usar sqlite3

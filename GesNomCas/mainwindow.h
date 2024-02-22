@@ -63,6 +63,12 @@ private slots:
 
     void on_actionDatos_Personales_triggered();
 
+    void on_actionDatos_Centro_Trabajo_triggered();
+
+    void on_actionDatos_Empleado_triggered();
+
+    void on_actionRegistro_Retribuciones_triggered();
+
 private:
 
     Ui::MainWindow *ui;

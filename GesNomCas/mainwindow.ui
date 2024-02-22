@@ -41,6 +41,9 @@
      <string>Empresa</string>
     </property>
     <addaction name="actionDatos_Personales"/>
+    <addaction name="actionDatos_Centro_Trabajo"/>
+    <addaction name="actionDatos_Empleado"/>
+    <addaction name="actionRegistro_Retribuciones"/>
    </widget>
    <widget class="QMenu" name="menuCoche">
     <property name="title">
@@ -80,6 +83,12 @@
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionDatos_Personales"/>
+   <addaction name="actionDatos_Centro_Trabajo"/>
+   <addaction name="actionDatos_Empleado"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="actionRegistro_Retribuciones"/>
   </widget>
   <action name="actionSalir">
    <property name="icon">
@@ -133,6 +142,33 @@
    </property>
    <property name="text">
     <string>Datos Personales</string>
+   </property>
+  </action>
+  <action name="actionDatos_Centro_Trabajo">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/compania.png</normaloff>:/compania.png</iconset>
+   </property>
+   <property name="text">
+    <string>Datos Centro Trabajo</string>
+   </property>
+  </action>
+  <action name="actionDatos_Empleado">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/empleado.jpeg</normaloff>:/empleado.jpeg</iconset>
+   </property>
+   <property name="text">
+    <string>Datos Empleado</string>
+   </property>
+  </action>
+  <action name="actionRegistro_Retribuciones">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/euro.png</normaloff>:/euro.png</iconset>
+   </property>
+   <property name="text">
+    <string>Registro Retribuciones</string>
    </property>
   </action>
  </widget>

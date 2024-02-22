@@ -36,7 +36,13 @@ FuncAux::FuncAux() {
 FuncAux::~FuncAux(){}
 
 QString FuncAux::getAppName(){
+
     return "GesNomCas V 1.0";
+}
+
+QString FuncAux::getRutaDb(){
+
+    return rutaDbGesNomCas;
 }
 
 QString FuncAux::cifrar(QString strTextoPlano){
@@ -159,7 +165,7 @@ bool FuncAux::crearDb(){
         sql.exec(strSql);
 
         strSql = "CREATE TABLE if not exists Usuario(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Usuario TEXT, "
-                  "                                                                          Passwd TEXT);";
+                  "                                                                        Passwd TEXT);";
         sql.exec(strSql);
 
         strSql = "CREATE TABLE if not exists DatosPersonales(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Nombre TEXT, "
@@ -171,6 +177,26 @@ bool FuncAux::crearDb(){
                  "                                                                                 Pais TEXT);";
         sql.exec(strSql);
 
+        strSql = "CREATE TABLE if not exists DatosEmpresa(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Empresa TEXT, "
+                 "                                                                              Domicilio TEXT,"
+                 "                                                                              NumeroPatronal TEXT,"
+                 "                                                                              CentroTrabajo TEXT,"
+                 "                                                                              Cif TEXT,"
+                 "                                                                              Actividad TEXT,"
+                 "                                                                              Convenio TEXT);";
+        sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists DatosEmpleado(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Empleado TEXT, "
+                 "                                                                               Categoria TEXT,"
+                 "                                                                               Ingreso TEXT,"
+                 "                                                                               Nif TEXT,"
+                 "                                                                               Puesto TEXT,"
+                 "                                                                               NumeroAfiliacion TEXT,"
+                 "                                                                               GrupoCotizacion TEXT,"
+                 "                                                                               CodigoOcupacion TEXT,"
+                 "                                                                               Contrato TEXT,"
+                 "                                                                               FinContrato TEXT);";
+        sql.exec(strSql);
     }
 
     //
