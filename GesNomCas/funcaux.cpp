@@ -197,6 +197,12 @@ bool FuncAux::crearDb(){
                  "                                                                               Contrato TEXT,"
                  "                                                                               FinContrato TEXT);";
         sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists Retribuciones(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Codigo TEXT, "
+                 "                                                                               Clave TEXT,"
+                 "                                                                               Denominacion TEXT,"
+                 "                                                                               Cuantia TEXT);";
+        sql.exec(strSql);
     }
 
     //

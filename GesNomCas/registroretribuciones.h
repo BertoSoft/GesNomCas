@@ -2,6 +2,7 @@
 #define REGISTRORETRIBUCIONES_H
 
 #include <QDialog>
+#include <QListWidgetItem>
 
 namespace Ui {
 class RegistroRetribuciones;
@@ -19,11 +20,13 @@ public:
     void salir();
     void guardar();
     void initChks();
+    void rellenaListado();
     void controlesClean();
     void controlesOn();
     void controlesOff();
 
 private slots:
+
     void on_btnCancelar_clicked();
 
     void on_cmbClave_activated(int index);
@@ -42,7 +45,13 @@ private slots:
 
     void on_txtCodigo_textChanged(const QString &arg1);
 
-    void on_txtCodigo_cursorPositionChanged(int arg1, int arg2);
+    void on_txtCuantia_textChanged(const QString &arg1);
+
+    void on_txtDenominacion_textChanged(const QString &arg1);
+
+    void on_listRetribuciones_itemClicked(QListWidgetItem *item);
+
+    void on_listRetribuciones_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::RegistroRetribuciones *ui;

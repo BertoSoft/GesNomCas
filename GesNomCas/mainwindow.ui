@@ -85,9 +85,6 @@
    <addaction name="actionDatos_Personales"/>
    <addaction name="actionDatos_Centro_Trabajo"/>
    <addaction name="actionDatos_Empleado"/>
-   <addaction name="separator"/>
-   <addaction name="separator"/>
-   <addaction name="separator"/>
    <addaction name="actionRegistro_Retribuciones"/>
   </widget>
   <action name="actionSalir">
@@ -168,7 +165,7 @@
      <normaloff>:/euro.png</normaloff>:/euro.png</iconset>
    </property>
    <property name="text">
-    <string>Registro Retribuciones</string>
+    <string>Datos Nómina</string>
    </property>
   </action>
  </widget>
