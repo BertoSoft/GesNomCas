@@ -10,6 +10,7 @@
 #include "datosempresa.h"
 #include "datosempleado.h"
 #include "registroretribuciones.h"
+#include "registrodiasfestivos.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -443,9 +444,9 @@ void MainWindow::on_actionDatos_Empleado_triggered(){
     delete pDatosEmpleado;
 }
 
-void MainWindow::on_actionRegistro_Retribuciones_triggered(){
+void MainWindow::on_actionRegistro_Unidades_N_mina_triggered(){
 
-    lblTexto->setText("Editando el registro de retribuciones...");
+    lblTexto->setText("Editando el registro de Unidades de Nómina...");
 
     RegistroRetribuciones *pRegistroRetribuciones = new RegistroRetribuciones(this);
 
@@ -454,5 +455,18 @@ void MainWindow::on_actionRegistro_Retribuciones_triggered(){
     pRegistroRetribuciones->exec();
 
     delete pRegistroRetribuciones;
+}
+
+void MainWindow::on_actionRegistro_D_as_Festivos_triggered(){
+
+    lblTexto->setText("Editando el registro de Días Festivos...");
+
+    RegistroDiasFestivos *pRegistroDiasFestivos = new RegistroDiasFestivos(this);
+
+    pRegistroDiasFestivos->setWindowModality(Qt::ApplicationModal);
+    pRegistroDiasFestivos->setWindowFlag(Qt::FramelessWindowHint);
+    pRegistroDiasFestivos->exec();
+
+    delete pRegistroDiasFestivos;
 }
 

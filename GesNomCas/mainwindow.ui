@@ -43,7 +43,8 @@
     <addaction name="actionDatos_Personales"/>
     <addaction name="actionDatos_Centro_Trabajo"/>
     <addaction name="actionDatos_Empleado"/>
-    <addaction name="actionRegistro_Retribuciones"/>
+    <addaction name="actionRegistro_Unidades_N_mina"/>
+    <addaction name="actionRegistro_D_as_Festivos"/>
    </widget>
    <widget class="QMenu" name="menuCoche">
     <property name="title">
@@ -85,7 +86,8 @@
    <addaction name="actionDatos_Personales"/>
    <addaction name="actionDatos_Centro_Trabajo"/>
    <addaction name="actionDatos_Empleado"/>
-   <addaction name="actionRegistro_Retribuciones"/>
+   <addaction name="actionRegistro_Unidades_N_mina"/>
+   <addaction name="actionRegistro_D_as_Festivos"/>
   </widget>
   <action name="actionSalir">
    <property name="icon">
@@ -159,13 +161,22 @@
     <string>Datos Empleado</string>
    </property>
   </action>
-  <action name="actionRegistro_Retribuciones">
+  <action name="actionRegistro_Unidades_N_mina">
    <property name="icon">
     <iconset resource="imagenes/imagenes.qrc">
      <normaloff>:/euro.png</normaloff>:/euro.png</iconset>
    </property>
    <property name="text">
-    <string>Datos Nómina</string>
+    <string>Registro Unidades Nómina</string>
+   </property>
+  </action>
+  <action name="actionRegistro_D_as_Festivos">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/festivo.png</normaloff>:/festivo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Registro Días Festivos</string>
    </property>
   </action>
  </widget>

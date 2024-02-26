@@ -19,6 +19,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     registro.cpp \
+    registrodiasfestivos.cpp \
     registroretribuciones.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     login.h \
     mainwindow.h \
     registro.h \
+    registrodiasfestivos.h \
     registroretribuciones.h
 
 FORMS += \
@@ -42,6 +44,7 @@ FORMS += \
     login.ui \
     mainwindow.ui \
     registro.ui \
+    registrodiasfestivos.ui \
     registroretribuciones.ui
 
 #

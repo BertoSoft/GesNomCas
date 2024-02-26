@@ -67,7 +67,9 @@ private slots:
 
     void on_actionDatos_Empleado_triggered();
 
-    void on_actionRegistro_Retribuciones_triggered();
+    void on_actionRegistro_Unidades_N_mina_triggered();
+
+    void on_actionRegistro_D_as_Festivos_triggered();
 
 private:
 

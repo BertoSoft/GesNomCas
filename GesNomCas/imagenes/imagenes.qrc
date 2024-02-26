@@ -15,5 +15,6 @@
         <file>compania.png</file>
         <file>empleado.jpeg</file>
         <file>euro.png</file>
+        <file>festivo.png</file>
     </qresource>
 </RCC>
