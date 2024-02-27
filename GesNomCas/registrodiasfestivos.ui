@@ -53,16 +53,6 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QListWidget" name="listFestivos">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>40</y>
-     <width>301</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
@@ -190,9 +180,9 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="lblSabados">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -200,9 +190,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="lblDomingos">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -210,9 +200,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_13">
+        <widget class="QLabel" name="lblNacionales">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -220,9 +210,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_14">
+        <widget class="QLabel" name="lblAutonomicos">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -230,9 +220,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_15">
+        <widget class="QLabel" name="lblLocales">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -240,9 +230,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_16">
+        <widget class="QLabel" name="lblConvenio">
          <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -286,7 +276,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <widget class="QLabel" name="label_17">
+      <widget class="QLabel" name="lblHorasAnuales">
        <property name="text">
         <string>(366 -52 -52 -8 -2 -2 -1) x 8 Horas = 1992 Horas </string>
        </property>
@@ -296,7 +286,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_18">
+      <widget class="QLabel" name="lblHorasVacaciones">
        <property name="text">
         <string>Vacaciones ( 22 Días x 8 Horas ) = 176 Horas</string>
        </property>
@@ -306,7 +296,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_19">
+      <widget class="QLabel" name="lblHorasReales">
        <property name="text">
         <string>1992 Horas  - 176 Horas  = 1816 Horas</string>
        </property>
@@ -316,7 +306,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_20">
+      <widget class="QLabel" name="lblHorasDiferencia">
        <property name="text">
         <string>1816 Horas - 1752 Horas  = 64 Horas</string>
        </property>
@@ -326,7 +316,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_21">
+      <widget class="QLabel" name="lblDiasExceso">
        <property name="text">
         <string>(64 Horas / 8 Horas) = 8 Días Exceso Jornada</string>
        </property>
@@ -338,7 +328,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_3">
+  <widget class="QFrame" name="frameFestivos">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -346,6 +336,9 @@
      <width>411</width>
      <height>101</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -373,13 +366,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="cmbClave_2">
-         <item>
-          <property name="text">
-           <string>Nacional</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="cmbFestivo"/>
        </item>
       </layout>
      </item>
@@ -412,9 +399,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLineEdit" name="txtCodigo">
+          <widget class="QLineEdit" name="txtFecha">
            <property name="text">
-            <string>21/02/2024</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -432,7 +419,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>31</x>
@@ -450,7 +437,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QComboBox" name="cmbClave"/>
+     <widget class="QComboBox" name="cmbAno"/>
     </item>
     <item>
      <spacer name="horizontalSpacer_2">
@@ -482,6 +469,16 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QListWidget" name="listFestivos">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>40</y>
+     <width>301</width>
+     <height>401</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources>

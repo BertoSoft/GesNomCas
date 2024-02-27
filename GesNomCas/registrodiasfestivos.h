@@ -15,8 +15,15 @@ public:
     explicit RegistroDiasFestivos(QWidget *parent = nullptr);
     ~RegistroDiasFestivos();
 
+    void initUi();
+    void initSp();
+    void mostrarExcesosJornada();
+    void salir();
+
 private slots:
     void on_btnCancelar_clicked();
+
+    void on_cmbAno_activated(int index);
 
 private:
     Ui::RegistroDiasFestivos *ui;

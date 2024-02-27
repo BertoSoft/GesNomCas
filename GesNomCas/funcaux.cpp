@@ -13,6 +13,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QDate>
+#include <QLocale>
 
 
 #include <QCoreApplication>
@@ -202,6 +203,10 @@ bool FuncAux::crearDb(){
                  "                                                                               Clave TEXT,"
                  "                                                                               Denominacion TEXT,"
                  "                                                                               Cuantia TEXT);";
+        sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists Festivos(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Fecha TEXT, "
+                 "                                                                          TipoFestivo TEXT);";
         sql.exec(strSql);
     }
 
@@ -495,6 +500,66 @@ QString FuncAux::getPasswd(){
     dbSql.removeDatabase("con_get_passwd");
 
     return passwd;
+}
+
+QString FuncAux::getSabados(QString strAno){
+    QLocale qLocale;
+    QDate   qdFecha;
+    QString strFecha;
+    int     iAno;
+    int     iSabados = 0;
+
+    qdFecha.setDate(strAno.toInt(), 1, 1);
+    iAno = qdFecha.year();
+    while (qdFecha.year() == iAno) {
+        strFecha = qLocale.toString(qdFecha, "dddd ',' dd 'de' MMMM 'de' yyyy");
+        strFecha.remove(4, strFecha.length() - 4);
+        if(strFecha == "sába"){
+            iSabados++;
+        }
+        qdFecha = qdFecha.addDays(1);
+    }
+
+    return QString::number(iSabados);
+}
+
+QString FuncAux::getDomingos(QString strAno){
+    QLocale qLocale;
+    QDate   qdFecha;
+    QString strFecha;
+    int     iAno;
+    int     iDomingos = 0;
+
+    qdFecha.setDate(strAno.toInt(), 1, 1);
+    iAno = qdFecha.year();
+    while (qdFecha.year() == iAno) {
+        strFecha = qLocale.toString(qdFecha, "dddd ',' dd 'de' MMMM 'de' yyyy");
+        strFecha.remove(4, strFecha.length() - 4);
+        if(strFecha == "domi"){
+            iDomingos++;
+        }
+        qdFecha = qdFecha.addDays(1);
+    }
+
+    return QString::number(iDomingos);
+}
+
+QString FuncAux::getFestivosNacionales(QString strAno){
+    int     iFestivos = 0;
+
+    return QString::number(iFestivos);
+}
+
+QString FuncAux::getFestivosAutonomicos(QString strAno){
+    int     iFestivos = 0;
+
+    return QString::number(iFestivos);
+}
+
+QString FuncAux::getFestivosLocales(QString strAno){
+    int     iFestivos = 0;
+
+    return QString::number(iFestivos);
 }
 
 bool FuncAux::esFormatoDatos(QString rutaArchivo){
@@ -811,4 +876,20 @@ QDate FuncAux::fechaCortaToDate(QString strFecha){
         datFecha.setDate(-1,-1,-1);
     }
     return datFecha;
+}
+
+QString FuncAux::dateToFechaCorta(QDate qdFecha){
+    QString strFecha;
+    QLocale qLocale;
+
+    strFecha = qLocale.toString(qdFecha, "dd/MM/yyyy");
+    return strFecha;
+}
+
+QString FuncAux::dateToFechaLarga(QDate qdFecha){
+    QString strFecha;
+    QLocale qLocale;
+
+    strFecha = qLocale.toString(qdFecha, "dddd ',' dd 'de' MMMM 'de' yyyy");
+    return strFecha;
 }

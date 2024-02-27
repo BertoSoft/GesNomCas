@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QDate>
 
 class FuncAux
 {
@@ -52,6 +53,13 @@ public:
     QString ultimoRegistroIncidencias(QString);
     QString getUser();
     QString getPasswd();
+    QString getSabados(QString);
+    QString getDomingos(QString);
+    QString getFestivosNacionales(QString);
+    QString getFestivosLocales(QString);
+    QString getFestivosAutonomicos(QString);
+    QString dateToFechaCorta(QDate);
+    QString dateToFechaLarga(QDate);
     QDate   fechaCortaToDate(QString);
 
 
