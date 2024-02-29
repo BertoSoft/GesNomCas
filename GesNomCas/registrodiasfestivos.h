@@ -18,12 +18,22 @@ public:
     void initUi();
     void initSp();
     void mostrarExcesosJornada();
+    void mostrarListado();
     void salir();
+    void guardar();
 
 private slots:
     void on_btnCancelar_clicked();
 
     void on_cmbAno_activated(int index);
+
+    void on_btnAdd_clicked();
+
+    void on_btnGuardar_clicked();
+
+    void on_txtFecha_returnPressed();
+
+    void on_txtFecha_textChanged(const QString &arg1);
 
 private:
     Ui::RegistroDiasFestivos *ui;

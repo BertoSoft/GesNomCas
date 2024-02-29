@@ -61,6 +61,7 @@ public:
     QString dateToFechaCorta(QDate);
     QString dateToFechaLarga(QDate);
     QDate   fechaCortaToDate(QString);
+    bool    isFormatoFecha(QString strFecha);
 
 
 };

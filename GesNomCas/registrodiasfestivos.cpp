@@ -5,11 +5,12 @@
 
 #include <QDate>
 #include <QLocale>
+#include <QMessageBox>
 
 RegistroDiasFestivos::RegistroDiasFestivos(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::RegistroDiasFestivos)
-{
+    , ui(new Ui::RegistroDiasFestivos){
+
     ui->setupUi(this);
 
     initSp();
@@ -22,9 +23,12 @@ RegistroDiasFestivos::~RegistroDiasFestivos(){
 
 void RegistroDiasFestivos::initUi(){
 
+    ui->txtFecha->setText("");
     ui->frameFestivos->setEnabled(false);
     ui->btnGuardar->setEnabled(false);
+    ui->btnEliminar->setEnabled(false);
     mostrarExcesosJornada();
+    mostrarListado();
 }
 
 void RegistroDiasFestivos::initSp(){
@@ -43,6 +47,7 @@ void RegistroDiasFestivos::initSp(){
         ui->cmbAno->addItem(QString::number(iAno));
         iAno--;
     }
+    ui->cmbAno->setCurrentIndex(1);
 
     //
     // Colocamos los tipos de festivos
@@ -136,9 +141,55 @@ void RegistroDiasFestivos::mostrarExcesosJornada(){
 
 }
 
+void RegistroDiasFestivos::mostrarListado(){
+
+}
+
 void RegistroDiasFestivos::on_btnCancelar_clicked(){
 
     salir();
+}
+
+void RegistroDiasFestivos::on_cmbAno_activated(int index){
+
+    mostrarExcesosJornada();
+    mostrarListado();
+}
+
+void RegistroDiasFestivos::on_btnAdd_clicked(){
+    QDate qdFecha = QDate::currentDate();
+
+    ui->frameFestivos->setEnabled(true);
+    ui->btnGuardar->setEnabled(true);
+    ui->txtFecha->setText(FuncAux().dateToFechaCorta(qdFecha));
+    ui->txtFecha->setFocus();
+    ui->txtFecha->selectAll();
+}
+
+void RegistroDiasFestivos::on_btnGuardar_clicked(){
+    QString str;
+
+    if(ui->txtFecha->text() == ""){
+        QMessageBox::information(this, FuncAux().getAppName(), "El campo de la fecha no puede estar vacío");
+        ui->txtFecha->setFocus();
+    }
+    else if(!FuncAux().isFormatoFecha(ui->txtFecha->text())){
+        str = "Formato de Fecha no reconocido.\n Formato Correcto\n ";
+        str.append(FuncAux().dateToFechaCorta(QDate::currentDate()));
+        QMessageBox::information(this, FuncAux().getAppName(), str);
+        ui->txtFecha->setFocus();
+        ui->txtFecha->selectAll();
+    }
+    else {
+        guardar();
+        initUi();
+    }
+
+}
+
+void RegistroDiasFestivos::on_txtFecha_returnPressed(){
+
+    on_btnGuardar_clicked();
 }
 
 void RegistroDiasFestivos::salir(){
@@ -146,8 +197,11 @@ void RegistroDiasFestivos::salir(){
     this->close();
 }
 
-void RegistroDiasFestivos::on_cmbAno_activated(int index){
+void RegistroDiasFestivos::guardar(){
 
-    mostrarExcesosJornada();
+}
+
+void RegistroDiasFestivos::on_txtFecha_textChanged(const QString &arg1){
+
 }
 

@@ -893,3 +893,43 @@ QString FuncAux::dateToFechaLarga(QDate qdFecha){
     strFecha = qLocale.toString(qdFecha, "dddd ',' dd 'de' MMMM 'de' yyyy");
     return strFecha;
 }
+
+bool FuncAux::isFormatoFecha(QString strFecha){
+    bool        isFecha = false;
+    QString     str;
+    QString     strDia;
+    QString     strMes;
+    QString     strAno;
+    int         iDia;
+    int         iMes;
+    int         iAno;
+    QDate       qdFecha;
+
+    if(strFecha[2] != '/' || strFecha[5] != '/'){
+        return false;
+    }
+    else{
+        str     = strFecha;
+        strDia  = str.remove(2, str.length() - 2);
+        iDia    = strDia.toInt();
+
+        str     = strFecha;
+        str     = str.remove(0, 3);
+        strMes  = str.remove(2, str.length() -2);
+        iMes    = strMes.toInt();
+
+        str     = strFecha;
+        strAno  = str.remove(0, str.length() - 4);
+        iAno    = strAno.toInt();
+
+        //
+        // Establecemos la fecha y vemos si es no null
+        //
+        qdFecha.setDate(iAno, iMes, iDia);
+        if(!qdFecha.isNull()){
+            isFecha = true;
+        }
+    }
+
+    return isFecha;
+}
