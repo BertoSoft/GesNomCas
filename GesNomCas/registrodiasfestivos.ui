@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
+    <width>823</width>
     <height>542</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="btnCancelar">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>420</x>
      <y>500</y>
      <width>171</width>
      <height>31</height>
@@ -36,7 +36,7 @@
   <widget class="QPushButton" name="btnGuardar">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>610</x>
      <y>500</y>
      <width>171</width>
      <height>31</height>
@@ -56,7 +56,7 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>300</x>
      <y>450</y>
      <width>81</width>
      <height>31</height>
@@ -88,7 +88,7 @@
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>390</x>
      <y>40</y>
      <width>411</width>
      <height>151</height>
@@ -247,7 +247,7 @@
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>390</x>
      <y>200</y>
      <width>411</width>
      <height>161</height>
@@ -331,7 +331,7 @@
   <widget class="QFrame" name="frameFestivos">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>390</x>
      <y>380</y>
      <width>411</width>
      <height>101</height>
@@ -424,11 +424,11 @@
     <rect>
      <x>31</x>
      <y>10</y>
-     <width>701</width>
+     <width>771</width>
      <height>27</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2,1,8">
+   <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2,1,7">
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
@@ -470,14 +470,20 @@
     </item>
    </layout>
   </widget>
-  <widget class="QListWidget" name="listFestivos">
+  <widget class="QTableWidget" name="tableFestivos">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>40</y>
-     <width>301</width>
+     <width>351</width>
      <height>401</height>
     </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
    </property>
   </widget>
  </widget>

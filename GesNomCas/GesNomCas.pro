@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    calendario.cpp \
     datosempleado.cpp \
     datosempresa.cpp \
     datospersonales.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     registroretribuciones.cpp
 
 HEADERS += \
+    calendario.h \
     datosempleado.h \
     datosempresa.h \
     datospersonales.h \
@@ -36,6 +38,7 @@ HEADERS += \
     registroretribuciones.h
 
 FORMS += \
+    calendario.ui \
     datosempleado.ui \
     datosempresa.ui \
     datospersonales.ui \
