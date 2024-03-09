@@ -545,19 +545,201 @@ QString FuncAux::getDomingos(QString strAno){
 }
 
 QString FuncAux::getFestivosNacionales(QString strAno){
-    int     iFestivos = 0;
+    QString strFechaDb;
+    QString strAnoDb;
+    QString strTipoFestivo;
+    int     iFestivos   = 0;
+    bool    todoOk      = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_festivos_nacionales");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDb  = desCifrar(sql.record().value("Fecha").toString());
+        strAnoDb    = strFechaDb.remove(0, strFechaDb.length() - 4);
+        if(strAno == strAnoDb){
+            strTipoFestivo = desCifrar(sql.record().value("TipoFestivo").toString());
+            if(strTipoFestivo == "Nacional"){
+                iFestivos ++;
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_festivos_nacionales");
 
     return QString::number(iFestivos);
 }
 
 QString FuncAux::getFestivosAutonomicos(QString strAno){
-    int     iFestivos = 0;
+    QString strFechaDb;
+    QString strAnoDb;
+    QString strTipoFestivo;
+    int     iFestivos   = 0;
+    bool    todoOk      = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_festivos_autonomicos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDb  = desCifrar(sql.record().value("Fecha").toString());
+        strAnoDb    = strFechaDb.remove(0, strFechaDb.length() - 4);
+        if(strAno == strAnoDb){
+            strTipoFestivo = desCifrar(sql.record().value("TipoFestivo").toString());
+            if(strTipoFestivo == "Autonómico"){
+                iFestivos ++;
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_festivos_autonomicos");
 
     return QString::number(iFestivos);
 }
 
 QString FuncAux::getFestivosLocales(QString strAno){
-    int     iFestivos = 0;
+    QString strFechaDb;
+    QString strAnoDb;
+    QString strTipoFestivo;
+    int     iFestivos   = 0;
+    bool    todoOk      = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_festivos_locales");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDb  = desCifrar(sql.record().value("Fecha").toString());
+        strAnoDb    = strFechaDb.remove(0, strFechaDb.length() - 4);
+        if(strAno == strAnoDb){
+            strTipoFestivo = desCifrar(sql.record().value("TipoFestivo").toString());
+            if(strTipoFestivo == "Local"){
+                iFestivos ++;
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_festivos_locales");
+
+    return QString::number(iFestivos);
+}
+
+QString FuncAux::getFestivosConvenio(QString strAno){
+    QString strFechaDb;
+    QString strAnoDb;
+    QString strTipoFestivo;
+    int     iFestivos   = 0;
+    bool    todoOk      = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_festivos_convenio");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDb  = desCifrar(sql.record().value("Fecha").toString());
+        strAnoDb    = strFechaDb.remove(0, strFechaDb.length() - 4);
+        if(strAno == strAnoDb){
+            strTipoFestivo = desCifrar(sql.record().value("TipoFestivo").toString());
+            if(strTipoFestivo == "Convenio"){
+                iFestivos ++;
+            }
+        }
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_festivos_convenio");
 
     return QString::number(iFestivos);
 }

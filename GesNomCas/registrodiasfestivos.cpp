@@ -83,6 +83,7 @@ void RegistroDiasFestivos::initSp(){
     ui->cmbFestivo->addItem("Autonómico");
     ui->cmbFestivo->addItem("Local");
     ui->cmbFestivo->addItem("Convenio");
+    ui->cmbFestivo->addItem("Exceso Jornada");
 
 }
 
@@ -95,6 +96,7 @@ void RegistroDiasFestivos::mostrarExcesosJornada(){
     int     iNacionales;
     int     iAutonomicos;
     int     iLocales;
+    int     iConvenio;
     int     iLaborables;
     int     iHorasLaborables;
     int     iHorasVacaciones = 176;
@@ -109,6 +111,7 @@ void RegistroDiasFestivos::mostrarExcesosJornada(){
     iNacionales         = FuncAux().getFestivosNacionales(ui->cmbAno->currentText()).toInt();
     iAutonomicos        = FuncAux().getFestivosAutonomicos(ui->cmbAno->currentText()).toInt();
     iLocales            = FuncAux().getFestivosLocales(ui->cmbAno->currentText()).toInt();
+    iConvenio           = FuncAux().getFestivosConvenio(ui->cmbAno->currentText()).toInt();
     iLaborables         = iDiasAno - iSabados - iDomingos - iNacionales - iAutonomicos - iLocales - 1;
     iHorasLaborables    = iLaborables * 8;
     iHorasExceso        = iHorasLaborables - iHorasVacaciones - 1752;
@@ -119,7 +122,7 @@ void RegistroDiasFestivos::mostrarExcesosJornada(){
     ui->lblNacionales->setText(QString::number(iNacionales));
     ui->lblAutonomicos->setText(QString::number(iAutonomicos));
     ui->lblLocales->setText(QString::number(iLocales));
-    ui->lblConvenio->setText("1");
+    ui->lblConvenio->setText(QString::number(iConvenio));
 
     //(366 -52 -52 -8 -2 -2 -1) x 8 Horas = 1992 Horas
     str = "(";
@@ -169,15 +172,18 @@ void RegistroDiasFestivos::mostrarExcesosJornada(){
 }
 
 void RegistroDiasFestivos::mostrarListado(){
-    QString         strFechaDb;
-    QString         strTipoFestivo;
-    QString         strAnoDb;
-    QString         strSql;
-    QSqlDatabase    dbSql;
-    QSqlQuery       sql;
-    QColor          color;
-    bool            todoOk;
-    int             iFila = 0;
+    QString                 strFechaDb;
+    QString                 strTipoFestivo;
+    QString                 strAnoDb;
+    QString                 strSql;
+    QSqlDatabase            dbSql;
+    QSqlQuery               sql;
+    QColor                  color;
+    bool                    todoOk;
+    int                     iFila = 0;
+    QList<DatosFestivos>    lista;
+    QList<DatosFestivos>    listaOrdenada;
+    DatosFestivos           dato;
 
     //
     // Si no esta vacio lo vaciamos
@@ -205,7 +211,7 @@ void RegistroDiasFestivos::mostrarListado(){
     }
 
     //
-    // Leo la tabla Retribuciones
+    // Leo la tabla Festivos
     //
     strSql = "SELECT *FROM Festivos";
     sql.exec(strSql);
@@ -218,33 +224,53 @@ void RegistroDiasFestivos::mostrarListado(){
             strTipoFestivo = FuncAux().desCifrar(sql.record().value("TipoFestivo").toString());
 
             //
-            // Añadimos una linea a la tabla
+            // Añadimos un elemento a la lista
             //
-            ui->tableFestivos->setRowCount(iFila + 1);
-
-            QTableWidgetItem *item_fecha = new QTableWidgetItem(strFechaDb);
-            QTableWidgetItem *item_tipo_festivo = new QTableWidgetItem(strTipoFestivo);
-
-            item_fecha->setTextAlignment(Qt::AlignCenter);
-            item_tipo_festivo->setTextAlignment(Qt::AlignCenter);
-
-            //
-            // Segun  tipo festivo distinto color
-            //
-            if(strTipoFestivo == "Nacional"){color = colorNacional;}
-            if(strTipoFestivo == "Autonómico"){color = colorAutonomico;}
-            if(strTipoFestivo == "Local"){color = colorLocal;}
-            if(strTipoFestivo == "Convenio"){color = colorConvenio;}
-
-            item_fecha->setBackground(color);
-            item_tipo_festivo->setBackground(color);
-
-            ui->tableFestivos->setItem(iFila, 0, item_fecha);
-            ui->tableFestivos->setItem(iFila, 1, item_tipo_festivo);
-
-            iFila++;
+            dato.qdFecha           = FuncAux().fechaCortaToDate(strFechaDb);
+            dato.strTipoFestivo    = strTipoFestivo;
+            lista.append(dato);
         }
         sql.next();
+    }
+
+    //
+    // Ordenamos la lista
+    //
+    listaOrdenada = ordenarLista(lista);
+
+    //
+    // Rellenamos la tabla
+    //
+    while (listaOrdenada.count() > 0) {
+
+        //
+        // Añadimos una linea a la tabla
+        //
+        ui->tableFestivos->setRowCount(iFila + 1);
+
+        QTableWidgetItem *item_fecha = new QTableWidgetItem(FuncAux().dateToFechaCorta(listaOrdenada[0].qdFecha));
+        QTableWidgetItem *item_tipo_festivo = new QTableWidgetItem(listaOrdenada[0].strTipoFestivo);
+
+        item_fecha->setTextAlignment(Qt::AlignCenter);
+        item_tipo_festivo->setTextAlignment(Qt::AlignCenter);
+
+        //
+        // Segun  tipo festivo distinto color
+        //
+        if(listaOrdenada[0].strTipoFestivo == "Nacional"){color = colorNacional;}
+        if(listaOrdenada[0].strTipoFestivo == "Autonómico"){color = colorAutonomico;}
+        if(listaOrdenada[0].strTipoFestivo == "Local"){color = colorLocal;}
+        if(listaOrdenada[0].strTipoFestivo == "Convenio"){color = colorConvenio;}
+        if(listaOrdenada[0].strTipoFestivo == "Exceso Jornada"){color = colorExcesoJornada;}
+
+        item_fecha->setBackground(color);
+        item_tipo_festivo->setBackground(color);
+
+        ui->tableFestivos->setItem(iFila, 0, item_fecha);
+        ui->tableFestivos->setItem(iFila, 1, item_tipo_festivo);
+
+        iFila++;
+        listaOrdenada.remove(0, 1);
     }
 
     //
@@ -254,7 +280,44 @@ void RegistroDiasFestivos::mostrarListado(){
     dbSql = QSqlDatabase();
     dbSql.removeDatabase("con_rellena_festivos");
 
+}
 
+QList<RegistroDiasFestivos::DatosFestivos> RegistroDiasFestivos::ordenarLista(QList<DatosFestivos> lista){
+    QList<DatosFestivos>    listaOrdenada;
+    QList <QDate>           listaQDates;
+    int                     i = 0;
+    DatosFestivos           dato;
+
+    //
+    // Obtenemos la lista de Fechas
+    //
+    while (i < lista.count()) {
+        listaQDates.append(lista[i].qdFecha);
+        i++;
+    }
+
+    //
+    // Ordenamos las fechas
+    //
+    std::sort(listaQDates.begin(), listaQDates.end());
+
+    //
+    // Ordenamos la lista
+    //
+    while (listaQDates.count() > 0) {
+        i = 0;
+        while (i < lista.count()) {
+            if(lista[i].qdFecha == listaQDates[0]){
+                dato.qdFecha        = lista[i].qdFecha;
+                dato.strTipoFestivo = lista[i].strTipoFestivo;
+                listaOrdenada.append(dato);
+            }
+            i++;
+        }
+        listaQDates.remove(0, 1);
+    }
+
+    return listaOrdenada;
 }
 
 void RegistroDiasFestivos::on_btnCancelar_clicked(){
@@ -271,6 +334,7 @@ void RegistroDiasFestivos::on_cmbAno_activated(int index){
 void RegistroDiasFestivos::on_btnAdd_clicked(){
     QDate qdFecha = QDate::currentDate();
 
+    ui->tableFestivos->clearSelection();
     ui->frameFestivos->setEnabled(true);
     ui->btnGuardar->setEnabled(true);
     ui->txtFecha->setText(FuncAux().dateToFechaCorta(qdFecha));
@@ -313,7 +377,7 @@ void RegistroDiasFestivos::guardar(){
     QString         strFechaCod;
     QString         strTipoFestivoCod;
     QString         strFechaDbCod;
-    QString         strRegOldCod = "-1";
+    QString         strFechaOldCod = "-1";
     QString         strSql;
     QSqlDatabase    dbSql;
     QSqlQuery       sql;
@@ -352,20 +416,20 @@ void RegistroDiasFestivos::guardar(){
     while (sql.isValid()) {
         strFechaDbCod = sql.record().value("Fecha").toString();
         if(ui->txtFecha->text() == FuncAux().desCifrar(strFechaDbCod)){
-            strRegOldCod = strFechaDbCod;
+            strFechaOldCod = sql.record().value("Fecha").toString();
             sql.finish();
         }
         sql.next();
     }
 
-    if(strRegOldCod == "-1"){
+    if(strFechaOldCod == "-1"){
         strSql = " INSERT INTO Festivos(Fecha,"
                  "                      TipoFestivo) VALUES ('" + strFechaCod + "',"
                  "                                           '" + strTipoFestivoCod + "');";
     }
     else{
         strSql= "UPDATE Festivos SET Fecha ='"        + strFechaCod +"', "
-                                    "TipoFestivo ='"  + strTipoFestivoCod + "'  WHERE  Fecha ='" + strRegOldCod + "';";
+                                    "TipoFestivo ='"  + strTipoFestivoCod + "'  WHERE  Fecha ='" + strFechaOldCod + "';";
     }
 
 
@@ -380,6 +444,7 @@ void RegistroDiasFestivos::guardar(){
     dbSql.close();
     dbSql = QSqlDatabase();
     dbSql.removeDatabase("con_set_dias_festivos");
+
 }
 
 void RegistroDiasFestivos::on_txtFecha_textChanged(const QString &arg1){
@@ -431,6 +496,149 @@ void RegistroDiasFestivos::on_toolButton_clicked(){
 
     delete pCalendario;
 
+    ui->txtFecha->setFocus();
+    ui->txtFecha->selectAll();
+}
+
+void RegistroDiasFestivos::on_btnEliminar_clicked(){
+    QString         strFechaDbCod;
+    QString         strFechaDb;
+    QString         strFechaEliminar = "";
+    QString         strSql;
+    QSqlDatabase    dbSql;
+    QSqlQuery       sql;
+    bool            todoOk;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_eliminar_festivos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(FuncAux().getRutaDb());
+
+    //
+    // Si se abre y no da error, creamos la SqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    //
+    // Busco en la tabla Festivos el registro a eliminar
+    //
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDbCod   = sql.record().value("Fecha").toString();
+        strFechaDb      = FuncAux().desCifrar(strFechaDbCod);
+        if(strFechaDb == ui->txtFecha->text()){
+            strFechaEliminar = strFechaDbCod;
+            sql.last();
+        }
+        sql.next();
+    }
+
+    if(strFechaEliminar != ""){
+        strSql = "DELETE FROM Festivos WHERE Fecha='" + strFechaEliminar + "';";
+        sql.exec(strSql);
+    }
+
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_eliminar_festivos");
+
+    //
+    // Reiniciamos
+    //
+    ui->cmbFestivo->setCurrentIndex(0);
+    initUi();
+}
+
+void RegistroDiasFestivos::on_tableFestivos_itemClicked(QTableWidgetItem *item){
+    QString         strFechaDb;
+    QString         strFechaSeleccionada;
+    QString         strTipoFestivo;
+    QString         strSql;
+    QSqlDatabase    dbSql;
+    QSqlQuery       sql;
+    bool            todoOk;
+
+    //
+    // Desactivo los controles
+    //
+    ui->frameFestivos->setEnabled(false);
+    ui->btnGuardar->setEnabled(false);
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_item_click_festivos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(FuncAux().getRutaDb());
+
+    //
+    // Si se abre y no da error, creamos la SqlQuery
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql ="SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        strFechaDb              = FuncAux().desCifrar(sql.record().value("Fecha").toString());
+        strFechaSeleccionada    = ui->tableFestivos->item(item->row(), 0)->text();
+        if(strFechaDb == strFechaSeleccionada){
+            strTipoFestivo = FuncAux().desCifrar(sql.record().value("TipoFestivo").toString());
+            ui->txtFecha->setText(strFechaSeleccionada);
+            ui->cmbFestivo->setCurrentText(strTipoFestivo);
+        }
+        sql.next();
+    }
+
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_item_click_festivos");
+
+    //
+    // Activamos el boton de suprimir
+    //
+    ui->btnEliminar->setEnabled(true);
+}
+
+void RegistroDiasFestivos::on_tableFestivos_itemDoubleClicked(QTableWidgetItem *item){
+
+    // Activo los controles
+    //
+    ui->frameFestivos->setEnabled(true);
+
+    //
+    // Activo el boton Guardar y desactivo el boton  -
+    //
+    ui->btnGuardar->setEnabled(true);
+    ui->btnEliminar->setEnabled(false);
+
+    //
+    // situo el foco en txtCodigo
+    //
     ui->txtFecha->setFocus();
     ui->txtFecha->selectAll();
 }

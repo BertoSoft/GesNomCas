@@ -2,6 +2,8 @@
 #define REGISTRODIASFESTIVOS_H
 
 #include <QDialog>
+#include <QTableWidgetItem>
+#include <QDate>
 
 namespace Ui {
 class RegistroDiasFestivos;
@@ -18,15 +20,25 @@ public:
     //
     // Colores
     //
-    QColor colorNacional    = QColor(255, 0, 0);
-    QColor colorAutonomico  = QColor(0, 255, 0);
-    QColor colorLocal       = QColor(0, 0, 255);
-    QColor colorConvenio    = QColor(125, 125, 125);
+    QColor colorNacional        = QColor(255, 0, 0);
+    QColor colorAutonomico      = QColor(0, 255, 0);
+    QColor colorLocal           = QColor(0, 0, 255);
+    QColor colorConvenio        = QColor(125, 125, 125);
+    QColor colorExcesoJornada   = QColor(125, 255, 255);
+
+    //
+    // Estructuras
+    //
+    struct DatosFestivos{
+        QDate       qdFecha;
+        QString     strTipoFestivo;
+    };
 
     void initUi();
     void initSp();
     void mostrarExcesosJornada();
     void mostrarListado();
+    QList<DatosFestivos> ordenarLista(QList<DatosFestivos>);
     void salir();
     void guardar();
 
@@ -46,6 +58,12 @@ private slots:
     void on_cmbFestivo_activated(int index);
 
     void on_toolButton_clicked();
+
+    void on_btnEliminar_clicked();
+
+    void on_tableFestivos_itemClicked(QTableWidgetItem *item);
+
+    void on_tableFestivos_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::RegistroDiasFestivos *ui;

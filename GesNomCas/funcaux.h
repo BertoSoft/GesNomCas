@@ -58,6 +58,7 @@ public:
     QString getFestivosNacionales(QString);
     QString getFestivosLocales(QString);
     QString getFestivosAutonomicos(QString);
+    QString getFestivosConvenio(QString);
     QString dateToFechaCorta(QDate);
     QString dateToFechaLarga(QDate);
     QDate   fechaCortaToDate(QString);
