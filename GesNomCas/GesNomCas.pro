@@ -21,7 +21,8 @@ SOURCES += \
     mainwindow.cpp \
     registro.cpp \
     registrodiasfestivos.cpp \
-    registroretribuciones.cpp
+    registroretribuciones.cpp \
+    registrovacaciones.cpp
 
 HEADERS += \
     calendario.h \
@@ -35,7 +36,8 @@ HEADERS += \
     mainwindow.h \
     registro.h \
     registrodiasfestivos.h \
-    registroretribuciones.h
+    registroretribuciones.h \
+    registrovacaciones.h
 
 FORMS += \
     calendario.ui \
@@ -48,7 +50,8 @@ FORMS += \
     mainwindow.ui \
     registro.ui \
     registrodiasfestivos.ui \
-    registroretribuciones.ui
+    registroretribuciones.ui \
+    registrovacaciones.ui
 
 #
 # Añadido por mi para usar sqlite3

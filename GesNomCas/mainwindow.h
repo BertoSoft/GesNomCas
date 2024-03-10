@@ -71,6 +71,8 @@ private slots:
 
     void on_actionRegistro_D_as_Festivos_triggered();
 
+    void on_actionRegistro_Vacaciones_triggered();
+
 private:
 
     Ui::MainWindow *ui;

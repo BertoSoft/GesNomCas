@@ -35,6 +35,7 @@ public:
     };
 
     void initUi();
+    void initTable();
     void initSp();
     void mostrarExcesosJornada();
     void mostrarListado();

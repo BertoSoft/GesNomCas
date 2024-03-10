@@ -25,6 +25,7 @@
 
 using namespace CryptoPP;
 
+
 FuncAux::FuncAux() {
 
     //
@@ -207,6 +208,15 @@ bool FuncAux::crearDb(){
 
         strSql = "CREATE TABLE if not exists Festivos(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Fecha TEXT, "
                  "                                                                          TipoFestivo TEXT);";
+        sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists Vacaciones(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Ano TEXT, "
+                 "                                                                            FechaInicio TEXT,"
+                 "                                                                            FechaFin TEXT);";
+        sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists VacacionesPendientes(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Ano TEXT, "
+                 "                                                                                      Dias TEXT);";
         sql.exec(strSql);
     }
 
@@ -422,6 +432,72 @@ void FuncAux::setUsuario(QString usuario, QString passwd){
     dbSql.close();
     dbSql = QSqlDatabase();
     dbSql.removeDatabase("con_set_usuario");
+}
+
+void FuncAux::setVacacionesPendientes(VacacionesPendientes dato){
+    QString strAnoOldCod    = "-1";
+    QString strAnoCod;
+    QString strDiasCod;
+    bool    todoOk          = false;
+
+    //
+    // Codificamos el dato
+    //
+    strAnoCod   = cifrar(dato.strAno);
+    strDiasCod  = cifrar(dato.strDias);
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_set_vacaciones_pendientes");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, abrimos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    //
+    // Comprobamos si existe registro ese año
+    //
+    strSql = "SELECT *FROM VacacionesPendientes";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        if(dato.strAno == desCifrar(sql.record().value("Ano").toString())){
+            strAnoOldCod = sql.record().value("Ano").toString();
+            sql.finish();
+        }
+        sql.next();
+    }
+
+    if(strAnoOldCod == "-1"){
+        strSql = " INSERT INTO VacacionesPendientes(Ano,"
+                 "                                  Dias) VALUES ('" + strAnoCod + "',"
+                 "                                                '" + strDiasCod + "');";
+    }
+    else{
+
+
+        strSql= "UPDATE VacacionesPendientes SET Ano ='"   + strAnoCod +"', "
+                "                                Dias ='"  + strDiasCod + "'  WHERE  Ano ='" + strAnoOldCod + "';";
+    }
+    sql.exec(strSql);
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_set_vacaciones_pendientes");
+
 }
 
 QString FuncAux::getUser(){
@@ -744,6 +820,49 @@ QString FuncAux::getFestivosConvenio(QString strAno){
     return QString::number(iFestivos);
 }
 
+QList<FuncAux::VacacionesPendientes> FuncAux::getVacacionesPendientes(){
+    VacacionesPendientes        dato;
+    QList<VacacionesPendientes> listaVacacionesPendientes;
+    bool                        todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_vacaciones_pendientes");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM VacacionesPendientes";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()){
+        dato.strAno     = desCifrar(sql.record().value("Ano").toString());
+        dato.strDias    = desCifrar(sql.record().value("Dias").toString());
+        listaVacacionesPendientes.append(dato);
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_vacaciones_pendientes");
+
+    return listaVacacionesPendientes;
+}
+
 bool FuncAux::esFormatoDatos(QString rutaArchivo){
     bool    esFormatoDatos  = false;
     bool    todoOk          = false;
@@ -984,7 +1103,7 @@ QString FuncAux::ultimoRegistroIncidencias(QString rutaArchivo){
     bool    todoOk                  = false;
     QDate   date                    = QDate::currentDate();
     QDate   dateMayor;
-    struct  Incidencias incidencias;
+    Incidencias incidencias;
 
     //
     // Creo la conexion con la BD

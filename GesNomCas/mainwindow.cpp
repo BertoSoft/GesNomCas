@@ -11,6 +11,7 @@
 #include "datosempleado.h"
 #include "registroretribuciones.h"
 #include "registrodiasfestivos.h"
+#include "registrovacaciones.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -468,5 +469,18 @@ void MainWindow::on_actionRegistro_D_as_Festivos_triggered(){
     pRegistroDiasFestivos->exec();
 
     delete pRegistroDiasFestivos;
+}
+
+void MainWindow::on_actionRegistro_Vacaciones_triggered(){
+
+    lblTexto->setText("Editando el registro de Vacaciones...");
+
+    RegistroVacaciones *pRegistroVacaciones = new RegistroVacaciones(this);
+
+    pRegistroVacaciones->setWindowModality(Qt::ApplicationModal);
+    pRegistroVacaciones->setWindowFlag(Qt::FramelessWindowHint);
+    pRegistroVacaciones->exec();
+
+    delete pRegistroVacaciones;
 }
 

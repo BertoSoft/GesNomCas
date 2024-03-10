@@ -20,6 +20,7 @@ RegistroDiasFestivos::RegistroDiasFestivos(QWidget *parent)
     ui->setupUi(this);
 
     initSp();
+    initTable();
     initUi();
 }
 
@@ -28,20 +29,6 @@ RegistroDiasFestivos::~RegistroDiasFestivos(){
 }
 
 void RegistroDiasFestivos::initUi(){
-
-    //
-    // Colocamos las columnas del tablelist
-    //
-    ui->tableFestivos->setColumnCount(2);
-
-    QStringList headers;
-    headers += tr("Fecha");
-    headers += tr("Tipo Festivo");
-
-    ui->tableFestivos->setHorizontalHeaderLabels(headers);
-
-    ui->tableFestivos->setColumnWidth(0, (int) ( ( this->width() * 0.4 ) / 2 ) );
-    ui->tableFestivos->setColumnWidth(1, (int) ( ( this->width() * 0.4 ) / 2 ) );
 
     //
     // Pongo la fecha en Blanco y desactivo controles
@@ -58,20 +45,39 @@ void RegistroDiasFestivos::initUi(){
     mostrarListado();
 }
 
+void RegistroDiasFestivos::initTable(){
+
+    //
+    // Colocamos las columnas del tablelist
+    //
+    ui->tableFestivos->setColumnCount(2);
+
+    QStringList headers;
+    headers += tr("Fecha");
+    headers += tr("Tipo Festivo");
+
+    ui->tableFestivos->setHorizontalHeaderLabels(headers);
+
+    ui->tableFestivos->setColumnWidth(0, (int) ( ( this->width() * 0.4 ) / 2 ) );
+    ui->tableFestivos->setColumnWidth(1, (int) ( ( this->width() * 0.4 ) / 2 ) );
+}
+
 void RegistroDiasFestivos::initSp(){
     QDate   qdFecha;
     int     iAno;
     int     iLimite;
 
     //
-    // Colocamos el año actual, uno despues y 10 anteriores
+    // Colocamos el año actual, uno despues y 10 anteriores, empezando en 2022
     //
     qdFecha = QDate::currentDate();
     iAno    = qdFecha.year();
     iLimite = iAno - 10;
     iAno++;
     while (iAno>iLimite) {
-        ui->cmbAno->addItem(QString::number(iAno));
+        if(iAno > 2021){
+            ui->cmbAno->addItem(QString::number(iAno));
+        }
         iAno--;
     }
     ui->cmbAno->setCurrentIndex(1);

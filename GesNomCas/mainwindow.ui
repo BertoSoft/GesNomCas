@@ -45,6 +45,7 @@
     <addaction name="actionDatos_Empleado"/>
     <addaction name="actionRegistro_Unidades_N_mina"/>
     <addaction name="actionRegistro_D_as_Festivos"/>
+    <addaction name="actionRegistro_Vacaciones"/>
    </widget>
    <widget class="QMenu" name="menuCoche">
     <property name="title">
@@ -88,6 +89,7 @@
    <addaction name="actionDatos_Empleado"/>
    <addaction name="actionRegistro_Unidades_N_mina"/>
    <addaction name="actionRegistro_D_as_Festivos"/>
+   <addaction name="actionRegistro_Vacaciones"/>
   </widget>
   <action name="actionSalir">
    <property name="icon">
@@ -177,6 +179,15 @@
    </property>
    <property name="text">
     <string>Registro Días Festivos</string>
+   </property>
+  </action>
+  <action name="actionRegistro_Vacaciones">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/vacaciones.png</normaloff>:/vacaciones.png</iconset>
+   </property>
+   <property name="text">
+    <string>Registro Vacaciones</string>
    </property>
   </action>
  </widget>
