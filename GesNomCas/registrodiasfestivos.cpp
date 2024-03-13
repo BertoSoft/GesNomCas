@@ -187,9 +187,9 @@ void RegistroDiasFestivos::mostrarListado(){
     QColor                  color;
     bool                    todoOk;
     int                     iFila = 0;
-    QList<DatosFestivos>    lista;
-    QList<DatosFestivos>    listaOrdenada;
-    DatosFestivos           dato;
+    QList<FuncAux::DatosFestivos>    lista;
+    QList<FuncAux::DatosFestivos>    listaOrdenada;
+    FuncAux::DatosFestivos           dato;
 
     //
     // Si no esta vacio lo vaciamos
@@ -288,11 +288,11 @@ void RegistroDiasFestivos::mostrarListado(){
 
 }
 
-QList<RegistroDiasFestivos::DatosFestivos> RegistroDiasFestivos::ordenarLista(QList<DatosFestivos> lista){
-    QList<DatosFestivos>    listaOrdenada;
+QList<FuncAux::DatosFestivos> RegistroDiasFestivos::ordenarLista(QList<FuncAux::DatosFestivos> lista){
+    QList<FuncAux::DatosFestivos>    listaOrdenada;
     QList <QDate>           listaQDates;
     int                     i = 0;
-    DatosFestivos           dato;
+    FuncAux::DatosFestivos           dato;
 
     //
     // Obtenemos la lista de Fechas

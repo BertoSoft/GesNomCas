@@ -1,6 +1,8 @@
 #ifndef REGISTRODIASFESTIVOS_H
 #define REGISTRODIASFESTIVOS_H
 
+#include "funcaux.h"
+
 #include <QDialog>
 #include <QTableWidgetItem>
 #include <QDate>
@@ -26,20 +28,13 @@ public:
     QColor colorConvenio        = QColor(125, 125, 125);
     QColor colorExcesoJornada   = QColor(125, 255, 255);
 
-    //
-    // Estructuras
-    //
-    struct DatosFestivos{
-        QDate       qdFecha;
-        QString     strTipoFestivo;
-    };
 
     void initUi();
     void initTable();
     void initSp();
     void mostrarExcesosJornada();
     void mostrarListado();
-    QList<DatosFestivos> ordenarLista(QList<DatosFestivos>);
+    QList<FuncAux::DatosFestivos> ordenarLista(QList<FuncAux::DatosFestivos>);
     void salir();
     void guardar();
 

@@ -24,7 +24,7 @@ public:
     //
     // Structuras
     //
-    struct Incidencias{
+    struct DatosIncidencias{
         QString fecha;
         QString hed;
         QString hen;
@@ -32,43 +32,55 @@ public:
         QString voladuras;
     };
 
-    struct VacacionesPendientes{
+    struct DatosVacacionesPendientes{
         QString strAno;
         QString strDias;
+    };
+
+    struct DatosFestivos{
+        QDate       qdFecha;
+        QString     strTipoFestivo;
+    };
+
+    struct DatosVacaciones{
+        QString strAno;
+        QDate   qdFecha0;
+        QDate   qdFecha1;
     };
 
     //
     // Funciones Publicas
     //
-    QString                     getAppName();
-    QString                     getRutaDb();
-    QString                     cifrar(QString strTextoPlano);
-    QString                     desCifrar(QString strTextoCod);
-    bool                        crearDb();
-    bool                        existeUsuario();
-    void                        setInicioSesion(QString, QString);
-    void                        setCierreSesion(QString, QString);
-    void                        setUsuario(QString usuario, QString passwd);
-    void                        setVacacionesPendientes(VacacionesPendientes dato);
-    bool                        esFormatoDatos(QString);
-    bool                        esFormatoIncidencias(QString);
-    QString                     primerRegistroDatos(QString);
-    QString                     ultimoRegistroDatos(QString);
-    QString                     primerRegistroIncidencias(QString);
-    QString                     ultimoRegistroIncidencias(QString);
-    QString                     getUser();
-    QString                     getPasswd();
-    QString                     getSabados(QString);
-    QString                     getDomingos(QString);
-    QString                     getFestivosNacionales(QString);
-    QString                     getFestivosLocales(QString);
-    QString                     getFestivosAutonomicos(QString);
-    QString                     getFestivosConvenio(QString);
-    QList<VacacionesPendientes> getVacacionesPendientes();
-    QString                     dateToFechaCorta(QDate);
-    QString                     dateToFechaLarga(QDate);
-    QDate                       fechaCortaToDate(QString);
-    bool                        isFormatoFecha(QString strFecha);
+    QString                             cifrar(QString strTextoPlano);
+    QString                             desCifrar(QString strTextoCod);
+    bool                                crearDb();
+    bool                                existeUsuario();
+    bool                                esFormatoDatos(QString);
+    bool                                esFormatoIncidencias(QString);
+    QString                             primerRegistroDatos(QString);
+    QString                             ultimoRegistroDatos(QString);
+    QString                             primerRegistroIncidencias(QString);
+    QString                             ultimoRegistroIncidencias(QString);
+    QString                             getAppName();
+    QString                             getRutaDb();
+    QString                             getUser();
+    QString                             getPasswd();
+    QString                             getSabados(QString);
+    QString                             getDomingos(QString);
+    QString                             getFestivosNacionales(QString);
+    QString                             getFestivosLocales(QString);
+    QString                             getFestivosAutonomicos(QString);
+    QString                             getFestivosConvenio(QString);
+    QList<DatosVacacionesPendientes>    getAllVacacionesPendientes();
+    QList<DatosVacaciones>              getAllVacaciones();
+    void                                setInicioSesion(QString, QString);
+    void                                setCierreSesion(QString, QString);
+    void                                setUsuario(QString usuario, QString passwd);
+    void                                setVacacionesPendientes(DatosVacacionesPendientes dato);
+    QString                             dateToFechaCorta(QDate);
+    QString                             dateToFechaLarga(QDate);
+    QDate                               fechaCortaToDate(QString);
+    bool                                isFormatoFecha(QString strFecha);
 
 
 };
