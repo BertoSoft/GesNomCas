@@ -290,8 +290,8 @@ void RegistroDiasFestivos::mostrarListado(){
 
 QList<FuncAux::DatosFestivos> RegistroDiasFestivos::ordenarLista(QList<FuncAux::DatosFestivos> lista){
     QList<FuncAux::DatosFestivos>    listaOrdenada;
-    QList <QDate>           listaQDates;
-    int                     i = 0;
+    QList <QDate>                    listaQDates;
+    int                              i = 0;
     FuncAux::DatosFestivos           dato;
 
     //

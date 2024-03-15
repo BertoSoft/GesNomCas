@@ -41,8 +41,9 @@ void RegistroVacaciones::initUi(){
     //
     // Mostramos los excesos de jornada y el listado
     //
-    mostrarResumenAnual();
     mostrarListado();
+    mostrarResumenAnual();
+
 }
 
 void RegistroVacaciones::initSps(){
@@ -55,6 +56,7 @@ void RegistroVacaciones::initSps(){
     iAno    = QDate::currentDate().year();
     iLimite = iAno - 10;
     iAno++;
+
     while (iAno>iLimite) {
         if(iAno > 2021){
             ui->cmbAno->addItem(QString::number(iAno));
@@ -90,6 +92,7 @@ void RegistroVacaciones::initVacacionesPendientes(){
     int                                     iAno;
     int                                     iAnoSp;
     int                                     iDias;
+    int                                     iAnoDb;
 
     //
     // Comprobamos si existen registros de vacaciones pendientes, si no es a si comenzamos la serie en 2021 con 9 dias
@@ -104,7 +107,7 @@ void RegistroVacaciones::initVacacionesPendientes(){
         iAnoSp  = ui->cmbAno->currentText().toInt();
         iDias   = 9;
 
-        while (iAno < iAnoSp) {
+        while (iAno < iAnoSp + 1) {
             dato.strAno = QString::number(iAno);
             dato.strDias = QString::number(iDias);
             FuncAux().setVacacionesPendientes(dato);
@@ -112,11 +115,74 @@ void RegistroVacaciones::initVacacionesPendientes(){
             iDias+=22;
         }
     }
+    //
+    // Si no esta vacia comprobamnos que todos los años esten cubiertos
+    //
+    else{
+        iAnoDb  = listaVacacionesPendientes[listaVacacionesPendientes.count() -1].strAno.toInt();
+        iDias   = listaVacacionesPendientes[listaVacacionesPendientes.count() -1].strDias.toInt();
+        iAnoSp  = ui->cmbAno->currentText().toInt() + 1;
+        if (iAnoSp > iAnoDb){
+            while (iAnoDb < iAnoSp) {
+                dato.strAno     = QString::number(iAnoDb + 1);
+                dato.strDias    = QString::number(iDias + 22);
+                FuncAux().setVacacionesPendientes(dato);
+                iAnoDb++;
+                iDias+=22;
+            }
+        }
+    }
+}
+
+void RegistroVacaciones::refrescaVacacionesPendientes(int iDias){
+    QList<FuncAux::DatosVacacionesPendientes>   listaVacacionesPendientes;
+    FuncAux::DatosVacacionesPendientes          dato;
+    int                                         iVacacionesOld = -1;
+    int                                         iVacacionesNew;
+    int                                         iAnoSp;
+    int                                         i;
+
+    listaVacacionesPendientes = FuncAux().getAllVacacionesPendientes();
+
+    iAnoSp = ui->cmbAno->currentText().toInt();
+    i = 0;
+    while (i < listaVacacionesPendientes.count()) {
+        //
+        // Si el año es mayor o igual que iAnoSp, restamos las vacaciones disfrutadas iLaborables
+        //
+        if(listaVacacionesPendientes[i].strAno.toInt() >= iAnoSp){
+
+            iVacacionesOld  = listaVacacionesPendientes[i].strDias.toInt();
+            iVacacionesNew  = iVacacionesOld - iDias;
+
+            dato.strAno     = listaVacacionesPendientes[i].strAno;
+            dato.strDias    = QString::number(iVacacionesNew);
+
+            FuncAux().setVacacionesPendientes(dato);
+        }
+        i++;
+    }
 
 }
 
 int RegistroVacaciones::getDiasLaborables(QDate qdFecha0, QDate qdFecha1){
-    int iLaborables = 0;
+    int         iLaborables = 0;
+    QDate       qdFecha;
+    QString     strFechaLarga;
+    QString     str;
+
+    qdFecha = qdFecha0;
+    while (qdFecha <= qdFecha1) {
+        strFechaLarga = FuncAux().dateToFechaLarga(qdFecha);
+        str = strFechaLarga.remove(4, strFechaLarga.length() -4);
+        if(str != "sába"  && str != "domi"){
+            if(!FuncAux().isFestivo(qdFecha)){
+                iLaborables++;
+            }
+        }
+
+        qdFecha = qdFecha.addDays(1);
+    }
 
     return iLaborables;
 }
@@ -179,6 +245,7 @@ void RegistroVacaciones::mostrarResumenAnual(){
 }
 
 void RegistroVacaciones::mostrarListado(){
+    QList<FuncAux::DatosVacaciones>     listaVacacionesSinOrdenar;
     QList<FuncAux::DatosVacaciones>     listaVacaciones;
     int                                 iLaborables = 0;
     int                                 i;
@@ -191,36 +258,88 @@ void RegistroVacaciones::mostrarListado(){
         ui->tableVacaciones->removeRow(0);
     }
 
-    listaVacaciones = FuncAux().getAllVacaciones();
+    listaVacacionesSinOrdenar   = FuncAux().getAllVacaciones();
+    listaVacaciones             = ordenarListaVacaciones(listaVacacionesSinOrdenar);
+
     i = 0;
     while (i<listaVacaciones.count()) {
-        //
-        // Añadimos una linea a la tabla
-        //
-        ui->tableVacaciones->setRowCount(iFila + 1);
 
         //
-        // Obtenemos los laborables del periodo
+        // solo los periodos de este año
         //
-        iLaborables = getDiasLaborables(listaVacaciones[i].qdFecha0, listaVacaciones[i].qdFecha1);
+        if(listaVacaciones[i].strAno == ui->cmbAno->currentText()){
 
-        QTableWidgetItem *item_fecha0       = new QTableWidgetItem(FuncAux().dateToFechaCorta(listaVacaciones[i].qdFecha0));
-        QTableWidgetItem *item_fecha1       = new QTableWidgetItem(FuncAux().dateToFechaCorta(listaVacaciones[i].qdFecha1));
-        QTableWidgetItem *item_Laborables   = new QTableWidgetItem(QString::number(iLaborables));
+            //
+            // Añadimos una linea a la tabla
+            //
+            ui->tableVacaciones->setRowCount(iFila + 1);
 
-        item_fecha0->setTextAlignment(Qt::AlignCenter);
-        item_fecha1->setTextAlignment(Qt::AlignCenter);
-        item_Laborables->setTextAlignment(Qt::AlignCenter);
+            //
+            // Obtenemos los laborables del periodo
+            //
+            iLaborables = getDiasLaborables(listaVacaciones[i].qdFecha0, listaVacaciones[i].qdFecha1);
 
-        ui->tableVacaciones->setItem(iFila, 0, item_fecha0);
-        ui->tableVacaciones->setItem(iFila, 1, item_fecha1);
-        ui->tableVacaciones->setItem(iFila, 2, item_Laborables);
+            QTableWidgetItem *item_fecha0       = new QTableWidgetItem(FuncAux().dateToFechaCorta(listaVacaciones[i].qdFecha0));
+            QTableWidgetItem *item_fecha1       = new QTableWidgetItem(FuncAux().dateToFechaCorta(listaVacaciones[i].qdFecha1));
+            QTableWidgetItem *item_Laborables   = new QTableWidgetItem(QString::number(iLaborables));
+
+            item_fecha0->setTextAlignment(Qt::AlignCenter);
+            item_fecha1->setTextAlignment(Qt::AlignCenter);
+            item_Laborables->setTextAlignment(Qt::AlignCenter);
+
+            ui->tableVacaciones->setItem(iFila, 0, item_fecha0);
+            ui->tableVacaciones->setItem(iFila, 1, item_fecha1);
+            ui->tableVacaciones->setItem(iFila, 2, item_Laborables);
+
+            iFila++;
+            iLaborables = 0;
+        }
 
         i++;
-        iFila++;
-        iLaborables = 0;
     }
 
+}
+
+QList<FuncAux::DatosVacaciones> RegistroVacaciones::ordenarListaVacaciones(QList<FuncAux::DatosVacaciones> lista){
+    QList<FuncAux::DatosVacaciones>     listaOrdenada;
+    QList <QDate>                       listaQDates;
+    FuncAux::DatosVacaciones            dato;
+    int                                 i = 0;
+
+    //
+    // Obtenemos la lista de Fechas
+    //
+    while (i < lista.count()) {
+        listaQDates.append(lista[i].qdFecha0);
+        i++;
+    }
+
+    //
+    // Ordenamos las fechas
+    //
+    std::sort(listaQDates.begin(), listaQDates.end());
+
+    //
+    // Ordenamos la lista
+    //
+    while (listaQDates.count() > 0) {
+        i = 0;
+        while (i < lista.count()) {
+            if(lista[i].qdFecha0 == listaQDates[0]){
+                dato.qdFecha0   = lista[i].qdFecha0;
+                dato.qdFecha1   = lista[i].qdFecha1;
+                dato.strAno     = lista[i].strAno;
+
+                listaOrdenada.append(dato);
+
+                i = lista.count();
+            }
+            i++;
+        }
+        listaQDates.remove(0, 1);
+    }
+
+    return listaOrdenada;
 }
 
 void RegistroVacaciones::on_btnCancelar_clicked(){
@@ -256,6 +375,16 @@ void RegistroVacaciones::on_btnGuardar_clicked(){
     else if(FuncAux().fechaCortaToDate(ui->txtFecha0->text()) > FuncAux().fechaCortaToDate(ui->txtFecha1->text())){
         QMessageBox::information(this, FuncAux().getAppName(), "La fecha final, no puede ser anterior a la inicial...");
         ui->txtFecha0->setFocus();
+        ui->txtFecha0->selectAll();
+    }
+    else if(FuncAux().fechaCortaToDate(ui->txtFecha0->text()).year() < ui->cmbAno->currentText().toInt()){
+        QMessageBox::information(this, FuncAux().getAppName(), "La fecha inicial, no puede ser del año anterior...");
+        ui->txtFecha0->setFocus();
+        ui->txtFecha0->selectAll();
+    }
+    else if(FuncAux().fechaCortaToDate(ui->txtFecha1->text()).year() > ui->cmbAno->currentText().toInt()){
+        QMessageBox::information(this, FuncAux().getAppName(), "La fecha final, no puede ser del año posterior...");
+        ui->txtFecha1->setFocus();
         ui->txtFecha1->selectAll();
     }
     else{
@@ -284,6 +413,9 @@ void RegistroVacaciones::on_btnEliminar_clicked(){
     QSqlDatabase    dbSql;
     QSqlQuery       sql;
     bool            todoOk;
+    QDate           qdFecha0;
+    QDate           qdFecha1;
+    int             iDias;
 
     //
     // Creo la conexion con la BD
@@ -323,6 +455,15 @@ void RegistroVacaciones::on_btnEliminar_clicked(){
     dbSql.close();
     dbSql = QSqlDatabase();
     dbSql.removeDatabase("con_del_vacaciones");
+
+    //
+    // Aumentamos los dias de vacaciones pendientes
+    //
+    qdFecha0    = FuncAux().fechaCortaToDate(ui->txtFecha0->text());
+    qdFecha1    = FuncAux().fechaCortaToDate(ui->txtFecha1->text());
+    iDias       = getDiasLaborables(qdFecha0, qdFecha1);
+
+    refrescaVacacionesPendientes(-1 * iDias);
 
     //
     // Reiniciamos
@@ -525,8 +666,8 @@ void RegistroVacaciones::guardar(){
     }
     else{
         strSql= "UPDATE Vacaciones SET FechaInicio ='"+ strFecha0Cod +"', "
-                                                                         "FechaFin ='"   + strFecha1Cod +"', "
-                                  "Ano ='"        + strAnoCod + "'  WHERE  FechaInicio ='" + strFecha0OldCod + "';";
+                                      "FechaFin ='"   + strFecha1Cod +"', "
+                                      "Ano ='"        + strAnoCod + "'  WHERE  FechaInicio ='" + strFecha0OldCod + "';";
     }
 
 
@@ -534,6 +675,11 @@ void RegistroVacaciones::guardar(){
     // Ahora ejecutamos la instruccion
     //
     sql.exec(strSql);
+
+    //
+    // Actualizamos Vacaciones Pendientes
+    //
+    refrescaVacacionesPendientes(getDiasLaborables(qdFecha0, qdFecha1));
 
     //
     // Cerramos la BD y la Conexion
@@ -582,5 +728,10 @@ void RegistroVacaciones::on_tableVacaciones_itemDoubleClicked(QTableWidgetItem *
     //
     ui->txtFecha0->setFocus();
     ui->txtFecha0->selectAll();
+}
+
+void RegistroVacaciones::on_cmbAno_activated(int index){
+
+    initUi();
 }
 

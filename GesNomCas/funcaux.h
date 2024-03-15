@@ -73,6 +73,7 @@ public:
     QString                             getFestivosConvenio(QString);
     QList<DatosVacacionesPendientes>    getAllVacacionesPendientes();
     QList<DatosVacaciones>              getAllVacaciones();
+    QList<DatosFestivos>                getAllFestivos();
     void                                setInicioSesion(QString, QString);
     void                                setCierreSesion(QString, QString);
     void                                setUsuario(QString usuario, QString passwd);
@@ -81,6 +82,7 @@ public:
     QString                             dateToFechaLarga(QDate);
     QDate                               fechaCortaToDate(QString);
     bool                                isFormatoFecha(QString strFecha);
+    bool                                isFestivo(QDate);
 
 
 };

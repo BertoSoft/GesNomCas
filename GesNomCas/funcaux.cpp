@@ -907,6 +907,50 @@ QList<FuncAux::DatosVacaciones> FuncAux::getAllVacaciones(){
     return listaVacaciones;
 }
 
+QList<FuncAux::DatosFestivos> FuncAux::getAllFestivos(){
+    QList<FuncAux::DatosFestivos>   listaFestivos;
+    FuncAux::DatosFestivos          dato;
+    bool                            todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_Festivos");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Festivos";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()){
+
+        dato.qdFecha        = FuncAux().fechaCortaToDate(FuncAux().desCifrar(sql.record().value("Fecha").toString()));
+        dato.strTipoFestivo = FuncAux().desCifrar(sql.record().value("TipoFestivo").toString());
+        listaFestivos.append(dato);
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_Festivos");
+
+    return listaFestivos;
+}
+
 bool FuncAux::esFormatoDatos(QString rutaArchivo){
     bool    esFormatoDatos  = false;
     bool    todoOk          = false;
@@ -1277,4 +1321,21 @@ bool FuncAux::isFormatoFecha(QString strFecha){
     }
 
     return isFecha;
+}
+
+bool FuncAux::isFestivo(QDate qdFecha){
+    QList<FuncAux::DatosFestivos>   listaFestivos;
+    bool                            isFestivo   = false;
+    int                             i           = 0;
+
+    listaFestivos = FuncAux().getAllFestivos();
+    while (i < listaFestivos.count()) {
+        if(listaFestivos[i].qdFecha == qdFecha){
+            isFestivo = true;
+            i = listaFestivos.count();
+        }
+        i++;
+    }
+
+    return isFestivo;
 }
