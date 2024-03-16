@@ -87,12 +87,12 @@ void RegistroVacaciones::initTable(){
 }
 
 void RegistroVacaciones::initVacacionesPendientes(){
-    FuncAux::DatosVacacionesPendientes           dato;
-    QList<FuncAux::DatosVacacionesPendientes>    listaVacacionesPendientes;
-    int                                     iAno;
-    int                                     iAnoSp;
-    int                                     iDias;
-    int                                     iAnoDb;
+    FuncAux::DatosVacacionesPendientes          dato;
+    QList<FuncAux::DatosVacacionesPendientes>   listaVacacionesPendientes;
+    int                                         iAno;
+    int                                         iAnoSp;
+    int                                         iDias;
+    int                                         iAnoDb;
 
     //
     // Comprobamos si existen registros de vacaciones pendientes, si no es a si comenzamos la serie en 2021 con 9 dias
@@ -142,8 +142,14 @@ void RegistroVacaciones::refrescaVacacionesPendientes(int iDias){
     int                                         iAnoSp;
     int                                         i;
 
+    //
+    //Obtenemos la lista de vacaciones pendientes
+    //
     listaVacacionesPendientes = FuncAux().getAllVacacionesPendientes();
 
+    //
+    // Recorremos la lista de vacaciones pendientes
+    //
     iAnoSp = ui->cmbAno->currentText().toInt();
     i = 0;
     while (i < listaVacacionesPendientes.count()) {
@@ -180,7 +186,6 @@ int RegistroVacaciones::getDiasLaborables(QDate qdFecha0, QDate qdFecha1){
                 iLaborables++;
             }
         }
-
         qdFecha = qdFecha.addDays(1);
     }
 
@@ -200,13 +205,20 @@ void RegistroVacaciones::mostrarResumenAnual(){
     QDate                                   qdFecha1;
 
     //
-    // Vacaciones Atrasadas
+    //Establecemos strAno = ui.cmbAno - 1
     //
     strAno = ui->cmbAno->currentText();
     iAno = strAno.toInt();
     iAno--;
     strAno = QString::number(iAno);
+
+    //
+    //Obtenemos las vacaciones atrasadas
+    //
     listaVacacionesPendientes = FuncAux().getAllVacacionesPendientes();
+
+    // /Recorremos las vacaciones atrasadas hasta encontrar el ano buscado
+    //
     i = 0;
     while (i < listaVacacionesPendientes.count()) {
         if(listaVacacionesPendientes[i].strAno == strAno){
@@ -215,13 +227,17 @@ void RegistroVacaciones::mostrarResumenAnual(){
         }
         i++;
     }
+
+    //
+    // Presentamos las vacaciones atrasadas
+    //
     str = "Vacaciones Años Anteriores ";
     str.append(QString::number(iVacacionesAtrasadas));
     str.append(" Días.");
     ui->lblVacacionesAnteriores->setText(str);
 
     //
-    // Vacaciones Disfrutadas
+    // Vacaciones Disfrutadas, recorremos la tabla de vacaciones
     //
     i = 0;
     while (i < ui->tableVacaciones->rowCount()) {
@@ -252,12 +268,15 @@ void RegistroVacaciones::mostrarListado(){
     int                                 iFila = 0;
 
     //
-    // Borramos la tabla
+    // Borramos la tabla actual
     //
     while (ui->tableVacaciones->rowCount() > 0) {
         ui->tableVacaciones->removeRow(0);
     }
 
+    //
+    //Obtenemos y ordenamos la lista de todas la vacaciones
+    //
     listaVacacionesSinOrdenar   = FuncAux().getAllVacaciones();
     listaVacaciones             = ordenarListaVacaciones(listaVacacionesSinOrdenar);
 
