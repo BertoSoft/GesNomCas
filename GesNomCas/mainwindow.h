@@ -73,6 +73,8 @@ private slots:
 
     void on_actionRegistro_Vacaciones_triggered();
 
+    void on_actionCalendario_Laboral_triggered();
+
 private:
 
     Ui::MainWindow *ui;

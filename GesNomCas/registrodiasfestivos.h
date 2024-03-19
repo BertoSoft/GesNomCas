@@ -22,7 +22,7 @@ public:
     //
     // Colores
     //
-    QColor colorNacional        = QColor(255, 0, 0);
+    QColor colorNacional        = QColor(255, 255, 0);
     QColor colorAutonomico      = QColor(0, 255, 0);
     QColor colorLocal           = QColor(0, 0, 255);
     QColor colorConvenio        = QColor(125, 125, 125);

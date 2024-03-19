@@ -33,7 +33,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtEmpresa"/>
+       <widget class="QLineEdit" name="txtEmpresa">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -47,7 +51,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtDomicilio"/>
+       <widget class="QLineEdit" name="txtDomicilio">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -57,7 +65,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtNumeroPatronal"/>
+       <widget class="QLineEdit" name="txtNumeroPatronal">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -72,6 +84,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtCentroTrabajo">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -85,7 +100,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtCif"/>
+       <widget class="QLineEdit" name="txtCif">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -99,7 +118,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtActividad"/>
+       <widget class="QLineEdit" name="txtActividad">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_7">
@@ -109,7 +132,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtConvenio"/>
+       <widget class="QLineEdit" name="txtConvenio">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

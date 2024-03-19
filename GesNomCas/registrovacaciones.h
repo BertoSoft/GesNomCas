@@ -52,6 +52,10 @@ private slots:
 
     void on_cmbAno_activated(int index);
 
+    void on_tbFecha0_clicked();
+
+    void on_tbFecha1_clicked();
+
 private:
     Ui::RegistroVacaciones *ui;
 };

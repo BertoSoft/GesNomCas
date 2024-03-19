@@ -53,7 +53,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -74,6 +74,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtEmpleado">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -88,6 +91,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtCategoria">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -106,6 +112,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtIngreso">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -120,6 +129,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtNif">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -138,6 +150,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtPuesto">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -152,6 +167,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtNumeroAfiliacion">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -170,6 +188,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtGrupoCotizacion">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -184,6 +205,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtCodigoOcupacion">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -202,6 +226,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtContrato">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -215,7 +242,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtFinContrato"/>
+       <widget class="QLineEdit" name="txtFinContrato">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

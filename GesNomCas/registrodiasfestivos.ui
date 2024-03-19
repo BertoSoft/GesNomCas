@@ -366,7 +366,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="cmbFestivo"/>
+        <widget class="QComboBox" name="cmbFestivo">
+         <property name="styleSheet">
+          <string notr="true">color: blue</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -400,6 +404,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLineEdit" name="txtFecha">
+           <property name="styleSheet">
+            <string notr="true">color: blue</string>
+           </property>
            <property name="text">
             <string/>
            </property>

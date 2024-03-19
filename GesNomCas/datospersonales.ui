@@ -53,7 +53,7 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -73,7 +73,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtNombre"/>
+       <widget class="QLineEdit" name="txtNombre">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
@@ -83,7 +87,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtApellidos"/>
+       <widget class="QLineEdit" name="txtApellidos">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -97,7 +105,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtDireccion"/>
+       <widget class="QLineEdit" name="txtDireccion">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -112,6 +124,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="txtCodigoPostal">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -125,7 +140,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtPoblacion"/>
+       <widget class="QLineEdit" name="txtPoblacion">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -139,7 +158,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtProvincia"/>
+       <widget class="QLineEdit" name="txtProvincia">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_7">
@@ -149,7 +172,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="txtPais"/>
+       <widget class="QLineEdit" name="txtPais">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

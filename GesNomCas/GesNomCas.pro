@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     calendario.cpp \
+    calendariolaboral.cpp \
     datosempleado.cpp \
     datosempresa.cpp \
     datospersonales.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     calendario.h \
+    calendariolaboral.h \
     datosempleado.h \
     datosempresa.h \
     datospersonales.h \
@@ -41,6 +43,7 @@ HEADERS += \
 
 FORMS += \
     calendario.ui \
+    calendariolaboral.ui \
     datosempleado.ui \
     datosempresa.ui \
     datospersonales.ui \

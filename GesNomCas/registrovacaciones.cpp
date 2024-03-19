@@ -2,6 +2,7 @@
 #include "ui_registrovacaciones.h"
 
 #include "funcaux.h"
+#include "calendario.h"
 
 #include <QDate>
 #include <QLocale>
@@ -74,15 +75,15 @@ void RegistroVacaciones::initTable(){
     ui->tableVacaciones->setColumnCount(3);
 
     QStringList headers;
-    headers += tr("Inicio");
-    headers += tr("Final");
-    headers += tr("Total Dias");
+    headers += tr("Fecha Inicio");
+    headers += tr("Fecha Final");
+    headers += tr("Dias Disfrutados");
 
     ui->tableVacaciones->setHorizontalHeaderLabels(headers);
 
-    ui->tableVacaciones->setColumnWidth(0, (int) ( ( this->width() * 0.53 ) / 3 ) );
-    ui->tableVacaciones->setColumnWidth(1, (int) ( ( this->width() * 0.53 ) / 3 ) );
-    ui->tableVacaciones->setColumnWidth(2, (int) ( ( this->width() * 0.53 ) / 3 ) );
+    ui->tableVacaciones->setColumnWidth(0, (int) ( ( this->width() * 0.52 ) / 3 ) );
+    ui->tableVacaciones->setColumnWidth(1, (int) ( ( this->width() * 0.52 ) / 3 ) );
+    ui->tableVacaciones->setColumnWidth(2, (int) ( ( this->width() * 0.52 ) / 3 ) );
 
 }
 
@@ -169,27 +170,6 @@ void RegistroVacaciones::refrescaVacacionesPendientes(int iDias){
         i++;
     }
 
-}
-
-int RegistroVacaciones::getDiasLaborables(QDate qdFecha0, QDate qdFecha1){
-    int         iLaborables = 0;
-    QDate       qdFecha;
-    QString     strFechaLarga;
-    QString     str;
-
-    qdFecha = qdFecha0;
-    while (qdFecha <= qdFecha1) {
-        strFechaLarga = FuncAux().dateToFechaLarga(qdFecha);
-        str = strFechaLarga.remove(4, strFechaLarga.length() -4);
-        if(str != "sába"  && str != "domi"){
-            if(!FuncAux().isFestivo(qdFecha)){
-                iLaborables++;
-            }
-        }
-        qdFecha = qdFecha.addDays(1);
-    }
-
-    return iLaborables;
 }
 
 void RegistroVacaciones::mostrarResumenAnual(){
@@ -361,6 +341,27 @@ QList<FuncAux::DatosVacaciones> RegistroVacaciones::ordenarListaVacaciones(QList
     return listaOrdenada;
 }
 
+int RegistroVacaciones::getDiasLaborables(QDate qdFecha0, QDate qdFecha1){
+    int         iLaborables = 0;
+    QDate       qdFecha;
+    QString     strFechaLarga;
+    QString     str;
+
+    qdFecha = qdFecha0;
+    while (qdFecha <= qdFecha1) {
+        strFechaLarga = FuncAux().dateToFechaLarga(qdFecha);
+        str = strFechaLarga.remove(4, strFechaLarga.length() -4);
+        if(str != "sába"  && str != "domi"){
+            if(!FuncAux().isFestivo(qdFecha)){
+                iLaborables++;
+            }
+        }
+        qdFecha = qdFecha.addDays(1);
+    }
+
+    return iLaborables;
+}
+
 void RegistroVacaciones::on_btnCancelar_clicked(){
 
     this->close();
@@ -418,8 +419,10 @@ void RegistroVacaciones::on_btnAdd_clicked(){
     ui->tableVacaciones->clearSelection();
     ui->frameControles->setEnabled(true);
     ui->btnGuardar->setEnabled(true);
+
     ui->txtFecha0->setText(FuncAux().dateToFechaCorta(qdFecha));
     ui->txtFecha1->setText(FuncAux().dateToFechaCorta(qdFecha));
+
     ui->txtFecha0->setFocus();
     ui->txtFecha0->selectAll();
 }
@@ -453,6 +456,10 @@ void RegistroVacaciones::on_btnEliminar_clicked(){
     if(todoOk){
         sql = QSqlQuery(dbSql);
     }
+
+    //
+    // Obtenemos un sql de la tabla Vacaciones
+    //
     strSql = "SELECT *FROM Vacaciones";
     sql.exec(strSql);
     sql.first();
@@ -752,5 +759,40 @@ void RegistroVacaciones::on_tableVacaciones_itemDoubleClicked(QTableWidgetItem *
 void RegistroVacaciones::on_cmbAno_activated(int index){
 
     initUi();
+}
+
+void RegistroVacaciones::on_tbFecha0_clicked(){
+
+    Calendario *pCalendario = new Calendario();
+
+    pCalendario->setWindowModality(Qt::ApplicationModal);
+    pCalendario->setWindowFlag(Qt::FramelessWindowHint);
+    pCalendario->exec();
+
+    if(pCalendario->strFecha != ""){
+        ui->txtFecha0->setText(pCalendario->strFecha);
+    }
+
+    delete pCalendario;
+
+    ui->txtFecha0->setFocus();
+    ui->txtFecha0->selectAll();
+}
+
+void RegistroVacaciones::on_tbFecha1_clicked(){
+    Calendario *pCalendario = new Calendario();
+
+    pCalendario->setWindowModality(Qt::ApplicationModal);
+    pCalendario->setWindowFlag(Qt::FramelessWindowHint);
+    pCalendario->exec();
+
+    if(pCalendario->strFecha != ""){
+        ui->txtFecha1->setText(pCalendario->strFecha);
+    }
+
+    delete pCalendario;
+
+    ui->txtFecha1->setFocus();
+    ui->txtFecha1->selectAll();
 }
 

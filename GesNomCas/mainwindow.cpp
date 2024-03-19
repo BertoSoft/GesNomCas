@@ -12,6 +12,7 @@
 #include "registroretribuciones.h"
 #include "registrodiasfestivos.h"
 #include "registrovacaciones.h"
+#include "calendariolaboral.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -314,6 +315,8 @@ void MainWindow::on_actionImportar_Archivo_de_Datos_triggered(){
 
     delete pImportarDatos;
 
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionImportar_Archivo_de_Incidencias_triggered(){
@@ -332,6 +335,9 @@ void MainWindow::on_actionImportar_Archivo_de_Incidencias_triggered(){
     // Debemos comprobar si ya existe un archivo incidencias
     //
     compruebaActions();
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionExportar_Archivo_de_Datos_triggered(){
@@ -368,6 +374,9 @@ void MainWindow::on_actionExportar_Archivo_de_Datos_triggered(){
             }
         }
     }
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionExportar_Archivo_de_Incidencias_triggered(){
@@ -404,6 +413,9 @@ void MainWindow::on_actionExportar_Archivo_de_Incidencias_triggered(){
             }
         }
     }
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionDatos_Personales_triggered(){
@@ -417,6 +429,9 @@ void MainWindow::on_actionDatos_Personales_triggered(){
     pDatosPersonales->exec();
 
     delete pDatosPersonales;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionDatos_Centro_Trabajo_triggered(){
@@ -430,6 +445,9 @@ void MainWindow::on_actionDatos_Centro_Trabajo_triggered(){
     pDatosEmpresa->exec();
 
     delete pDatosEmpresa;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionDatos_Empleado_triggered(){
@@ -443,6 +461,9 @@ void MainWindow::on_actionDatos_Empleado_triggered(){
     pDatosEmpleado->exec();
 
     delete pDatosEmpleado;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionRegistro_Unidades_N_mina_triggered(){
@@ -456,6 +477,9 @@ void MainWindow::on_actionRegistro_Unidades_N_mina_triggered(){
     pRegistroRetribuciones->exec();
 
     delete pRegistroRetribuciones;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionRegistro_D_as_Festivos_triggered(){
@@ -469,6 +493,9 @@ void MainWindow::on_actionRegistro_D_as_Festivos_triggered(){
     pRegistroDiasFestivos->exec();
 
     delete pRegistroDiasFestivos;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 
 void MainWindow::on_actionRegistro_Vacaciones_triggered(){
@@ -482,5 +509,24 @@ void MainWindow::on_actionRegistro_Vacaciones_triggered(){
     pRegistroVacaciones->exec();
 
     delete pRegistroVacaciones;
+
+    lblTexto->setText(FuncAux().getAppName());
+
+}
+
+void MainWindow::on_actionCalendario_Laboral_triggered(){
+
+    lblTexto->setText("Visualizando el calendario laboral...");
+
+    CalendarioLaboral *pCalendarioLaboral = new CalendarioLaboral(this);
+
+    pCalendarioLaboral->setWindowModality(Qt::ApplicationModal);
+    pCalendarioLaboral->setWindowFlag(Qt::FramelessWindowHint);
+    pCalendarioLaboral->exec();
+
+    delete pCalendarioLaboral;
+
+    lblTexto->setText(FuncAux().getAppName());
+
 }
 

@@ -60,6 +60,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="etPasswd">
+        <property name="styleSheet">
+         <string notr="true">color: blue</string>
+        </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>

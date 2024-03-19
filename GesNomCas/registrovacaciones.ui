@@ -58,12 +58,12 @@
     <rect>
      <x>20</x>
      <y>50</y>
-     <width>211</width>
+     <width>311</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Vacaciones Disfrutadas...</string>
+    <string>Listado de vacaciones disfrutadas...</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -92,7 +92,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>330</y>
+     <y>370</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -252,6 +252,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QLineEdit" name="txtFecha0">
+           <property name="styleSheet">
+            <string notr="true">color: blue</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -298,6 +301,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLineEdit" name="txtFecha1">
+           <property name="styleSheet">
+            <string notr="true">color: blue</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -334,9 +340,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>90</y>
      <width>461</width>
-     <height>241</height>
+     <height>271</height>
     </rect>
    </property>
    <property name="editTriggers">
