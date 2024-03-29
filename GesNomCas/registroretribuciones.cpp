@@ -127,8 +127,6 @@ void RegistroRetribuciones::guardar(){
     QString         strCodigoCod ;
     QString         strClaveCod;
     QString         strDenominacionCod;
-    double          dCuantia;
-    QString         strCuantiaFormateada;
     QString         strCuantiaCod;
     QString         strCodigoViejoCod       = "-1";
     QString         strRegCod               = "";
@@ -144,9 +142,7 @@ void RegistroRetribuciones::guardar(){
     strCodigoCod            = FuncAux().cifrar(ui->txtCodigo->text());
     strClaveCod             = FuncAux().cifrar(ui->cmbClave->currentText());
     strDenominacionCod      = FuncAux().cifrar(ui->txtDenominacion->text());
-    dCuantia                = ui->txtCuantia->text().toDouble();
-    strCuantiaFormateada    = QString::number(dCuantia, 'f', 2);
-    strCuantiaCod           = FuncAux().cifrar(strCuantiaFormateada);
+    strCuantiaCod           = FuncAux().cifrar(ui->txtCuantia->text());
 
     //
     // Creo la conexion con la BD

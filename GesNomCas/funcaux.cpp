@@ -31,7 +31,8 @@ FuncAux::FuncAux() {
     //
     // Aqui irá el constructor
     //
-    rutaDbGesNomCas = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    rutaDbGesNomCas     = qApp->applicationDirPath() + "/Data/GesNomCas.db";
+    rutaDbIncidencias   = qApp->applicationDirPath() + "/Data/Incidencias.db";
 
 }
 
@@ -110,33 +111,40 @@ QString FuncAux::desCifrar(QString strTextoCodHex){
     std::string                 std_Str, std_TextoCod, std_textoCodHex, std_strCompletelyEncrypted;
     std::string                 std_iv, std_ivHex;
 
-    //
-    // Sacamos la ivHex
-    //
-    std_strCompletelyEncrypted = strTextoCodHex.toStdString();
+    if(strTextoCodHex != ""){
 
-    std_ivHex       = std_strCompletelyEncrypted.substr(0, 32);
-    std_textoCodHex = std_strCompletelyEncrypted.substr(32, std_strCompletelyEncrypted.length() - 32);
+        //
+        // Sacamos la ivHex
+        //
+        std_strCompletelyEncrypted = strTextoCodHex.toStdString();
+
+        std_ivHex       = std_strCompletelyEncrypted.substr(0, 32);
+        std_textoCodHex = std_strCompletelyEncrypted.substr(32, std_strCompletelyEncrypted.length() - 32);
 
 
-    //
-    // Pasamos de Hex a Char
-    //
-    StringSource(std_textoCodHex,true,new HexDecoder(new StringSink(std_TextoCod)));
-    StringSource(std_ivHex,true,new HexDecoder(new StringSink(std_iv)));
+        //
+        // Pasamos de Hex a Char
+        //
+        StringSource(std_textoCodHex,true,new HexDecoder(new StringSink(std_TextoCod)));
+        StringSource(std_ivHex,true,new HexDecoder(new StringSink(std_iv)));
 
-    //
-    // Asignamos std_iv a byte iv
-    //
-    memcpy(iv, std_iv.c_str(), std_iv.length());
+        //
+        // Asignamos std_iv a byte iv
+        //
+        memcpy(iv, std_iv.c_str(), std_iv.length());
 
-    //
-    // Decodificamos
-    //
-    Decrypt.SetKeyWithIV(key,sizeof(key),iv);
-    StringSource(std_TextoCod,true,new StreamTransformationFilter(Decrypt,new StringSink(std_Str)));
+        //
+        // Decodificamos
+        //
+        Decrypt.SetKeyWithIV(key,sizeof(key),iv);
+        StringSource(std_TextoCod,true,new StreamTransformationFilter(Decrypt,new StringSink(std_Str)));
 
-    strTextoDes = QString::fromStdString(std_Str);
+        strTextoDes = QString::fromStdString(std_Str);
+
+    }
+    else{
+        strTextoDes = "";
+    }
 
     return strTextoDes;
 }
@@ -820,6 +828,86 @@ QString FuncAux::getFestivosConvenio(QString strAno){
     return QString::number(iFestivos);
 }
 
+double FuncAux::getAcumuladoSalarioBruto(QString strAno){
+    double dAcumulado = 0.0;
+
+    return dAcumulado;
+}
+
+double FuncAux::getAcumuladoIrpf(QString strAno){
+    double dAcumulado = 0.0;
+
+    return dAcumulado;
+}
+
+double FuncAux::getAcumuladoGastosDeducibles(QString strAno){
+    double dAcumulado = 0.0;
+
+    return dAcumulado;
+}
+
+FuncAux::DatosEmpleado FuncAux::getDatosEmpleado(){
+    DatosEmpleado   datos;
+    bool            todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_datos_empleado");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM DatosEmpleado";
+    sql.exec(strSql);
+    sql.first();
+    if(sql.isValid()){
+
+        datos.empleado          = desCifrar(sql.record().value("Empleado").toString());
+        datos.categoria         = desCifrar(sql.record().value("Categoria").toString());
+        datos.ingreso           = desCifrar(sql.record().value("Ingreso").toString());
+        datos.nif               = desCifrar(sql.record().value("Nif").toString());
+        datos.puesto            = desCifrar(sql.record().value("Puesto").toString());
+        datos.numeroAfiliacion  = desCifrar(sql.record().value("NumeroAfiliacion").toString());
+        datos.grupoCotizacion   = desCifrar(sql.record().value("GrupoCotizacion").toString());
+        datos.codigoOcupacion   = desCifrar(sql.record().value("CodigoOcupacion").toString());
+        datos.contrato          = desCifrar(sql.record().value("Contrato").toString());
+        datos.finContrato       = desCifrar(sql.record().value("FinContrato").toString());
+    }
+    else{
+
+        datos.empleado          = "";
+        datos.categoria         = "";
+        datos.ingreso           = "";
+        datos.nif               = "";
+        datos.puesto            = "";
+        datos.numeroAfiliacion  = "";
+        datos.grupoCotizacion   = "";
+        datos.codigoOcupacion   = "";
+        datos.contrato          = "";
+        datos.finContrato       = "";
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_datos_empleado");
+
+    return datos;
+}
+
 QList<FuncAux::DatosVacacionesPendientes> FuncAux::getAllVacacionesPendientes(){
     DatosVacacionesPendientes           dato;
     QList<DatosVacacionesPendientes>    listaVacacionesPendientes;
@@ -949,6 +1037,101 @@ QList<FuncAux::DatosFestivos> FuncAux::getAllFestivos(){
     dbSql.removeDatabase("con_get_Festivos");
 
     return listaFestivos;
+}
+
+QList<FuncAux::DatosRetribuciones> FuncAux::getAllRetribuciones(){
+    QList<FuncAux::DatosRetribuciones>  listaRetribuciones;
+    FuncAux::DatosRetribuciones         dato;
+    bool                                todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_retribuciones");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Retribuciones";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()){
+
+        dato.codigo         = FuncAux().desCifrar(sql.record().value("Codigo").toString());
+        dato.clave          = FuncAux().desCifrar(sql.record().value("Clave").toString());
+        dato.denominacion   = FuncAux().desCifrar(sql.record().value("Denominacion").toString());
+        dato.cuantia        = FuncAux().desCifrar(sql.record().value("Cuantia").toString());
+
+        listaRetribuciones.append(dato);
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_retribuciones");
+
+    return listaRetribuciones;
+}
+
+QList<FuncAux::DatosIncidencias> FuncAux::getAllIncidencias(){
+    QList<FuncAux::DatosIncidencias>    listaIncidencias;
+    FuncAux::DatosIncidencias           dato;
+    bool                                todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_all_incidencias");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbIncidencias);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Incidencias";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()){
+
+        dato.fecha      = sql.record().value("Fecha").toString();
+        dato.hed        = sql.record().value("Hed").toString();
+        dato.hen        = sql.record().value("Hen").toString();
+        dato.hef        = sql.record().value("Hef").toString();
+        dato.voladuras  = sql.record().value("Voladuras").toString();
+
+        listaIncidencias.append(dato);
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_all_incidencias");
+
+    return listaIncidencias;
 }
 
 bool FuncAux::esFormatoDatos(QString rutaArchivo){
@@ -1283,6 +1466,27 @@ QString FuncAux::dateToFechaLarga(QDate qdFecha){
     return strFecha;
 }
 
+int FuncAux::strMesToInt(QString strMes){
+    int iMes = -1;
+
+    strMes = strMes.toUpper();
+
+    if(strMes == "ENERO"){iMes = 1;}
+    if(strMes == "FEBRERO"){iMes = 2;}
+    if(strMes == "MARZO"){iMes = 3;}
+    if(strMes == "ABRIL"){iMes = 4;}
+    if(strMes == "MAYO"){iMes = 5;}
+    if(strMes == "JUNIO"){iMes = 6;}
+    if(strMes == "JULIO"){iMes = 7;}
+    if(strMes == "AGOSTO"){iMes = 8;}
+    if(strMes == "SEPTIEMBRE"){iMes = 9;}
+    if(strMes == "OCTUBRE"){iMes = 10;}
+    if(strMes == "NOVIEMBRE"){iMes = 11;}
+    if(strMes == "DICIEMBRE"){iMes = 12;}
+
+    return iMes;
+}
+
 bool FuncAux::isFormatoFecha(QString strFecha){
     bool        isFecha = false;
     QString     str;
@@ -1338,4 +1542,41 @@ bool FuncAux::isFestivo(QDate qdFecha){
     }
 
     return isFestivo;
+}
+
+bool FuncAux::isLaborable(QDate qdFecha){
+    bool    isLaborable = true;
+    QString str;
+
+    str = dateToFechaLarga(qdFecha);
+    str = str.remove(4, str.length() -4);
+
+    if(str == "sába" || str == "domi" || isFestivo(qdFecha) == true ){
+        isLaborable = false;
+    }
+
+
+    return isLaborable;
+}
+
+bool FuncAux::isVacaciones(QDate qdFecha){
+    QList<FuncAux::DatosVacaciones>     listaVacaciones;
+    bool                                isVacaciones    = false;
+    int                                 i               = 0;
+    QString                             strAno;
+
+    strAno          = QString::number(qdFecha.year());
+    listaVacaciones = FuncAux().getAllVacaciones();
+
+    while (i < listaVacaciones.count()) {
+        if(listaVacaciones[i].strAno == strAno){
+            if(listaVacaciones[i].qdFecha0 < qdFecha && qdFecha < listaVacaciones[i].qdFecha1){
+                isVacaciones = true;
+                i = listaVacaciones.count();
+            }
+        }
+        i++;
+    }
+
+    return isVacaciones;
 }

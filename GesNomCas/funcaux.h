@@ -17,6 +17,7 @@ public:
     // Variables Globales
     //
     QString         rutaDbGesNomCas;
+    QString         rutaDbIncidencias;
     QString         strSql;
     QSqlDatabase    dbSql;
     QSqlQuery       sql;
@@ -48,6 +49,26 @@ public:
         QDate   qdFecha1;
     };
 
+    struct DatosEmpleado{
+        QString empleado;
+        QString categoria;
+        QString ingreso;
+        QString nif;
+        QString puesto;
+        QString numeroAfiliacion;
+        QString grupoCotizacion;
+        QString codigoOcupacion;
+        QString contrato;
+        QString finContrato;
+    };
+
+    struct DatosRetribuciones{
+        QString codigo;
+        QString clave;
+        QString denominacion;
+        QString cuantia;
+    };
+
     //
     // Funciones Publicas
     //
@@ -71,9 +92,15 @@ public:
     QString                             getFestivosLocales(QString);
     QString                             getFestivosAutonomicos(QString);
     QString                             getFestivosConvenio(QString);
+    double                              getAcumuladoSalarioBruto(QString);
+    double                              getAcumuladoIrpf(QString);
+    double                              getAcumuladoGastosDeducibles(QString);
+    DatosEmpleado                       getDatosEmpleado();
     QList<DatosVacacionesPendientes>    getAllVacacionesPendientes();
     QList<DatosVacaciones>              getAllVacaciones();
     QList<DatosFestivos>                getAllFestivos();
+    QList<DatosRetribuciones>           getAllRetribuciones();
+    QList<DatosIncidencias>             getAllIncidencias();
     void                                setInicioSesion(QString, QString);
     void                                setCierreSesion(QString, QString);
     void                                setUsuario(QString usuario, QString passwd);
@@ -81,8 +108,11 @@ public:
     QString                             dateToFechaCorta(QDate);
     QString                             dateToFechaLarga(QDate);
     QDate                               fechaCortaToDate(QString);
+    int                                 strMesToInt(QString);
     bool                                isFormatoFecha(QString strFecha);
     bool                                isFestivo(QDate);
+    bool                                isLaborable(QDate);
+    bool                                isVacaciones(QDate);
 
 
 };

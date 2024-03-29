@@ -13,6 +13,8 @@
 #include "registrodiasfestivos.h"
 #include "registrovacaciones.h"
 #include "calendariolaboral.h"
+#include "crearnomina.h"
+#include "precrearnomina.h"
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -525,6 +527,65 @@ void MainWindow::on_actionCalendario_Laboral_triggered(){
     pCalendarioLaboral->exec();
 
     delete pCalendarioLaboral;
+
+    lblTexto->setText(FuncAux().getAppName());
+
+}
+
+void MainWindow::on_actionCrear_N_mina_triggered(){
+
+    lblTexto->setText("Creando una nueva Nómina...");
+
+
+    PreCrearNomina *pPreCrearNomina = new PreCrearNomina(this);
+
+    pPreCrearNomina->setWindowModality(Qt::ApplicationModal);
+    pPreCrearNomina->setWindowFlag(Qt::FramelessWindowHint);
+    pPreCrearNomina->exec();
+
+    if(pPreCrearNomina->strMes == "-1" && pPreCrearNomina->strAno == "-1"){
+        delete pPreCrearNomina;
+    }
+    else{
+
+        CrearNomina *pCrearNomina = new CrearNomina(this);
+
+        //
+        // Copiamos las Variables
+        //
+        pCrearNomina->strMes            = pPreCrearNomina->strMes;
+        pCrearNomina->strAno            = pPreCrearNomina->strAno;
+        pCrearNomina->strDiasTotales    = pPreCrearNomina->strDiasTotales;
+        pCrearNomina->strAsistencias    = pPreCrearNomina->strAsistencias;
+        pCrearNomina->strTransportes    = pPreCrearNomina->strTransportes;
+        pCrearNomina->strTurnicidad     = pPreCrearNomina->strTurnicidad;
+        pCrearNomina->strHed            = pPreCrearNomina->strHed;
+        pCrearNomina->strHen            = pPreCrearNomina->strHen;
+        pCrearNomina->strHef            = pPreCrearNomina->strHef;
+        pCrearNomina->strToxicos        = pPreCrearNomina->strToxicos;
+        pCrearNomina->strCteProrrateo   = pPreCrearNomina->strCteProrrateo;
+
+
+        //
+        // Cerramos PPreCrearNomina
+        //
+        delete pPreCrearNomina;
+
+        //
+        //Refrescammos UI de CreaerNomina
+        //
+        pCrearNomina->initUi();
+
+        //
+        // Cargamos CrearNomina
+        //
+        pCrearNomina->setWindowModality(Qt::ApplicationModal);
+        pCrearNomina->setWindowFlag(Qt::FramelessWindowHint);
+        pCrearNomina->exec();
+
+        delete pCrearNomina;
+
+    }
 
     lblTexto->setText(FuncAux().getAppName());
 

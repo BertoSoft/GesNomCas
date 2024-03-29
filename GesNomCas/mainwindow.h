@@ -75,6 +75,8 @@ private slots:
 
     void on_actionCalendario_Laboral_triggered();
 
+    void on_actionCrear_N_mina_triggered();
+
 private:
 
     Ui::MainWindow *ui;

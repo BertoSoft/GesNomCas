@@ -28,6 +28,7 @@ void CalendarioLaboral::on_btnCancelar_clicked(){
 }
 
 void CalendarioLaboral::initUi(){
+    limpiaCalendario();
     dibujaCalendario();
     coloreaCalendario();
 }
@@ -551,18 +552,214 @@ void CalendarioLaboral::initCalendario(){
 
 }
 
-void CalendarioLaboral::dibujaCalendario(){
-    QDate   qdFecha;
-    int     iAno;
-    int     iCol;
+void CalendarioLaboral::limpiaCalendario(){
     int     iFila;
-    QString str;
+    int     iCol;
 
+    //
+    // Enero
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableEnero->item(iFila, iCol)->setText("");
+            ui->tableEnero->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Febrero
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableFebrero->item(iFila, iCol)->setText("");
+            ui->tableFebrero->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Marzo
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableMarzo->item(iFila, iCol)->setText("");
+            ui->tableMarzo->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Abril
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableAbril->item(iFila, iCol)->setText("");
+            ui->tableAbril->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Mayo
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableMayo->item(iFila, iCol)->setText("");
+            ui->tableMayo->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // junio
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableJunio->item(iFila, iCol)->setText("");
+            ui->tableJunio->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Julio
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableJulio->item(iFila, iCol)->setText("");
+            ui->tableJulio->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Agosto
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableAgosto->item(iFila, iCol)->setText("");
+            ui->tableAgosto->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Septiembre
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableSeptiembre->item(iFila, iCol)->setText("");
+            ui->tableSeptiembre->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Octubre
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableOctubre->item(iFila, iCol)->setText("");
+            ui->tableOctubre->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Noviembre
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableNoviembre->item(iFila, iCol)->setText("");
+            ui->tableNoviembre->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+
+    //
+    // Diciembre
+    //
+    iFila   = 0;
+    iCol    = 0;
+
+    while(iFila < 6){
+        while(iCol < 7){
+            ui->tableDiciembre->item(iFila, iCol)->setText("");
+            ui->tableDiciembre->item(iFila, iCol)->setBackground(QBrush(Qt::white));
+            iCol++;
+        }
+        iFila++;
+        iCol = 0;
+    }
+}
+
+void CalendarioLaboral::dibujaCalendario(){
+    QDate       qdFecha;
+    int         iAno;
+    QList<int>  iPos;
+    int         iCol;
+    int         iFila;
 
     //
     // Coloco las leyendas
     //
-    ui->colorNacional->setStyleSheet("background-color:rgb(255, 0, 0)");
+    ui->colorNacional->setStyleSheet("background-color:rgb(255, 255, 0)");
     ui->colorAutonmicos->setStyleSheet("background-color:rgb(0, 255, 0)");
     ui->colorLocales->setStyleSheet("background-color:rgb(0, 0, 255)");
     ui->colorConvenio->setStyleSheet("background-color:rgb(125, 125, 125)");
@@ -575,42 +772,15 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Enero
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 1) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableEnero->item(iFila, iCol)->setBackground(QBrush(Qt::red));
         }
+
         ui->tableEnero->item(iFila, iCol)->setText(QString::number(qdFecha.day()));
 
         qdFecha = qdFecha.addDays(1);
@@ -620,38 +790,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Febrero
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 2) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableFebrero->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -665,38 +807,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Marzo
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 3) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableMarzo->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -710,38 +824,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Abril
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 4) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableAbril->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -755,38 +841,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Mayo
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 5) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableMayo->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -800,43 +858,16 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Junio
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 6) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableJunio->item(iFila, iCol)->setBackground(QBrush(Qt::red));
         }
         ui->tableJunio->item(iFila, iCol)->setText(QString::number(qdFecha.day()));
+
         qdFecha = qdFecha.addDays(1);
         iCol++;
     }
@@ -844,38 +875,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Julio
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 7) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableJulio->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -889,43 +892,16 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Agosto
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 8) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableAgosto->item(iFila, iCol)->setBackground(QBrush(Qt::red));
         }
         ui->tableAgosto->item(iFila, iCol)->setText(QString::number(qdFecha.day()));
+
         qdFecha = qdFecha.addDays(1);
         iCol++;
     }
@@ -933,38 +909,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Septiembre
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 9) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableSeptiembre->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -978,38 +926,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Octubre
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 10) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableOctubre->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -1023,38 +943,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Noviembre
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 11) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableNoviembre->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -1068,38 +960,10 @@ void CalendarioLaboral::dibujaCalendario(){
     //
     // Diciembre
     //
-    iFila = 0;
-    str = FuncAux().dateToFechaLarga(qdFecha);
-    str = str.remove(4, str.length() - 4);
-
-    if(str == "lune"){
-        iCol = 0;
-    }
-    else if(str == "mart"){
-        iCol = 1;
-    }
-    else if(str == "miér"){
-        iCol = 2;
-    }
-    else if(str == "juev"){
-        iCol = 3;
-    }
-    else if(str == "vier"){
-        iCol = 4;
-    }
-    else if(str == "sába"){
-        iCol = 5;
-    }
-    else{
-        iCol = 6;
-    }
-
     while (qdFecha.month() == 12) {
-
-        if(iCol > 6){
-            iCol = 0;
-            iFila++;
-        }
+        iPos    = dateToPos(qdFecha);
+        iFila   = iPos[0];
+        iCol    = iPos[1];
 
         if(iCol == 5 || iCol == 6){
             ui->tableDiciembre->item(iFila, iCol)->setBackground(QBrush(Qt::red));
@@ -1109,16 +973,21 @@ void CalendarioLaboral::dibujaCalendario(){
         qdFecha = qdFecha.addDays(1);
         iCol++;
     }
+
 }
 
 void CalendarioLaboral::coloreaCalendario(){
     QList<FuncAux::DatosFestivos>   listaFestivos;
+    QList<FuncAux::DatosVacaciones> listaVacaciones;
     int                             i = 0;
     QList<int>                      iPos;
     int                             iFila;
     int                             iCol;
     QColor                          color;
 
+    //
+    // Festivos
+    //
     listaFestivos = FuncAux().getAllFestivos();
 
     while (i < listaFestivos.count()) {
@@ -1219,6 +1088,122 @@ void CalendarioLaboral::coloreaCalendario(){
         }
         i++;
     }
+
+    //
+    // Vacaciones
+    //
+    listaVacaciones = FuncAux().getAllVacaciones();
+    i = 0;
+
+    while (i<listaVacaciones.count()) {
+        if(listaVacaciones[i].strAno == ui->cmbAno->currentText()){
+            QDate qdFecha0 = listaVacaciones[i].qdFecha0;
+            QDate qdFecha1 = listaVacaciones[i].qdFecha1;
+
+            while (qdFecha0 <= qdFecha1) {
+                iPos    = dateToPos(qdFecha0);
+                iFila   = iPos[0];
+                iCol    = iPos[1];
+                color   = colorVacaciones;
+
+                //
+                // Si es laborable lo pintamos del color de las vacaciones
+                //
+                if(FuncAux().isLaborable(qdFecha0)){
+
+                    //
+                    //Enero
+                    //
+                    if(qdFecha0.month() == 1){
+                        ui->tableEnero->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Febrero
+                    //
+                    if(qdFecha0.month() == 2){
+                        ui->tableFebrero->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Marzo
+                    //
+                    if(qdFecha0.month() == 3){
+                        ui->tableMarzo->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Abril
+                    //
+                    if(qdFecha0.month() == 4){
+                        ui->tableAbril->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Mayo
+                    //
+                    if(qdFecha0.month() == 5){
+                        ui->tableMayo->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Junio
+                    //
+                    if(qdFecha0.month() == 6){
+                        ui->tableJunio->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Julio
+                    //
+                    if(qdFecha0.month() == 7){
+                        ui->tableJulio->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Agosto
+                    //
+                    if(qdFecha0.month() == 8){
+                        ui->tableAgosto->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Septiembre
+                    //
+                    if(qdFecha0.month() == 9){
+                        ui->tableSeptiembre->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Octubre
+                    //
+                    if(qdFecha0.month() == 10){
+                        ui->tableOctubre->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Noviembre
+                    //
+                    if(qdFecha0.month() == 11){
+                        ui->tableNoviembre->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                    //
+                    //Diciembre
+                    //
+                    if(qdFecha0.month() == 12){
+                        ui->tableDiciembre->item(iFila, iCol)->setBackground(QBrush(color));
+                    }
+
+                }
+
+                qdFecha0 = qdFecha0.addDays(1);
+            }
+        }
+        i++;
+    }
+
+
 }
 
 QList<int> CalendarioLaboral::dateToPos(QDate qdFecha){
@@ -1279,3 +1264,8 @@ QList<int> CalendarioLaboral::dateToPos(QDate qdFecha){
 
     return iPos;
 }
+
+void CalendarioLaboral::on_cmbAno_activated(int index){
+    initUi();
+}
+
