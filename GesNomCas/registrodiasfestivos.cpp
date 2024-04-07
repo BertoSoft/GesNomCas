@@ -293,8 +293,8 @@ QList<FuncAux::DatosFestivos> RegistroDiasFestivos::ordenarLista(QList<FuncAux::
     QList <QDate>                    listaQDates;
     int                              i = 0;
     FuncAux::DatosFestivos           dato;
-
     //
+
     // Obtenemos la lista de Fechas
     //
     while (i < lista.count()) {

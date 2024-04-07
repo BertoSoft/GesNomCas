@@ -51,7 +51,7 @@ void CrearNomina::initUi(){
     QDate                   qdFecha;
     QString                 str;
     FuncAux::DatosEmpleado  datosEmpleado;
-    QList<DatosNomina>      listaNomina;
+    QList<DatosCrearNomina>      listaNomina;
     int                     i                           = 0;
     int                     iFila                       = 0;
     double                  dTipoCCEmpresarial          = 0.236;
@@ -164,9 +164,9 @@ void CrearNomina::initUi(){
     //
     // Los Acumulados
     //
-    ui->lblSumaSalarioBruto->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoSalarioBruto(strAno)));
-    ui->lblSumaIrpf->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoIrpf(strAno)));
-    ui->lblSumaGastosDeducibles->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoGastosDeducibles(strAno)));
+    ui->lblSumaSalarioBruto->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoSalarioBruto(strAno, strMes) + dRemuneracion + dRemuneracionPE));
+    ui->lblSumaIrpf->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoIrpf(strAno, strMes) + dIrpf));
+    ui->lblSumaGastosDeducibles->setText(QLocale().toCurrencyString(FuncAux().getAcumuladoGastosDeducibles(strAno, strMes) + dDeducciones));
 
     //
     // Ahora el liquido
@@ -183,9 +183,101 @@ void CrearNomina::salir(){
     this->close();
 }
 
-QList<CrearNomina::DatosNomina> CrearNomina::getListaNomina(){
-    DatosNomina                         lineaNomina;
-    QList<DatosNomina>                  listaNomina;
+void CrearNomina::guardar(){
+    QList<FuncAux::DatosNomina>     listaDatosNomina;
+    FuncAux::DatosNomina            dato;
+    int                             iFila;
+    QString                         str;
+    double                          dSumaSalario;
+    double                          dSumaIrpf;
+    double                          dSumaGastos;
+
+    //
+    // Obtenemos los acumulados
+    //
+    str             = ui->lblSumaSalarioBruto->text();
+    str             = str.remove(str.length() -1, 1);
+    dSumaSalario    = QLocale().toDouble(str);
+
+    str             = ui->lblSumaIrpf->text();
+    str             = str.remove(str.length() -1, 1);
+    dSumaIrpf       = QLocale().toDouble(str);
+
+    str             = ui->lblSumaGastosDeducibles->text();
+    str             = str.remove(str.length() -1, 1);
+    dSumaGastos     = QLocale().toDouble(str);
+
+    //
+    // Rellenamos los datos, la primera linea tendra todos los datos, menos el detalle de la nomina
+    //
+    dato.codigo                     = "";
+    dato.clave                      = "";
+    dato.denominacion               = "";
+    dato.cantidad                   = "";
+    dato.precio                     = "";
+    dato.importe                    = "";
+    dato.strAno                     = strAno;
+    dato.strMes                     = strMes;
+    dato.strRenumeracion            = QString::number(dRemuneracion);
+    dato.strRemuneracionPE          = QString::number(dRemuneracionPE);
+    dato.strProrrateo               = QString::number(dProrrateoPagasExtra);
+    dato.strDeducciones             = QString::number(dDeducciones);
+    dato.strIrpf                    = QString::number(dIrpf);
+    dato.strTipoCCEmpresa           = "23.6";
+    dato.strTipoATEPEmpresa         = "7.15";
+    dato.strTipoDesempleoEmpresa    = "5.5";
+    dato.strTipoFormacionEmpresa    = "0.6";
+    dato.strTipoFogasaEmpresa       = "0.2";
+    dato.strTipoMeiEmpresa          = "0.58";
+    dato.strSumaSalarioBruto        = QString::number(dSumaSalario);
+    dato.strSumaIrpf                = QString::number(dSumaIrpf);
+    dato.strSumaGastosDeducibles    = QString::number(dSumaGastos);
+
+    listaDatosNomina.append(dato);
+
+    //
+    // Ahora las lineas de la nomina
+    //
+    iFila = 0;
+    while (iFila < ui->tableNomina->rowCount()) {
+
+        dato.codigo                     = ui->tableNomina->item(iFila, 0)->text();
+        dato.clave                      = ui->tableNomina->item(iFila, 1)->text();
+        dato.denominacion               = ui->tableNomina->item(iFila, 2)->text();
+        dato.cantidad                   = ui->tableNomina->item(iFila, 3)->text();
+        dato.precio                     = ui->tableNomina->item(iFila, 4)->text();
+        dato.importe                    = ui->tableNomina->item(iFila, 5)->text();
+        dato.strAno                     = strAno;
+        dato.strMes                     = strMes;
+        dato.strRenumeracion            = "";
+        dato.strRemuneracionPE          = "";
+        dato.strProrrateo               = "";
+        dato.strDeducciones             = "";
+        dato.strIrpf                    = "";
+        dato.strTipoCCEmpresa           = "";
+        dato.strTipoATEPEmpresa         = "";
+        dato.strTipoDesempleoEmpresa    = "";
+        dato.strTipoFormacionEmpresa    = "";
+        dato.strTipoFogasaEmpresa       = "";
+        dato.strTipoMeiEmpresa          = "";
+        dato.strSumaSalarioBruto        = "";
+        dato.strSumaIrpf                = "";
+        dato.strSumaGastosDeducibles    = "";
+
+        listaDatosNomina.append(dato);
+
+        iFila++;
+    }
+
+    //
+    // Guardamos los valores
+    //
+    FuncAux().setNomina(listaDatosNomina);
+}
+
+QList<CrearNomina::DatosCrearNomina> CrearNomina::getListaNomina(){
+    DatosCrearNomina                         lineaNomina;
+    QList<DatosCrearNomina>                  listaNomina;
     FuncAux::DatosRetribuciones         datos;
     double                              dCantidad;
     double                              dPrecio;
@@ -684,7 +776,7 @@ QList<CrearNomina::DatosNomina> CrearNomina::getListaNomina(){
     //
     datos       = getRetribucion("911.00");
 
-    dCantidad   = datos.cuantia.toDouble() * 0.01;
+    dCantidad   = (strIrpf.toDouble() * 0.01);
     dPrecio     = dRemuneracion;
     dImporte    = dCantidad * dPrecio;
 
@@ -750,5 +842,11 @@ FuncAux::DatosRetribuciones CrearNomina::getRetribucion(QString strCodigo){
 void CrearNomina::on_btnCancelar_clicked(){
 
     salir();
+}
+
+void CrearNomina::on_btnGuardar_clicked(){
+    salir();
+    guardar();
+
 }
 

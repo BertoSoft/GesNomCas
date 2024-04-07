@@ -20,7 +20,7 @@ public:
     //
     // Structuras
     //
-    struct DatosNomina{
+    struct DatosCrearNomina{
         QString codigo;
         QString clave;
         QString denominacion;
@@ -39,6 +39,7 @@ public:
     QString                         strHef;
     QString                         strToxicos;
     QString                         strCteProrrateo;
+    QString                         strIrpf;
 
     double                          dRemuneracion           = 0.0;
     double                          dRemuneracionPE         = 0.0;
@@ -53,7 +54,8 @@ public:
     void                            initUi();
     void                            initTable();
     void                            salir();
-    QList<DatosNomina>              getListaNomina();
+    void                            guardar();
+    QList<DatosCrearNomina>         getListaNomina();
     FuncAux::DatosRetribuciones     getRetribucion(QString);
 
 
@@ -62,6 +64,8 @@ public:
 
 private slots:
     void on_btnCancelar_clicked();
+
+    void on_btnGuardar_clicked();
 
 private:
     Ui::CrearNomina *ui;

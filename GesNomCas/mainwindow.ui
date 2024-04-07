@@ -27,27 +27,65 @@
     <property name="title">
      <string>Archivo</string>
     </property>
-    <addaction name="actionImportar_Archivo_de_Datos"/>
-    <addaction name="actionImportar_Archivo_de_Incidencias"/>
-    <addaction name="actionExportar_Archivo_de_Datos"/>
-    <addaction name="actionExportar_Archivo_de_Incidencias"/>
+    <widget class="QMenu" name="menuExportar">
+     <property name="title">
+      <string>Exportar...</string>
+     </property>
+     <addaction name="actionExportar_Archivo_de_Datos"/>
+     <addaction name="actionExportar_Archivo_de_Incidencias"/>
+    </widget>
+    <widget class="QMenu" name="menuImportar">
+     <property name="title">
+      <string>Importar...</string>
+     </property>
+     <addaction name="actionImportar_Archivo_de_Datos"/>
+     <addaction name="actionImportar_Archivo_de_Incidencias"/>
+    </widget>
     <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
+    <addaction name="menuImportar"/>
+    <addaction name="menuExportar"/>
+    <addaction name="actionModificar_Incidencias"/>
     <addaction name="actionSalir"/>
    </widget>
    <widget class="QMenu" name="menuEdicci_n">
     <property name="title">
      <string>Empresa</string>
     </property>
-    <addaction name="actionDatos_Personales"/>
-    <addaction name="actionDatos_Centro_Trabajo"/>
-    <addaction name="actionDatos_Empleado"/>
-    <addaction name="actionRegistro_Unidades_N_mina"/>
-    <addaction name="actionRegistro_D_as_Festivos"/>
-    <addaction name="actionRegistro_Vacaciones"/>
+    <widget class="QMenu" name="menuDatos">
+     <property name="title">
+      <string>Datos</string>
+     </property>
+     <addaction name="actionDatos_Personales"/>
+     <addaction name="actionDatos_Centro_Trabajo"/>
+     <addaction name="actionDatos_Empleado"/>
+    </widget>
+    <widget class="QMenu" name="menuRegistros">
+     <property name="title">
+      <string>Registros</string>
+     </property>
+     <addaction name="actionRegistro_Unidades_N_mina"/>
+     <addaction name="actionRegistro_D_as_Festivos"/>
+     <addaction name="actionRegistro_Vacaciones"/>
+    </widget>
+    <widget class="QMenu" name="menuNominas">
+     <property name="title">
+      <string>Nominas</string>
+     </property>
+     <addaction name="actionCrear_N_mina"/>
+     <addaction name="actionCargar_Nomina"/>
+    </widget>
+    <widget class="QMenu" name="menuType_Here">
+     <property name="title">
+      <string>Type Here</string>
+     </property>
+    </widget>
     <addaction name="actionCalendario_Laboral"/>
-    <addaction name="actionCrear_N_mina"/>
+    <addaction name="menuDatos"/>
+    <addaction name="menuRegistros"/>
+    <addaction name="menuNominas"/>
+    <addaction name="menuType_Here"/>
    </widget>
    <widget class="QMenu" name="menuCoche">
     <property name="title">
@@ -80,9 +118,10 @@
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionImportar_Archivo_de_Datos"/>
-   <addaction name="actionImportar_Archivo_de_Incidencias"/>
    <addaction name="actionExportar_Archivo_de_Datos"/>
+   <addaction name="actionImportar_Archivo_de_Incidencias"/>
    <addaction name="actionExportar_Archivo_de_Incidencias"/>
+   <addaction name="actionModificar_Incidencias"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
@@ -94,6 +133,7 @@
    <addaction name="actionRegistro_Vacaciones"/>
    <addaction name="actionCalendario_Laboral"/>
    <addaction name="actionCrear_N_mina"/>
+   <addaction name="actionCargar_Nomina"/>
   </widget>
   <action name="actionSalir">
    <property name="icon">
@@ -210,6 +250,24 @@
    </property>
    <property name="text">
     <string>Crear Nómina</string>
+   </property>
+  </action>
+  <action name="actionCargar_Nomina">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/abrir.jpeg</normaloff>:/abrir.jpeg</iconset>
+   </property>
+   <property name="text">
+    <string>Cargar Nomina</string>
+   </property>
+  </action>
+  <action name="actionModificar_Incidencias">
+   <property name="icon">
+    <iconset resource="imagenes/imagenes.qrc">
+     <normaloff>:/modificarbd.png</normaloff>:/modificarbd.png</iconset>
+   </property>
+   <property name="text">
+    <string>Modificar Archivo de Incidencias</string>
    </property>
   </action>
  </widget>

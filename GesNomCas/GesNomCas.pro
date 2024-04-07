@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     calendario.cpp \
     calendariolaboral.cpp \
+    cargarnomina.cpp \
     crearnomina.cpp \
     datosempleado.cpp \
     datosempresa.cpp \
@@ -21,6 +22,8 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
+    modoficarincidencias.cpp \
+    precargarnomina.cpp \
     precrearnomina.cpp \
     registro.cpp \
     registrodiasfestivos.cpp \
@@ -30,6 +33,7 @@ SOURCES += \
 HEADERS += \
     calendario.h \
     calendariolaboral.h \
+    cargarnomina.h \
     crearnomina.h \
     datosempleado.h \
     datosempresa.h \
@@ -39,6 +43,8 @@ HEADERS += \
     importarincidencias.h \
     login.h \
     mainwindow.h \
+    modoficarincidencias.h \
+    precargarnomina.h \
     precrearnomina.h \
     registro.h \
     registrodiasfestivos.h \
@@ -48,6 +54,7 @@ HEADERS += \
 FORMS += \
     calendario.ui \
     calendariolaboral.ui \
+    cargarnomina.ui \
     crearnomina.ui \
     datosempleado.ui \
     datosempresa.ui \
@@ -56,6 +63,8 @@ FORMS += \
     importarincidencias.ui \
     login.ui \
     mainwindow.ui \
+    modoficarincidencias.ui \
+    precargarnomina.ui \
     precrearnomina.ui \
     registro.ui \
     registrodiasfestivos.ui \

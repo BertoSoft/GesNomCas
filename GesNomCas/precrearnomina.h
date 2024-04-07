@@ -29,6 +29,7 @@ public:
     QString strHef;
     QString strToxicos;
     QString strCteProrrateo;
+    QString strIrpf;
 
 
     void                        initSps();
@@ -40,6 +41,11 @@ public:
     double                      getIrpf();
     FuncAux::DatosIncidencias   getIncidencias();
     double                      getProrrateo();
+
+protected:
+
+    bool eventFilter(QObject *obj, QEvent *ev);
+
 
 private slots:
     void on_btnCancelar_clicked();

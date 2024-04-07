@@ -77,6 +77,10 @@ private slots:
 
     void on_actionCrear_N_mina_triggered();
 
+    void on_actionCargar_Nomina_triggered();
+
+    void on_actionModificar_Incidencias_triggered();
+
 private:
 
     Ui::MainWindow *ui;

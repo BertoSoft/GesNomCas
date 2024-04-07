@@ -12,12 +12,68 @@ PreCrearNomina::PreCrearNomina(QWidget *parent)
 
     ui->setupUi(this);
 
+    //
+    // Instalamos un filtro de eventos en la app
+    //
+    ui->etDiasTotales->installEventFilter(this);
+    ui->etAntiguedad->installEventFilter(this);
+    ui->etAsistencias->installEventFilter(this);
+    ui->etTransporte->installEventFilter(this);
+    ui->etTurnicidad->installEventFilter(this);
+    ui->etIrpf->installEventFilter(this);
+    ui->etHed->installEventFilter(this);
+    ui->etHen->installEventFilter(this);
+    ui->etHef->installEventFilter(this);
+    ui->etToxicos->installEventFilter(this);
+    ui->etProrrateo->installEventFilter(this);
+
     initSps();
     initUi();
 }
 
 PreCrearNomina::~PreCrearNomina(){
     delete ui;
+}
+
+bool PreCrearNomina::eventFilter(QObject *obj, QEvent *ev){
+
+    if(obj == ui->etDiasTotales && ev->type() == QEvent::MouseButtonRelease){
+        ui->etDiasTotales->selectAll();
+    }
+    if(obj == ui->etAntiguedad && ev->type() == QEvent::MouseButtonRelease){
+        ui->etAntiguedad->selectAll();
+    }
+    if(obj == ui->etAsistencias && ev->type() == QEvent::MouseButtonRelease){
+        ui->etAsistencias->selectAll();
+    }
+    if(obj == ui->etTransporte && ev->type() == QEvent::MouseButtonRelease){
+        ui->etTransporte->selectAll();
+    }
+    if(obj == ui->etTurnicidad && ev->type() == QEvent::MouseButtonRelease){
+        ui->etTurnicidad->selectAll();
+    }
+    if(obj == ui->etIrpf && ev->type() == QEvent::MouseButtonRelease){
+        ui->etIrpf->selectAll();
+    }
+    if(obj == ui->etHed && ev->type() == QEvent::MouseButtonRelease){
+        ui->etHed->selectAll();
+    }
+    if(obj == ui->etHen && ev->type() == QEvent::MouseButtonRelease){
+        ui->etHen->selectAll();
+    }
+    if(obj == ui->etHef && ev->type() == QEvent::MouseButtonRelease){
+        ui->etHef->selectAll();
+    }
+    if(obj == ui->etToxicos && ev->type() == QEvent::MouseButtonRelease){
+        ui->etToxicos->selectAll();
+    }
+    if(obj == ui->etProrrateo && ev->type() == QEvent::MouseButtonRelease){
+        ui->etProrrateo->selectAll();
+    }
+
+
+    return QObject::eventFilter(obj, ev);
+
 }
 
 void PreCrearNomina::initSps(){
@@ -64,6 +120,21 @@ void PreCrearNomina::initSps(){
 
 void PreCrearNomina::initUi(){
     QDate       qdFecha;
+
+    //
+    // Color de texto azul
+    //
+    ui->etDiasTotales->setStyleSheet("color:rgb(0,0,255)");
+    ui->etAntiguedad->setStyleSheet("color:rgb(0,0,255)");
+    ui->etAsistencias->setStyleSheet("color:rgb(0,0,255)");
+    ui->etTransporte->setStyleSheet("color:rgb(0,0,255)");
+    ui->etTurnicidad->setStyleSheet("color:rgb(0,0,255)");
+    ui->etIrpf->setStyleSheet("color:rgb(0,0,255)");
+    ui->etHed->setStyleSheet("color:rgb(0,0,255)");
+    ui->etHen->setStyleSheet("color:rgb(0,0,255)");
+    ui->etHef->setStyleSheet("color:rgb(0,0,255)");
+    ui->etToxicos->setStyleSheet("color:rgb(0,0,255)");
+    ui->etProrrateo->setStyleSheet("color:rgb(0,0,255)");
 
     //
     // Seleccionamos este mes y este año
@@ -184,6 +255,7 @@ void PreCrearNomina::guardar(){
     strHef          = ui->etHef->text();
     strToxicos      = ui->etToxicos->text();
     strCteProrrateo = ui->etProrrateo->text();
+    strIrpf         = ui->etIrpf->text();
 
     strMes          = ui->cmbMes->currentText();
     strAno          = ui->cmbAno->currentText();

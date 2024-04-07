@@ -226,6 +226,31 @@ bool FuncAux::crearDb(){
         strSql = "CREATE TABLE if not exists VacacionesPendientes(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Ano TEXT, "
                  "                                                                                      Dias TEXT);";
         sql.exec(strSql);
+
+        strSql = "CREATE TABLE if not exists Nominas(_ID INTEGER PRIMARY KEY AUTOINCREMENT,Ano TEXT, "
+                 "                                                                         Mes TEXT,"
+                 "                                                                         Codigo TEXT,"
+                 "                                                                         Clave TEXT,"
+                 "                                                                         Denominacion TEXT,"
+                 "                                                                         Cantidad TEXT,"
+                 "                                                                         Precio TEXT,"
+                 "                                                                         Importe TEXT,"
+                 "                                                                         Remuneracion TEXT,"
+                 "                                                                         RemuneracionPE TEXT,"
+                 "                                                                         Prorrateo TEXT,"
+                 "                                                                         Deducciones TEXT,"
+                 "                                                                         Irpf TEXT,"
+                 "                                                                         TipoCC TEXT,"
+                 "                                                                         TipoATEP TEXT,"
+                 "                                                                         TipoDesempleo TEXT,"
+                 "                                                                         TipoFormacion TEXT,"
+                 "                                                                         TipoFogasa TEXT,"
+                 "                                                                         TipoMei TEXT,"
+                 "                                                                         SumaSalarioBruto TEXT,"
+                 "                                                                         SumaIrpf TEXT,"
+                 "                                                                         SumaGastosDeducibles TEXT);";
+        sql.exec(strSql);
+
     }
 
     //
@@ -506,6 +531,250 @@ void FuncAux::setVacacionesPendientes(DatosVacacionesPendientes dato){
     dbSql = QSqlDatabase();
     dbSql.removeDatabase("con_set_vacaciones_pendientes");
 
+}
+
+void FuncAux::setIncidencia(DatosIncidencias incidencia){
+    QString strFecha    = "-1";
+    bool    todoOk      = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_set_incidencia");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbIncidencias);
+
+    //
+    // Si se abre y no da error, abrimos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    //
+    // Comprobamos si existe registro con esa fecha
+    //
+    strSql = "SELECT *FROM Incidencias";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+        if(incidencia.fecha == sql.record().value("Fecha").toString()){
+            strFecha = sql.record().value("Fecha").toString();
+            sql.finish();
+        }
+        sql.next();
+    }
+
+    if(strFecha == "-1"){
+        strSql = " INSERT INTO Incidencias(Fecha,"
+                 "                         Hed,"
+                 "                         Hen,"
+                 "                         Hef,"
+                 "                         Voladuras) VALUES ('" + incidencia.fecha + "',"
+                 "                                            '" + incidencia.hed + "',"
+                 "                                            '" + incidencia.hen + "',"
+                 "                                            '" + incidencia.hef + "',"
+                 "                                            '" + incidencia.voladuras + "');";
+    }
+    else{
+        strSql= "UPDATE Incidencias SET Fecha ='"     + incidencia.fecha + "', "
+                                       "Hed ='"       + incidencia.hed + "', "
+                                       "Hen ='"       + incidencia.hen + "', "
+                                       "Hef ='"       + incidencia.hef + "', "
+                                       "Voladuras ='" + incidencia.voladuras + "'  WHERE  Fecha ='" + strFecha + "';";
+    }
+    sql.exec(strSql);
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_set_incidencia");
+}
+
+void FuncAux::delIncidencia(QDate qdFecha){
+
+}
+
+void FuncAux::setNomina(QList<DatosNomina> listaNomina){
+    QList<QString>  listaDelete;
+    QString         strMesDb;
+    QString         strAnoDb;
+    QString         strAnoCod;
+    QString         strMesCod;
+    QString         codigoCod;
+    QString         claveCod;
+    QString         denominacionCod;
+    QString         cantidadCod;
+    QString         precioCod;
+    QString         importeCod;
+    QString         strRenumeracionCod;
+    QString         strRemuneracionPECod;
+    QString         strProrrateoCod;
+    QString         strDeduccionesCod;
+    QString         strIrpfCod;
+    QString         strTipoCCEmpresaCod;
+    QString         strTipoATEPEmpresaCod;
+    QString         strTipoDesempleoEmpresaCod;
+    QString         strTipoFormacionEmpresaCod;
+    QString         strTipoFogasaEmpresaCod;
+    QString         strTipoMeiEmpresaCod;
+    QString         strSumaSalarioBrutoCod;
+    QString         strSumaIrpfCod;
+    QString         strSumaGastosDeduciblesCod;
+    bool            todoOk          = false;
+    int             i               = 0;
+    QString         strAnoOldCod    = "-1";
+
+
+    //
+    // Codificamos la primera linea
+    //
+    strAnoCod                   = cifrar(listaNomina[0].strAno);
+    strMesCod                   = cifrar(listaNomina[0].strMes);
+    strRenumeracionCod          = cifrar(listaNomina[0].strRenumeracion);
+    strRemuneracionPECod        = cifrar(listaNomina[0].strRemuneracionPE);
+    strProrrateoCod             = cifrar(listaNomina[0].strProrrateo);
+    strDeduccionesCod           = cifrar(listaNomina[0].strDeducciones);
+    strIrpfCod                  = cifrar(listaNomina[0].strIrpf);
+    strTipoCCEmpresaCod         = cifrar(listaNomina[0].strTipoCCEmpresa);
+    strTipoATEPEmpresaCod       = cifrar(listaNomina[0].strTipoATEPEmpresa);
+    strTipoDesempleoEmpresaCod  = cifrar(listaNomina[0].strTipoDesempleoEmpresa);
+    strTipoFormacionEmpresaCod  = cifrar(listaNomina[0].strTipoFormacionEmpresa);
+    strTipoFogasaEmpresaCod     = cifrar(listaNomina[0].strTipoFogasaEmpresa);
+    strTipoMeiEmpresaCod        = cifrar(listaNomina[0].strTipoMeiEmpresa);
+    strSumaSalarioBrutoCod      = cifrar(listaNomina[0].strSumaSalarioBruto);
+    strSumaIrpfCod              = cifrar(listaNomina[0].strSumaIrpf);
+    strSumaGastosDeduciblesCod  = cifrar(listaNomina[0].strSumaGastosDeducibles);
+
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_set_nominas");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, abrimos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    //
+    // Borramos todos los registros con Mes y Año igual al que vamos a guardar
+    //
+    strSql ="SELECT *FROM Nominas";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()) {
+
+        strMesDb = desCifrar(sql.record().value("Mes").toString());
+        strAnoDb = desCifrar(sql.record().value("Ano").toString());
+
+        if(strAnoDb == listaNomina[0].strAno && strMesDb == listaNomina[0].strMes){
+            strAnoOldCod = sql.record().value("Ano").toString();
+            listaDelete.append(strAnoOldCod);
+        }
+
+
+        i++;
+        sql.next();
+    }
+    while (listaDelete.count() > 0) {
+        strSql = "DELETE FROM Nominas WHERE Ano='" + listaDelete[0] + "';";
+        sql.exec(strSql);
+        listaDelete.remove(0);
+    }
+
+    //
+    // Ahora Insertamos la primera linea de la nueva nomina
+    //
+    strSql = " INSERT INTO Nominas(Ano,"
+             "                     Mes,"
+             "                     Remuneracion,"
+             "                     RemuneracionPE,"
+             "                     Prorrateo,"
+             "                     Deducciones,"
+             "                     Irpf,"
+             "                     TipoCC,"
+             "                     TipoATEP,"
+             "                     TipoDesempleo,"
+             "                     TipoFormacion,"
+             "                     TipoFogasa,"
+             "                     TipoMei,"
+             "                     SumaSalarioBruto,"
+             "                     SumaIrpf,"
+             "                     SumaGastosDeducibles) VALUES ('" + strAnoCod + "',"
+             "                                                   '" + strMesCod + "',"
+             "                                                   '" + strRenumeracionCod + "',"
+             "                                                   '" + strRemuneracionPECod + "',"
+             "                                                   '" + strProrrateoCod + "',"
+             "                                                   '" + strDeduccionesCod + "',"
+             "                                                   '" + strIrpfCod + "',"
+             "                                                   '" + strTipoCCEmpresaCod + "',"
+             "                                                   '" + strTipoATEPEmpresaCod + "',"
+             "                                                   '" + strTipoDesempleoEmpresaCod + "',"
+             "                                                   '" + strTipoFormacionEmpresaCod + "',"
+             "                                                   '" + strTipoFogasaEmpresaCod + "',"
+             "                                                   '" + strTipoMeiEmpresaCod + "',"
+             "                                                   '" + strSumaSalarioBrutoCod + "',"
+             "                                                   '" + strSumaIrpfCod + "',"
+             "                                                   '" + strSumaGastosDeduciblesCod + "');";
+
+    sql.exec(strSql);
+
+    //
+    // Ahora todas las lineas de la nomina
+    //
+    i = 1;
+    while (i < listaNomina.count()) {
+
+        strAnoCod           = cifrar(listaNomina[i].strAno);
+        strMesCod           = cifrar(listaNomina[i].strMes);
+        codigoCod           = cifrar(listaNomina[i].codigo);
+        claveCod            = cifrar(listaNomina[i].clave);
+        denominacionCod     = cifrar(listaNomina[i].denominacion);
+        cantidadCod         = cifrar(listaNomina[i].cantidad);
+        precioCod           = cifrar(listaNomina[i].precio);
+        importeCod          = cifrar(listaNomina[i].importe);
+
+        strSql = " INSERT INTO Nominas(Ano,"
+                 "                     Mes,"
+                 "                     Codigo,"
+                 "                     Clave,"
+                 "                     Denominacion,"
+                 "                     Cantidad,"
+                 "                     Precio,"
+                 "                     Importe) VALUES ('" + strAnoCod + "',"
+                 "                                      '" + strMesCod + "',"
+                 "                                      '" + codigoCod + "',"
+                 "                                      '" + claveCod + "',"
+                 "                                      '" + denominacionCod + "',"
+                 "                                      '" + cantidadCod + "',"
+                 "                                      '" + precioCod + "',"
+                 "                                      '" + importeCod + "');";
+
+        sql.exec(strSql);
+        i++;
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_set_nominas");
 }
 
 QString FuncAux::getUser(){
@@ -828,20 +1097,69 @@ QString FuncAux::getFestivosConvenio(QString strAno){
     return QString::number(iFestivos);
 }
 
-double FuncAux::getAcumuladoSalarioBruto(QString strAno){
-    double dAcumulado = 0.0;
+double FuncAux::getAcumuladoSalarioBruto(QString strAno, QString strMes){
+    QList<FuncAux::DatosNomina>     listaNominas;
+    double                          dAcumulado  = 0.0;
+    int                             i           = 0;
+    int                             iMesDb;
+    int                             iMes        = strMesToInt(strMes);
+
+    listaNominas = getAllDatosNominas();
+
+    while (i < listaNominas.count()) {
+
+        iMesDb  = strMesToInt(listaNominas[i].strMes);
+
+        if(listaNominas[i].strAno == strAno && iMesDb < iMes){
+
+            dAcumulado      += (listaNominas[i].strRenumeracion.toDouble() + listaNominas[i].strRemuneracionPE.toDouble());
+        }
+
+        i++;
+    }
+
 
     return dAcumulado;
 }
 
-double FuncAux::getAcumuladoIrpf(QString strAno){
-    double dAcumulado = 0.0;
+double FuncAux::getAcumuladoIrpf(QString strAno, QString strMes){
+    QList<FuncAux::DatosNomina>     listaNominas;
+    double                          dAcumulado  = 0.0;
+    int                             i           = 0;
+
+    listaNominas = getAllDatosNominas();
+
+    while (i < listaNominas.count()) {
+
+        if(listaNominas[i].strAno == strAno && listaNominas[i].strMes != strMes){
+
+            dAcumulado += (listaNominas[i].strIrpf.toDouble());
+        }
+
+        i++;
+    }
+
 
     return dAcumulado;
 }
 
-double FuncAux::getAcumuladoGastosDeducibles(QString strAno){
-    double dAcumulado = 0.0;
+double FuncAux::getAcumuladoGastosDeducibles(QString strAno, QString strMes){
+    QList<FuncAux::DatosNomina>     listaNominas;
+    double                          dAcumulado  = 0.0;
+    int                             i           = 0;
+
+    listaNominas = getAllDatosNominas();
+
+    while (i < listaNominas.count()) {
+
+        if(listaNominas[i].strAno == strAno && listaNominas[i].strMes != strMes){
+
+            dAcumulado += (listaNominas[i].strDeducciones.toDouble());
+        }
+
+        i++;
+    }
+
 
     return dAcumulado;
 }
@@ -1037,6 +1355,72 @@ QList<FuncAux::DatosFestivos> FuncAux::getAllFestivos(){
     dbSql.removeDatabase("con_get_Festivos");
 
     return listaFestivos;
+}
+
+QList<FuncAux::DatosNomina> FuncAux::getAllDatosNominas(){
+    QList<FuncAux::DatosNomina>  listaNominas;
+    FuncAux::DatosNomina         dato;
+    bool                         todoOk = false;
+
+    //
+    // Creo la conexion con la BD
+    //
+    dbSql = QSqlDatabase::addDatabase("QSQLITE", "con_get_all_nominas");
+
+    //
+    // Establezco la ruta de la BD
+    //
+    dbSql.setDatabaseName(rutaDbGesNomCas);
+
+    //
+    // Si se abre y no da error, creamos la Base de Datos
+    //
+    todoOk = dbSql.open();
+    if(todoOk){
+        sql = QSqlQuery(dbSql);
+    }
+
+    strSql = "SELECT *FROM Nominas";
+    sql.exec(strSql);
+    sql.first();
+    while (sql.isValid()){
+
+        dato.codigo                     = FuncAux::desCifrar(sql.record().value("Codigo").toString());
+        dato.clave                      = FuncAux::desCifrar(sql.record().value("Clave").toString());
+        dato.denominacion               = FuncAux::desCifrar(sql.record().value("Denominacion").toString());
+        dato.cantidad                   = FuncAux::desCifrar(sql.record().value("Cantidad").toString());
+        dato.precio                     = FuncAux::desCifrar(sql.record().value("Precio").toString());
+        dato.importe                    = FuncAux::desCifrar(sql.record().value("Importe").toString());
+        dato.strAno                     = FuncAux::desCifrar(sql.record().value("Ano").toString());
+        dato.strMes                     = FuncAux::desCifrar(sql.record().value("Mes").toString());
+        dato.strRenumeracion            = FuncAux::desCifrar(sql.record().value("Remuneracion").toString());
+        dato.strRemuneracionPE          = FuncAux::desCifrar(sql.record().value("RemuneracionPE").toString());
+        dato.strProrrateo               = FuncAux::desCifrar(sql.record().value("Prorrateo").toString());
+        dato.strDeducciones             = FuncAux::desCifrar(sql.record().value("Deducciones").toString());
+        dato.strIrpf                    = FuncAux::desCifrar(sql.record().value("Irpf").toString());
+        dato.strTipoCCEmpresa           = FuncAux::desCifrar(sql.record().value("TipoCC").toString());
+        dato.strTipoATEPEmpresa         = FuncAux::desCifrar(sql.record().value("TipoATEP").toString());
+        dato.strTipoDesempleoEmpresa    = FuncAux::desCifrar(sql.record().value("TipoDesempleo").toString());
+        dato.strTipoFormacionEmpresa    = FuncAux::desCifrar(sql.record().value("TipoFormacion").toString());
+        dato.strTipoFogasaEmpresa       = FuncAux::desCifrar(sql.record().value("TipoFogasa").toString());
+        dato.strTipoMeiEmpresa          = FuncAux::desCifrar(sql.record().value("TipoMei").toString());
+        dato.strSumaSalarioBruto        = FuncAux::desCifrar(sql.record().value("SumaSalarioBruto").toString());
+        dato.strSumaIrpf                = FuncAux::desCifrar(sql.record().value("SumaIrpf").toString());
+        dato.strSumaGastosDeducibles    = FuncAux::desCifrar(sql.record().value("SumaGastosDeducibles").toString());
+
+        listaNominas.append(dato);
+        sql.next();
+    }
+
+    //
+    // Cerramos la BD y la Conexion
+    //
+    dbSql.close();
+    dbSql = QSqlDatabase();
+    dbSql.removeDatabase("con_get_all_nominas");
+
+    return listaNominas;
+
 }
 
 QList<FuncAux::DatosRetribuciones> FuncAux::getAllRetribuciones(){
@@ -1448,6 +1832,50 @@ QDate FuncAux::fechaCortaToDate(QString strFecha){
         datFecha.setDate(-1,-1,-1);
     }
     return datFecha;
+}
+
+QDate FuncAux::fechaLargaToDate(QString strFechaLarga){
+    QDate   qdFecha;
+    QString strDia;
+    QString strMes;
+    QString strAno;
+    int     i;
+    QString str;
+
+    //
+    // Obtenemos el dia
+    //
+    str = strFechaLarga;
+    i   = 0;
+    while (i < str.length()) {
+        if(str[i] == ','){
+            str.remove(0, i +2);
+            i = str.length();
+        }
+        i++;
+    }
+    strDia  = str;
+    strDia  = strDia.remove(2, str.length() -1);
+
+    //
+    // Ahora el año
+    //
+    strAno = str;
+    strAno = strAno.remove(0, str.length() -4);
+
+    //
+    // Ahora el mes
+    //
+    str     = str.remove(0, 6);
+    str     = str.remove(str.length() -8, 8);
+    strMes  = str;
+
+    //
+    // Establecemos la fecha
+    //
+    qdFecha.setDate(strAno.toInt(), strMesToInt(strMes), strDia.toInt());
+
+    return qdFecha;
 }
 
 QString FuncAux::dateToFechaCorta(QDate qdFecha){

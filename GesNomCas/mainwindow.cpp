@@ -15,6 +15,10 @@
 #include "calendariolaboral.h"
 #include "crearnomina.h"
 #include "precrearnomina.h"
+#include "precargarnomina.h"
+#include "cargarnomina.h"
+#include "modoficarincidencias.h"
+
 
 #include <QTimer>
 #include <QSplashScreen>
@@ -564,6 +568,7 @@ void MainWindow::on_actionCrear_N_mina_triggered(){
         pCrearNomina->strHef            = pPreCrearNomina->strHef;
         pCrearNomina->strToxicos        = pPreCrearNomina->strToxicos;
         pCrearNomina->strCteProrrateo   = pPreCrearNomina->strCteProrrateo;
+        pCrearNomina->strIrpf           = pPreCrearNomina->strIrpf;
 
 
         //
@@ -589,5 +594,70 @@ void MainWindow::on_actionCrear_N_mina_triggered(){
 
     lblTexto->setText(FuncAux().getAppName());
 
+}
+
+void MainWindow::on_actionCargar_Nomina_triggered(){
+
+    lblTexto->setText("Cargando una Nómina existente...");
+
+
+    PreCargarNomina *pPreCargarNomina = new PreCargarNomina(this);
+
+    pPreCargarNomina->setWindowModality(Qt::ApplicationModal);
+    pPreCargarNomina->setWindowFlag(Qt::FramelessWindowHint);
+    pPreCargarNomina->exec();
+
+    if(pPreCargarNomina->strMes == "-1" && pPreCargarNomina->strAno == "-1"){
+        delete pPreCargarNomina;
+    }
+    else{
+
+        CargarNomina *pCargarNomina = new CargarNomina(this);
+
+        //
+        // Copiamos las Variables
+        //
+        pCargarNomina->strMes   = pPreCargarNomina->strMes;
+        pCargarNomina->strAno   = pPreCargarNomina->strAno;
+
+        //
+        // Cerramos PPreCargarNomina
+        //
+        delete pPreCargarNomina;
+
+        //
+        //Refrescammos UI de CargarNomina
+        //
+        pCargarNomina->initUi();
+
+        //
+        // Cargamos CargarNomina
+        //
+        pCargarNomina->setWindowModality(Qt::ApplicationModal);
+        pCargarNomina->setWindowFlag(Qt::FramelessWindowHint);
+        pCargarNomina->exec();
+
+        delete pCargarNomina;
+
+    }
+
+    lblTexto->setText(FuncAux().getAppName());
+
+
+}
+
+void MainWindow::on_actionModificar_Incidencias_triggered(){
+
+    lblTexto->setText("Modificando el Archivo de Incidencias...");
+
+    ModoficarIncidencias *pModoficarIncidencias = new ModoficarIncidencias(this);
+
+    pModoficarIncidencias->setWindowModality(Qt::ApplicationModal);
+    pModoficarIncidencias->setWindowFlag(Qt::FramelessWindowHint);
+    pModoficarIncidencias->exec();
+
+    delete pModoficarIncidencias;
+
+    lblTexto->setText(FuncAux().getAppName());
 }
 

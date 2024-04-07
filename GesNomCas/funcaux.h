@@ -67,6 +67,32 @@ public:
         QString clave;
         QString denominacion;
         QString cuantia;
+
+    };
+
+    struct DatosNomina{
+        QString strAno;
+        QString strMes;
+        QString codigo;
+        QString clave;
+        QString denominacion;
+        QString cantidad;
+        QString precio;
+        QString importe;
+        QString strRenumeracion;
+        QString strRemuneracionPE;
+        QString strProrrateo;
+        QString strDeducciones;
+        QString strIrpf;
+        QString strTipoCCEmpresa;
+        QString strTipoATEPEmpresa;
+        QString strTipoDesempleoEmpresa;
+        QString strTipoFormacionEmpresa;
+        QString strTipoFogasaEmpresa;
+        QString strTipoMeiEmpresa;
+        QString strSumaSalarioBruto;
+        QString strSumaIrpf;
+        QString strSumaGastosDeducibles;
     };
 
     //
@@ -92,10 +118,11 @@ public:
     QString                             getFestivosLocales(QString);
     QString                             getFestivosAutonomicos(QString);
     QString                             getFestivosConvenio(QString);
-    double                              getAcumuladoSalarioBruto(QString);
-    double                              getAcumuladoIrpf(QString);
-    double                              getAcumuladoGastosDeducibles(QString);
+    double                              getAcumuladoSalarioBruto(QString, QString);
+    double                              getAcumuladoIrpf(QString, QString);
+    double                              getAcumuladoGastosDeducibles(QString, QString);
     DatosEmpleado                       getDatosEmpleado();
+    QList<DatosNomina>                  getAllDatosNominas();
     QList<DatosVacacionesPendientes>    getAllVacacionesPendientes();
     QList<DatosVacaciones>              getAllVacaciones();
     QList<DatosFestivos>                getAllFestivos();
@@ -105,9 +132,13 @@ public:
     void                                setCierreSesion(QString, QString);
     void                                setUsuario(QString usuario, QString passwd);
     void                                setVacacionesPendientes(DatosVacacionesPendientes dato);
+    void                                setNomina(QList<DatosNomina>);
+    void                                setIncidencia(FuncAux::DatosIncidencias);
+    void                                delIncidencia(QDate);
     QString                             dateToFechaCorta(QDate);
     QString                             dateToFechaLarga(QDate);
     QDate                               fechaCortaToDate(QString);
+    QDate                               fechaLargaToDate(QString);
     int                                 strMesToInt(QString);
     bool                                isFormatoFecha(QString strFecha);
     bool                                isFestivo(QDate);
